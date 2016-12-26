@@ -11,7 +11,6 @@ namespace centigen\i18ncontent;
  */
 class AssetBundle extends \yii\web\AssetBundle
 {
-    public $sourcePath = '@vendor/centigen/i18ncontent/assets';
     public $baseUrl = '@web';
 
     public $publishOptions = [
@@ -25,4 +24,10 @@ class AssetBundle extends \yii\web\AssetBundle
     public $depends = [
         'yii\bootstrap\BootstrapAsset'
     ];
+
+    public function init()
+    {
+        $this->setSourcePath(__DIR__ . '/assets');
+        parent::init();
+    }
 } 
