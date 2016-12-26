@@ -1,0 +1,34 @@
+{
+  "name": "omcrn/yii2-i18ncontent",
+  "description": "Show text widgets, pages, articles in chosen language",
+  "keywords": [
+    "yii2",
+    "module",
+    "cms",
+    "i18n articles",
+    "i18n carousels",
+    "i18n pages"
+  ],
+  "authors": [
+    {
+      "name": "Zura Sekhniashvili",
+      "email": "zurasekhniashvili@gmail.com",
+      "homepage": "http://zuse.me",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=5.4.0",
+    "yiisoft/yii2": "~2.0.0",
+    "asofter/yii2-imperavi-redactor": "dev-master@dev",
+    "trntv/yii2-datetime-widget": "^1.0.0",
+    "trntv/yii2-file-kit": "^1.0.0",
+    "trntv/yii2-aceeditor": "^2.0",
+    "omcrn/yii2-base": "^1.0.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "centigen\\i18ncontent\\": ""
+    }
+  }
+}
