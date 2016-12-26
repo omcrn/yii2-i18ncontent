@@ -56,8 +56,8 @@ use yii\bootstrap\ActiveForm;
         ->hint(Yii::t('i18ncontent', 'If you\'ll leave this field empty, slug will be generated automatically'))
         ->textInput(['maxlength' => 1024]) ?>
 
-    <?php echo $form->field($model, 'view_file')
-        ->hint(Yii::t('i18ncontent', 'View file for current category items overview'))
+    <?php echo $form->field($model, 'view')
+        ->hint(Yii::t('i18ncontent', 'View for current category items overview'))
         ->textInput(['maxlength' => 1024]) ?>
 
     <?php echo $form->field($model, 'parent_id')->dropDownList($categories, ['prompt' => '']) ?>

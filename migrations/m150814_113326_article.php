@@ -17,7 +17,7 @@ class m150814_113326_article extends Migration
         $this->createTable('{{%article_category}}', [
             'id' => Schema::TYPE_PK,
             'slug' => Schema::TYPE_STRING . '(1024) NOT NULL',
-            'view_file' => Schema::TYPE_STRING . '(1024) NOT NULL',
+            'view' => Schema::TYPE_STRING . '(1024)',
             'parent_id' => Schema::TYPE_INTEGER,
             'status' => Schema::TYPE_SMALLINT . ' NOT NULL DEFAULT 0',
             'created_at' => Schema::TYPE_INTEGER,

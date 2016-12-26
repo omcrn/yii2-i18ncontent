@@ -13,7 +13,7 @@ use yii\db\Exception;
  *
  * @property integer $id
  * @property string $slug
- * @property string $view_file
+ * @property string $view
  * @property integer $status
  *
  * @property Article[] $articles
@@ -84,7 +84,7 @@ class ArticleCategory extends \yii\db\ActiveRecord
     {
         return [
             [['slug'], 'unique'],
-            [['slug', 'view_file'], 'string', 'max' => 1024],
+            [['slug', 'view'], 'string', 'max' => 1024],
             ['status', 'integer'],
             ['parent_id', 'exist', 'targetClass' => ArticleCategory::className(), 'targetAttribute' => 'id']
         ];
@@ -98,7 +98,7 @@ class ArticleCategory extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('i18ncontent', 'ID'),
             'slug' => Yii::t('i18ncontent', 'Slug'),
-            'view_file' => Yii::t('i18ncontent', 'View File'),
+            'view' => Yii::t('i18ncontent', 'View'),
             'parent_id' => Yii::t('i18ncontent', 'Parent Category'),
             'status' => Yii::t('i18ncontent', 'Active')
         ];
