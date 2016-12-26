@@ -13,10 +13,6 @@ class AssetBundle extends \yii\web\AssetBundle
 {
     public $baseUrl = '@web';
 
-    public $publishOptions = [
-        'forceCopy' => true
-    ];
-
     public $css = [
         'css/main.css'
     ];
@@ -27,7 +23,7 @@ class AssetBundle extends \yii\web\AssetBundle
 
     public function init()
     {
-        $this->setSourcePath(__DIR__ . '/assets');
+        $this->sourcePath = __DIR__ . '/assets';
         parent::init();
     }
 } 
