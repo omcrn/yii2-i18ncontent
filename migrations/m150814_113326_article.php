@@ -28,7 +28,6 @@ class m150814_113326_article extends Migration
             'id' => Schema::TYPE_PK,
             'slug' => Schema::TYPE_STRING . '(1024) NOT NULL',
             'view' => Schema::TYPE_STRING . '(255)',
-            'url' => Schema::TYPE_STRING . '(1024)',
             'category_id' => Schema::TYPE_INTEGER,
             'author_id' => Schema::TYPE_INTEGER,
             'updater_id' => Schema::TYPE_INTEGER,
