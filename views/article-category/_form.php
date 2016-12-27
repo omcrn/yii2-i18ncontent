@@ -22,17 +22,24 @@ use yii\bootstrap\ActiveForm;
         $items = [];
         $ind = 0;
         foreach ($locales as $key => $locale) {
+
+//            \centigen\base\helpers\UtilHelper::vardump($model->newTranslations[$ind], $ind);
             $title = $locale;
+            $translationModel = isset($model->newTranslations[$ind]) ?
+                $model->newTranslations[$ind] : new \centigen\i18ncontent\models\ArticleCategoryTranslations();
             $content = $this->render('_tab_content', [
                 'form' => $form,
-                'model' => isset($translations) && is_array($translations) && isset($translations[$ind]) ?
-                    $translations[$ind] : new \centigen\i18ncontent\models\ArticleCategoryTranslations(),
+                'model' => $translationModel,
                 'language' => $key,
             ]);
 
             $items[] = [
                 'label' => $title,
                 'content' => $content,
+                'headerOptions' => [
+                    'title' => $translationModel->hasErrors() ? implode("\n", $translationModel->getFirstErrors()) : '',
+                    'class' => $translationModel->hasErrors() ? 'has-error' : ''
+                ],
                 'options' => [
                     'class' => 'fade' . ($ind++ === 0 ? ' in' : '')
                 ]

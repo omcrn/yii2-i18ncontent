@@ -7,6 +7,7 @@ use Yii;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\Exception;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "article_category".
@@ -19,6 +20,7 @@ use yii\db\Exception;
  * @property Article[] $articles
  * @property ArticleCategory $parent
  * @property ArticleCategoryTranslations $activeTranslation
+ * @property ArticleCategoryTranslations[] $translations
  */
 class ArticleCategory extends \yii\db\ActiveRecord
 {
@@ -26,6 +28,8 @@ class ArticleCategory extends \yii\db\ActiveRecord
     const STATUS_DRAFT = 0;
 
     public $title = null;
+
+    public $newTranslations = [];
 
     /**
      * @inheritdoc
@@ -70,10 +74,10 @@ class ArticleCategory extends \yii\db\ActiveRecord
         array_push($ids, $id);
         $self = self::find()->select('id')->where(['parent_id' => $id])->asArray()->all();
 
-        if(!empty($self)){
-           foreach ($self as $val){
-               $ids[] = $val['id'];
-           }
+        if (!empty($self)) {
+            foreach ($self as $val) {
+                $ids[] = $val['id'];
+            }
         }
         return $ids;
     }
@@ -161,9 +165,48 @@ class ArticleCategory extends \yii\db\ActiveRecord
      * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
      * @inheritdoc
      */
-    public function load($data, $formName = null)
+    public function load($data, $formName = null, $locales = [])
     {
-        return parent::load($data, $formName);
+        if (!parent::load($data, $formName)) {
+            return false;
+        }
+
+//        \centigen\base\helpers\UtilHelper::vardump($data);exit;
+        $translations = ArrayHelper::getValue($data, 'ArticleCategoryTranslations');
+        $data = [];
+        foreach ($locales as $loc => $locale) {
+            if (Yii::$app->language == $loc) {
+                $this->title = $translations['title'][$loc];
+            }
+            $data['translations'][] = [
+                'locale' => $loc,
+                'title' => $translations['title'][$loc],
+                'body' => isset($translations['body']) ? $translations['body'][$loc] : null
+            ];
+        }
+
+        $this->newTranslations = [];
+        $allValid = true;
+        foreach ($data['translations'] as $item) {
+            $translation = new ArticleCategoryTranslations();
+            $this->newTranslations[] = $translation;
+
+            $translation->attributes = [
+                'article_category_id' => $this->id,
+                'locale' => $item['locale'],
+                'title' => $item['title'],
+                'body' => $item['body']
+            ];
+            if (!$translation->validate()) {
+                $allValid = false;
+            }
+        }
+        if (!$allValid) {
+            return false;
+        }
+
+        return true;
+
     }
 
     /**
@@ -172,7 +215,11 @@ class ArticleCategory extends \yii\db\ActiveRecord
      */
     public function save($runValidation = true, $attributeNames = null)
     {
-        return parent::save($runValidation, $attributeNames);
+        if (!$this->validate() || !parent::save($runValidation, $attributeNames)) {
+            return false;
+        }
+
+        return true;
     }
 
     public static function getCategories()
@@ -219,8 +266,8 @@ class ArticleCategory extends \yii\db\ActiveRecord
     {
         return self::find()
             ->select('ac.*')
-            ->from(self::tableName().' ac')
-            ->innerJoin(self::tableName().' ac1', 'ac1.id = ac.parent_id')
+            ->from(self::tableName() . ' ac')
+            ->innerJoin(self::tableName() . ' ac1', 'ac1.id = ac.parent_id')
             ->with('activeTranslation')
             ->where(['ac1.slug' => $slug])
             ->all();
@@ -229,57 +276,6 @@ class ArticleCategory extends \yii\db\ActiveRecord
     public function getTitle()
     {
         return $this->activeTranslation ? $this->activeTranslation->title : '';
-    }
-
-    public static function processAndSave($modelData, $translations, $locales)
-    {
-//        \ChromePhp::log($modelData, $translations, $locales);
-        $model = new self();
-        $model->attributes = $modelData;
-
-        $data = [];
-        foreach ($locales as $loc => $locale) {
-            if (Yii::$app->language == $loc) {
-                $model->title = $translations['title'][$loc];
-            }
-            $data['translations'][] = [
-                'locale' => $loc,
-                'title' => $translations['title'][$loc],
-                'body' => isset($translations['body']) ? $translations['body'][$loc] : null
-            ];
-        }
-
-        $transaction = Yii::$app->db->beginTransaction();
-        try {
-            if (!$model->validate() || !$model->save()) {
-                \centigen\base\helpers\UtilHelper::vardump($model->errors);
-//                \ChromePhp::error($model->errors);
-                //print_r($model->errors);exit;
-                return false;
-            }
-
-            foreach ($data['translations'] as $item) {
-                $text = new ArticleCategoryTranslations();
-                $text->attributes = [
-                    'article_category_id' => $model->id,
-                    'locale' => $item['locale'],
-                    'title' => $item['title'],
-                    'body' => $item['body']
-                ];
-                if (!$text->validate() || !$text->save()) {
-                    $transaction->rollBack();
-                    \centigen\base\helpers\UtilHelper::vardump($text->errors);
-                    return false;
-                }
-            }
-        } catch (Exception $ex) {
-//            \ChromePhp::error($ex);
-            $transaction->rollBack();
-            return false;
-        }
-
-        $transaction->commit();
-        return true;
     }
 
     public static function processAndUpdate(ArticleCategory $model, $translations, $modelData, $translationData, $locales)

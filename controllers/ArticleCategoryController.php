@@ -62,10 +62,22 @@ class ArticleCategoryController extends Controller
      */
     public function actionCreate()
     {
-        $request = Yii::$app->request;
+        $model = new ArticleCategory();
+        $articleCategories = ArticleCategory::getCategories();
         $locales = BaseHelper::getAvailableLocales();
-        if ($request->post()) {
 
+        if ($model->load(Yii::$app->request->post(), null, $locales) && $model->save()) {
+            return $this->redirect(['index']);
+        }
+
+        return $this->render('create', [
+            'model' => $model,
+            'categories' => $articleCategories,
+            'locales' => $locales
+        ]);
+
+
+        if ($request->post()) {
             $model = $request->post('ArticleCategory');
             $translations = $request->post('ArticleCategoryTranslations');
 
@@ -77,7 +89,12 @@ class ArticleCategoryController extends Controller
             }
 
         } else {
-            return $this->renderCreateForm();
+            return $this->render('create', [
+                'model' => $model,
+                'categories' => $articleCategories,
+                'locales' => $locales
+            ]);
+//            return $this->renderCreateForm();
         }
     }
 
@@ -90,10 +107,22 @@ class ArticleCategoryController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $translations = $model->translations;
 
-        $request = Yii::$app->request;
+        $articleCategories = ArticleCategory::getCategories();
         $locales = BaseHelper::getAvailableLocales();
+
+        if ($model->load(Yii::$app->request->post(), null, $locales) && $model->save()) {
+            return $this->redirect(['index']);
+        }
+
+        $model->newTranslations = $model->translations;
+
+        return $this->render('create', [
+            'model' => $model,
+            'categories' => $articleCategories,
+            'locales' => $locales
+        ]);
+
         if ($request->post()) {
 
             $modelData = $request->post('ArticleCategory');
