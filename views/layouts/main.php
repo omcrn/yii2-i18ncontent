@@ -4,7 +4,7 @@ use yii\helpers\ArrayHelper;
 
 /* @var $content string */
 
-$this->beginContent('@vendor/centigen/i18ncontent/views/layouts/base.php');
+$this->beginContent(__DIR__ . '/base.php');
 ?>
 <?php echo $content ?>
 <?php $this->endContent() ?>

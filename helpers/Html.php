@@ -5,7 +5,7 @@
  * Time: 1:43 PM
  */
 
-namespace vendor\centigen\i18ncontent\helpers;
+namespace centigen\i18ncontent\helpers;
 use centigen\i18ncontent\Module;
 use Yii;
 
@@ -14,7 +14,7 @@ use Yii;
  * Class Html
  *
  * @author  Zura Sekhniashvili <zurasekhniashvili@gmail.com>
- * @package vendor\centigen\i18ncontent\helpers
+ * @package centigen\i18ncontent\helpers
  */
 class Html extends \yii\bootstrap\Html
 {

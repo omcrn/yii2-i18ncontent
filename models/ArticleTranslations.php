@@ -2,7 +2,7 @@
 
 namespace centigen\i18ncontent\models;
 
-use vendor\centigen\i18ncontent\helpers\Html;
+use centigen\i18ncontent\helpers\Html;
 use Yii;
 
 /**

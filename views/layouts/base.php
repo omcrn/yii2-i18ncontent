@@ -7,7 +7,7 @@ use yii\bootstrap\NavBar;
 
 
 
-$this->beginContent('@vendor/centigen/i18ncontent/views/layouts/_clear.php');
+$this->beginContent(__DIR__ . '/_clear.php');
 ?>
 
 <?php echo $content ?>

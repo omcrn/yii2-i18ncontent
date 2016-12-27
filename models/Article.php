@@ -4,7 +4,7 @@ namespace centigen\i18ncontent\models;
 
 use centigen\i18ncontent\models\query\ArticleQuery;
 use trntv\filekit\behaviors\UploadBehavior;
-use vendor\centigen\i18ncontent\helpers\Html;
+use centigen\i18ncontent\helpers\Html;
 use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\SluggableBehavior;
