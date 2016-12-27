@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e2c5e37e7707a2e487f0b8751567c8c2",
-    "content-hash": "395eefce8818254999b2326ec067a4c6",
+    "hash": "f9b53cdc8a81ae208ac3eb6fcdc2def8",
+    "content-hash": "445066a94c871202c7c401293ac0586e",
     "packages": [
         {
             "name": "asofter/yii2-imperavi-redactor",
@@ -635,16 +635,16 @@
         },
         {
             "name": "omcrn/yii2-base",
-            "version": "v0.1.0",
+            "version": "v0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/omcrn/yii2-base.git",
-                "reference": "3241d106ccafcc4d574c63ae1ab15ee811b81dfa"
+                "reference": "8c581fcedc4c745d79b6bc5387e5507cfd0d3c3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/omcrn/yii2-base/zipball/3241d106ccafcc4d574c63ae1ab15ee811b81dfa",
-                "reference": "3241d106ccafcc4d574c63ae1ab15ee811b81dfa",
+                "url": "https://api.github.com/repos/omcrn/yii2-base/zipball/8c581fcedc4c745d79b6bc5387e5507cfd0d3c3e",
+                "reference": "8c581fcedc4c745d79b6bc5387e5507cfd0d3c3e",
                 "shasum": ""
             },
             "require": {
@@ -672,7 +672,7 @@
                 "yii2",
                 "yii2 helpers"
             ],
-            "time": "2016-12-26 14:45:59"
+            "time": "2016-12-27 06:28:20"
         },
         {
             "name": "trntv/yii2-aceeditor",

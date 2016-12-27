@@ -29,6 +29,10 @@ class ArticleCategory extends \yii\db\ActiveRecord
 
     public $title = null;
 
+    /**
+     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
+     * @var ArticleCategoryTranslations[]
+     */
     public $newTranslations = [];
 
     /**
@@ -165,48 +169,33 @@ class ArticleCategory extends \yii\db\ActiveRecord
      * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
      * @inheritdoc
      */
-    public function load($data, $formName = null, $locales = [])
+    public function load($postData, $formName = null, $locales = [])
     {
-        if (!parent::load($data, $formName)) {
+        if (!parent::load($postData, $formName)) {
             return false;
         }
 
 //        \centigen\base\helpers\UtilHelper::vardump($data);exit;
-        $translations = ArrayHelper::getValue($data, 'ArticleCategoryTranslations');
-        $data = [];
-        foreach ($locales as $loc => $locale) {
-            if (Yii::$app->language == $loc) {
-                $this->title = $translations['title'][$loc];
-            }
-            $data['translations'][] = [
-                'locale' => $loc,
-                'title' => $translations['title'][$loc],
-                'body' => isset($translations['body']) ? $translations['body'][$loc] : null
-            ];
-        }
-
+        $translations = ArrayHelper::getValue($postData, 'ArticleCategoryTranslations');
         $this->newTranslations = [];
-        $allValid = true;
-        foreach ($data['translations'] as $item) {
-            $translation = new ArticleCategoryTranslations();
-            $this->newTranslations[] = $translation;
 
-            $translation->attributes = [
-                'article_category_id' => $this->id,
-                'locale' => $item['locale'],
-                'title' => $item['title'],
-                'body' => $item['body']
-            ];
-            if (!$translation->validate()) {
+        $allValid = true;
+        foreach ($translations as $loc => $modelData) {
+            $modelData['locale'] = $loc;
+            if (Yii::$app->language == $loc) {
+                $this->title = $modelData['title'];
+            }
+            $translation = $this->isNewRecord ?
+                new ArticleCategoryTranslations() :
+                $this->findTranslationByLocale($loc);
+
+            $this->newTranslations[] = $translation;
+            if (!$translation->load($modelData, '')){
                 $allValid = false;
             }
         }
-        if (!$allValid) {
-            return false;
-        }
 
-        return true;
-
+        return $allValid;
     }
 
     /**
@@ -215,11 +204,44 @@ class ArticleCategory extends \yii\db\ActiveRecord
      */
     public function save($runValidation = true, $attributeNames = null)
     {
+        $transaction = Yii::$app->db->beginTransaction();
         if (!$this->validate() || !parent::save($runValidation, $attributeNames)) {
             return false;
         }
 
-        return true;
+        $allSaved = true;
+        foreach ($this->newTranslations as $translation){
+            $translation->article_category_id = $this->id;
+            if (!$translation->save()){
+                $allSaved = false;
+            }
+        }
+
+        if ($allSaved){
+            $transaction->commit();
+        } else {
+            $transaction->rollBack();
+        }
+
+        return $allSaved;
+    }
+
+    /**
+     * Find ArticleCategoryTranslations object from `translations` array by locale
+     *
+     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
+     * @param $locale
+     * @return ArticleCategoryTranslations|null
+     */
+    private function findTranslationByLocale($locale)
+    {
+        foreach ($this->translations as $translation) {
+            if ($translation->locale === $locale){
+                return $translation;
+            }
+        }
+
+        return null;
     }
 
     public static function getCategories()
