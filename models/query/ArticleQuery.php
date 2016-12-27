@@ -15,15 +15,15 @@ class ArticleQuery extends ActiveQuery
         return $this;
     }
 
-
     /**
      * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
-     * @param Connection $bd
-     * @return Article|array|mixed|null|\yii\db\ActiveRecord
+     * @param null $bd
+     * @return array|Article|mixed|null|\yii\db\ActiveRecord
+     * @internal param Connection $db
      */
     public function one($bd = null)
     {
-        return $this->one();
+        return parent::one($bd);
     }
 
     /**

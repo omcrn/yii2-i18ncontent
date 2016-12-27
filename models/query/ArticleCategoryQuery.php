@@ -4,6 +4,7 @@ namespace centigen\i18ncontent\models\query;
 
 use centigen\i18ncontent\models\ArticleCategory;
 use yii\db\ActiveQuery;
+use yii\db\Connection;
 
 class ArticleCategoryQuery extends ActiveQuery
 {
@@ -25,5 +26,26 @@ class ArticleCategoryQuery extends ActiveQuery
         $this->andWhere('{{%article_category}}.parent_id IS NULL');
 
         return $this;
+    }
+
+
+    /**
+     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
+     * @param Connection $db
+     * @return ArticleCategory|array|mixed|null|\yii\db\ActiveRecord
+     */
+    public function one($db = null)
+    {
+        return parent::one($db);
+    }
+
+    /**
+     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
+     * @param null $db
+     * @return ArticleCategory[]|array|\yii\db\ActiveRecord[]
+     */
+    public function all($db = null)
+    {
+        return parent::all($db);
     }
 }

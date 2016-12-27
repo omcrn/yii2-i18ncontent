@@ -79,13 +79,13 @@ class m150814_113326_article extends Migration
 
         $this->insert('{{%article_category_translations}}', [
             'article_category_id' => 1,
-            'locale' => 'en_US',
+            'locale' => 'en-US',
             'title' => 'News'
         ]);
 
         $this->insert('{{%article_category_translations}}', [
             'article_category_id' => 1,
-            'locale' => 'ru_RU',
+            'locale' => 'ru-RU',
             'title' => 'новости'
         ]);
 

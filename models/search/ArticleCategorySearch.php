@@ -45,9 +45,10 @@ class ArticleCategorySearch extends ArticleCategory
             ->leftJoin('{{%article_category_translations}} t', 't.article_category_id = ac.id and t.locale = :locale', ['locale' => Yii::$app->language])
             ->with(['parent', 'parent.activeTranslation'])
 
-        ->where([
-            't.locale' => Yii::$app->language
-        ]);
+//        ->where([
+//            't.locale' => Yii::$app->language
+//        ])
+        ;
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

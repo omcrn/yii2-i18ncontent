@@ -43,12 +43,26 @@ class ArticleCategory extends \yii\db\ActiveRecord
         return (new ArticleCategoryQuery(get_called_class()))->with('activeTranslation');
     }
 
+    /**
+     * Get ArticleCategory id by its slug
+     *
+     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
+     * @param $slug
+     * @return int|mixed
+     */
     public static function getIdBySlug($slug)
     {
         $self = self::find()->where(['slug' => $slug])->one();
         return $self ? $self->id : -1;
     }
 
+    /**
+     * Get all ids of ArticleCategory which are direct children of given category plus id of given category
+     *
+     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
+     * @param $slug
+     * @return array
+     */
     public static function getIdsBySlug($slug)
     {
         $ids = [];
@@ -143,6 +157,24 @@ class ArticleCategory extends \yii\db\ActiveRecord
         ]);
     }
 
+    /**
+     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
+     * @inheritdoc
+     */
+    public function load($data, $formName = null)
+    {
+        return parent::load($data, $formName);
+    }
+
+    /**
+     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
+     * @inheritdoc
+     */
+    public function save($runValidation = true, $attributeNames = null)
+    {
+        return parent::save($runValidation, $attributeNames);
+    }
+
     public static function getCategories()
     {
         $categories = self::find()
@@ -220,6 +252,7 @@ class ArticleCategory extends \yii\db\ActiveRecord
         $transaction = Yii::$app->db->beginTransaction();
         try {
             if (!$model->validate() || !$model->save()) {
+                \centigen\base\helpers\UtilHelper::vardump($model->errors);
 //                \ChromePhp::error($model->errors);
                 //print_r($model->errors);exit;
                 return false;
@@ -235,7 +268,7 @@ class ArticleCategory extends \yii\db\ActiveRecord
                 ];
                 if (!$text->validate() || !$text->save()) {
                     $transaction->rollBack();
-//                   pri
+                    \centigen\base\helpers\UtilHelper::vardump($text->errors);
                     return false;
                 }
             }
