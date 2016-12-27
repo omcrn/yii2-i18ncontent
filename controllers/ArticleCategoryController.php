@@ -66,7 +66,7 @@ class ArticleCategoryController extends Controller
         $articleCategories = ArticleCategory::getCategories();
         $locales = BaseHelper::getAvailableLocales();
 
-        if ($model->load(Yii::$app->request->post(), null, $locales) && $model->save()) {
+        if ($model->load(Yii::$app->request->post(), null) && $model->save()) {
             return $this->redirect(['index']);
         }
 
@@ -76,26 +76,6 @@ class ArticleCategoryController extends Controller
             'locales' => $locales
         ]);
 
-
-        if ($request->post()) {
-            $model = $request->post('ArticleCategory');
-            $translations = $request->post('ArticleCategoryTranslations');
-
-//            \ChromePhp::log($model, $translations);
-            if (ArticleCategory::processAndSave($model, $translations, $locales)) {
-                return $this->redirect(['index']);
-            } else {
-                return $this->renderCreateForm();
-            }
-
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-                'categories' => $articleCategories,
-                'locales' => $locales
-            ]);
-//            return $this->renderCreateForm();
-        }
     }
 
     /**
@@ -111,7 +91,7 @@ class ArticleCategoryController extends Controller
         $articleCategories = ArticleCategory::getCategories();
         $locales = BaseHelper::getAvailableLocales();
 
-        if ($model->load(Yii::$app->request->post(), null, $locales) && $model->save()) {
+        if ($model->load(Yii::$app->request->post(), null) && $model->save()) {
             return $this->redirect(['index']);
         }
 
@@ -122,22 +102,6 @@ class ArticleCategoryController extends Controller
             'categories' => $articleCategories,
             'locales' => $locales
         ]);
-
-        if ($request->post()) {
-
-            $modelData = $request->post('ArticleCategory');
-            $languages = $request->post('ArticleCategoryTranslations');
-
-//            \ChromePhp::log($model);
-            if (ArticleCategory::processAndUpdate($model, $translations, $modelData, $languages, $locales)) {
-                return $this->redirect(['index']);
-            } else {
-                return $this->renderUpdateForm($model, $translations);
-            }
-
-        } else {
-            return $this->renderUpdateForm($model, $translations);
-        }
 
     }
 
@@ -170,22 +134,4 @@ class ArticleCategoryController extends Controller
         }
     }
 
-    protected function renderCreateForm()
-    {
-        return $this->render('create', [
-            'model' => new ArticleCategory(),
-            'categories' => ArticleCategory::getCategories(),
-            'locales' => BaseHelper::getAvailableLocales()
-        ]);
-    }
-
-    protected function renderUpdateForm($model, $translations)
-    {
-        return $this->render('update', [
-            'model' => $model,
-            'categories' => ArticleCategory::getCategories(),
-            'translations' => $translations,
-            'locales' => BaseHelper::getAvailableLocales()
-        ]);
-    }
 }

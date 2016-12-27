@@ -169,13 +169,12 @@ class ArticleCategory extends \yii\db\ActiveRecord
      * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
      * @inheritdoc
      */
-    public function load($postData, $formName = null, $locales = [])
+    public function load($postData, $formName = null)
     {
         if (!parent::load($postData, $formName)) {
             return false;
         }
 
-//        \centigen\base\helpers\UtilHelper::vardump($data);exit;
         $translations = ArrayHelper::getValue($postData, 'ArticleCategoryTranslations');
         $this->newTranslations = [];
 
@@ -190,7 +189,7 @@ class ArticleCategory extends \yii\db\ActiveRecord
                 $this->findTranslationByLocale($loc);
 
             $this->newTranslations[] = $translation;
-            if (!$translation->load($modelData, '')){
+            if (!$translation->load($modelData, '')) {
                 $allValid = false;
             }
         }
@@ -210,14 +209,14 @@ class ArticleCategory extends \yii\db\ActiveRecord
         }
 
         $allSaved = true;
-        foreach ($this->newTranslations as $translation){
+        foreach ($this->newTranslations as $translation) {
             $translation->article_category_id = $this->id;
-            if (!$translation->save()){
+            if (!$translation->save()) {
                 $allSaved = false;
             }
         }
 
-        if ($allSaved){
+        if ($allSaved) {
             $transaction->commit();
         } else {
             $transaction->rollBack();
@@ -236,7 +235,7 @@ class ArticleCategory extends \yii\db\ActiveRecord
     private function findTranslationByLocale($locale)
     {
         foreach ($this->translations as $translation) {
-            if ($translation->locale === $locale){
+            if ($translation->locale === $locale) {
                 return $translation;
             }
         }
@@ -244,6 +243,12 @@ class ArticleCategory extends \yii\db\ActiveRecord
         return null;
     }
 
+    /**
+     * Get article categories as map where key is `ArticleCategory::id` and value `activeTranslation->title`
+     *
+     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
+     * @return array
+     */
     public static function getCategories()
     {
         $categories = self::find()
@@ -262,7 +267,7 @@ class ArticleCategory extends \yii\db\ActiveRecord
     }
 
     /**
-     * Get Article category by slug
+     * Get active ArticleCategory by slug
      *
      * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
      * @param $slug
@@ -298,60 +303,6 @@ class ArticleCategory extends \yii\db\ActiveRecord
     public function getTitle()
     {
         return $this->activeTranslation ? $this->activeTranslation->title : '';
-    }
-
-    public static function processAndUpdate(ArticleCategory $model, $translations, $modelData, $translationData, $locales)
-    {
-        $transaction = Yii::$app->db->beginTransaction();
-
-        $data = [];
-        foreach ($locales as $loc => $locale) {
-            $data['translations'][$loc] = [
-                'title' => $translationData['title'][$loc],
-                'body' => isset($translationData['body']) ? $translationData['body'][$loc] : null
-            ];
-        }
-
-        $model->attributes = $modelData;
-
-        try {
-
-            if (!$model->validate() || !$model->save()) {
-//                \ChromePhp::error($model->errors);
-                return false;
-            }
-
-            foreach ($data['translations'] as $loc => $item) {
-                $currentTrans = null;
-                foreach ($translations as $trans) {
-                    if ($loc === $trans->locale) {
-                        $currentTrans = $trans;
-                        break;
-                    }
-                }
-
-                if (!$currentTrans) {
-                    $currentTrans = new ArticleCategoryTranslations();
-                }
-
-                $currentTrans->article_category_id = $model->id;
-                $currentTrans->locale = $loc;
-                $currentTrans->title = $item['title'];
-                $currentTrans->body = $item['body'];
-
-                if (!$currentTrans->validate() || !$currentTrans->save()) {
-                    $transaction->rollBack();
-                    return false;
-                }
-            }
-        } catch (Exception $ex) {
-//            \ChromePhp::error($ex);
-            $transaction->rollBack();
-            return false;
-        }
-
-        $transaction->commit();
-        return true;
     }
 
 }
