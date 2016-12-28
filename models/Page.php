@@ -2,13 +2,11 @@
 
 namespace centigen\i18ncontent\models;
 
-use centigen\i18ncontent\helpers\Html;
 use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
-use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "page".
@@ -27,7 +25,7 @@ use yii\helpers\ArrayHelper;
  * @property PageTranslations[] $translations
  * @property PageTranslations $activeTranslation
  */
-class Page extends \yii\db\ActiveRecord
+class Page extends TranslatableModel
 {
     const STATUS_DRAFT = 0;
     const STATUS_PUBLISHED = 1;
@@ -39,6 +37,10 @@ class Page extends \yii\db\ActiveRecord
      * @var PageTranslations[]
      */
     public $newTranslations = [];
+
+    public static $translateModelForeignKey = 'page_id';
+
+    public static $translateModel = PageTranslations::class;
 
     /**
      * @inheritdoc
@@ -123,105 +125,6 @@ class Page extends \yii\db\ActiveRecord
     public function getUpdater()
     {
         return $this->hasOne(Yii::$app->getModule('i18ncontent')->userClass, ['id' => 'updater_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getTranslations()
-    {
-        return $this->hasMany(PageTranslations::className(), ['page_id' => 'id']);
-    }
-
-    /**
-     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
-     * @return ActiveQuery
-     */
-    public function getActiveTranslation()
-    {
-        return $this->hasOne(PageTranslations::className(), ['page_id' => 'id'])->where([
-            'locale' => Yii::$app->language
-        ]);
-    }
-
-    /**
-     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
-     * @inheritdoc
-     */
-    public function load($postData, $formName = null)
-    {
-        if (!parent::load($postData, $formName)) {
-            return false;
-        }
-
-        $className = \yii\helpers\StringHelper::basename(\centigen\i18ncontent\models\PageTranslations::className());
-        $translations = ArrayHelper::getValue($postData, $className);
-        $this->newTranslations = [];
-
-        $allValid = true;
-        foreach ($translations as $loc => $modelData) {
-            $modelData['locale'] = $loc;
-            $modelData['body'] = Html::encodeMediaItemUrls($modelData['body']);
-
-            if (Yii::$app->language == $loc) {
-                $this->title = $modelData['title'];
-            }
-            $translation = $this->findTranslationByLocale($loc);
-
-            $this->newTranslations[] = $translation;
-            if (!$translation->load($modelData, '')) {
-                $allValid = false;
-            }
-        }
-
-        return $allValid;
-    }
-
-    /**
-     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
-     * @inheritdoc
-     */
-    public function save($runValidation = true, $attributeNames = null)
-    {
-        $transaction = Yii::$app->db->beginTransaction();
-        if (!$this->validate() || !parent::save($runValidation, $attributeNames)) {
-            return false;
-        }
-
-        $allSaved = true;
-        foreach ($this->newTranslations as $translation) {
-            $translation->page_id = $this->id;
-            if (!$translation->save()) {
-                $allSaved = false;
-            }
-        }
-
-        if ($allSaved) {
-            $transaction->commit();
-        } else {
-            $transaction->rollBack();
-        }
-
-        return $allSaved;
-    }
-
-    /**
-     * Find PageTranslation object from `translations` array by locale
-     *
-     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
-     * @param $locale
-     * @return PageTranslations|null
-     */
-    public function findTranslationByLocale($locale)
-    {
-        $translations = array_merge($this->newTranslations, $this->translations);
-        foreach ($translations as $translation) {
-            if ($translation->locale === $locale) {
-                return $translation;
-            }
-        }
-
-        return new \centigen\i18ncontent\models\PageTranslations();
     }
 
     /**
