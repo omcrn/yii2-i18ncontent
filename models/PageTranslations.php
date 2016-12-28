@@ -2,6 +2,7 @@
 
 namespace centigen\i18ncontent\models;
 
+use centigen\i18ncontent\helpers\Html;
 use Yii;
 
 /**
@@ -35,7 +36,7 @@ class PageTranslations extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['page_id'], 'required'],
+            [['page_id', 'locale', 'title', 'body'], 'required'],
             [['page_id'], 'integer'],
             [['body'], 'string'],
             [['locale'], 'string', 'max' => 15],
@@ -66,5 +67,10 @@ class PageTranslations extends \yii\db\ActiveRecord
     public function getPage()
     {
         return $this->hasOne(Page::className(), ['id' => 'page_id']);
+    }
+
+    public function getBody()
+    {
+        return Html::decodeMediaItemUrls($this->body);
     }
 }

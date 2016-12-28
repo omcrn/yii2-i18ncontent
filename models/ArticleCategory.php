@@ -6,7 +6,6 @@ use centigen\i18ncontent\models\query\ArticleCategoryQuery;
 use Yii;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
-use yii\db\Exception;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -175,7 +174,8 @@ class ArticleCategory extends \yii\db\ActiveRecord
             return false;
         }
 
-        $translations = ArrayHelper::getValue($postData, 'ArticleCategoryTranslations');
+        $className = \yii\helpers\StringHelper::basename(\centigen\i18ncontent\models\ArticleCategoryTranslations::className());
+        $translations = ArrayHelper::getValue($postData, $className);
         $this->newTranslations = [];
 
         $allValid = true;

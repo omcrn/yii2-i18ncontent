@@ -104,7 +104,7 @@ class ArticleController extends Controller
 
         $model->newTranslations = $model->translations;
 
-        return $this->render('create', [
+        return $this->render('update', [
             'model' => $model,
             'categories' => $articleCategories,
             'locales' => $locales

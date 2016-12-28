@@ -7,12 +7,12 @@ use yii\helpers\Url;
 /* @var $model centigen\i18ncontent\models\ArticleTranslations */
 /* @var $form yii\bootstrap\ActiveForm */
 
-$namePrefix = \yii\helpers\StringHelper::basename(\centigen\i18ncontent\models\ArticleTranslations::className());
+$className = \yii\helpers\StringHelper::basename(\centigen\i18ncontent\models\ArticleTranslations::className());
 
 ?>
 <?php echo $form->field($model, 'title', [
     'inputOptions' => [
-        'name' => "{$namePrefix}[$language][title]"
+        'name' => "{$className}[$language][title]"
     ]
 ])->textInput(['maxlength' => true]) ?>
 
@@ -21,7 +21,7 @@ $namePrefix = \yii\helpers\StringHelper::basename(\centigen\i18ncontent\models\A
     [
         'plugins' => ['fullscreen', 'fontcolor', 'video'],
         'htmlOptions' => [
-            'name' => "{$namePrefix}[$language][body]",
+            'name' => "{$className}[$language][body]",
 //            'name' => $namePrefix . '[body]' . $nameSuffix,
             'value' => $model->getBody()
         ],
@@ -39,20 +39,20 @@ $namePrefix = \yii\helpers\StringHelper::basename(\centigen\i18ncontent\models\A
 
 <?php echo $form->field($model, 'meta_title', [
     'inputOptions' => [
-        'name' => "{$namePrefix}[$language][meta_title]"
+        'name' => "{$className}[$language][meta_title]"
     ]
 ])->textarea(['maxlength' => 512]) ?>
 
 
 <?php echo $form->field($model, 'meta_keywords', [
     'inputOptions' => [
-        'name' => "{$namePrefix}[$language][meta_keywords]"
+        'name' => "{$className}[$language][meta_keywords]"
     ]
 ])->textarea(['maxlength' => 512]) ?>
 
 
 <?php echo $form->field($model, 'meta_description', [
     'inputOptions' => [
-        'name' => "{$namePrefix}[$language][meta_description]"
+        'name' => "{$className}[$language][meta_description]"
     ]
 ])->textarea(['maxlength' => 512]) ?>

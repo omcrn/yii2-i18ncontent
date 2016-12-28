@@ -4,7 +4,6 @@
 /* @var $model centigen\i18ncontent\models\ArticleCategory */
 /* @var $categories array */
 /* @var $locales array */
-/* @var $translations array */
 
 $this->title = Yii::t('i18ncontent', 'Update {modelClass}: ', [
     'modelClass' => 'Article Category',
@@ -18,8 +17,7 @@ $this->params['breadcrumbs'][] = Yii::t('i18ncontent', 'Update');
     <?php echo $this->render('_form', [
         'model' => $model,
         'categories' => $categories,
-        'locales' => $locales,
-        'translations' => $translations
+        'locales' => $locales
     ]) ?>
 
 </div>

@@ -5,12 +5,12 @@
 /* @var $model centigen\i18ncontent\models\ArticleCategoryTranslations */
 /* @var $form yii\bootstrap\ActiveForm */
 
-$namePrefix = \yii\helpers\StringHelper::basename(\centigen\i18ncontent\models\ArticleCategoryTranslations::className());
+$className = \yii\helpers\StringHelper::basename(\centigen\i18ncontent\models\ArticleCategoryTranslations::className());
 
 ?>
 
 <?php echo $form->field($model, 'title', [
     'inputOptions' => [
-        'name' => "{$namePrefix}[$language][title]"
+        'name' => "{$className}[$language][title]"
     ]
 ])->textInput(['maxlength' => 512]) ?>

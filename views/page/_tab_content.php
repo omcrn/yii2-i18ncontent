@@ -1,22 +1,19 @@
 <?php
 
-/* @var $this yii\web\View */
 use yii\helpers\Url;
 
-/* @var $model centigen\i18ncontent\models\WidgetTextLanguages */
+/* @var $this yii\web\View */
+/* @var $language string */
+/* @var $model centigen\i18ncontent\models\PageTranslations */
 /* @var $form yii\bootstrap\ActiveForm */
 
-$namePrefix = 'PageTranslations';
-$nameSuffix = '';
-if (isset($language)) {
-    $nameSuffix = '[' . $language . ']';
-}
+$className = \yii\helpers\StringHelper::basename(\centigen\i18ncontent\models\PageTranslations::className());
 
 ?>
 
 <?php echo $form->field($model, 'title', [
     'inputOptions' => [
-        'name' => $namePrefix . '[title]' . $nameSuffix
+        'name' => "{$className}[$language][title]"
     ]
 ])->textInput(['maxlength' => 512]) ?>
 
@@ -24,7 +21,8 @@ if (isset($language)) {
     // More options, see http://imperavi.com/redactor/docs/
     'plugins' => ['fullscreen', 'fontcolor', 'video', 'table'],
     'htmlOptions' => [
-        'name' => $namePrefix . '[body]' . $nameSuffix
+        'name' => "{$className}[$language][body]",
+        'value' => $model->getBody()
     ],
     'options' => [
         'minHeight' => 400,
@@ -41,20 +39,20 @@ if (isset($language)) {
 
 <?php echo $form->field($model, 'meta_title', [
     'inputOptions' => [
-        'name' => $namePrefix . '[meta_title]' . $nameSuffix
+        'name' => "{$className}[$language][meta_title]"
     ]
 ])->textarea(['maxlength' => 512]) ?>
 
 
 <?php echo $form->field($model, 'meta_keywords', [
     'inputOptions' => [
-        'name' => $namePrefix . '[meta_keywords]' . $nameSuffix
+        'name' => "{$className}[$language][meta_keywords]"
     ]
 ])->textarea(['maxlength' => 512]) ?>
 
 
 <?php echo $form->field($model, 'meta_description', [
     'inputOptions' => [
-        'name' => $namePrefix . '[meta_description]' . $nameSuffix
+        'name' => "{$className}[$language][meta_description]"
     ]
 ])->textarea(['maxlength' => 512]) ?>

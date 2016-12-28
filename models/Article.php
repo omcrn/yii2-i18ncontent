@@ -10,7 +10,6 @@ use yii\behaviors\BlameableBehavior;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
-use yii\db\Exception;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -217,7 +216,8 @@ class Article extends \yii\db\ActiveRecord
             return false;
         }
 
-        $translations = ArrayHelper::getValue($postData, 'ArticleTranslations');
+        $className = \yii\helpers\StringHelper::basename(\centigen\i18ncontent\models\ArticleTranslations::className());
+        $translations = ArrayHelper::getValue($postData, $className);
         $this->newTranslations = [];
 
         $allValid = true;
