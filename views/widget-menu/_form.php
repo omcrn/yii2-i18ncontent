@@ -5,6 +5,7 @@
  * Time: 10:34 AM
  */
 
+use trntv\aceeditor\AceEditor;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 /* @var $this yii\web\View */
@@ -23,7 +24,7 @@ use yii\bootstrap\ActiveForm;
     <?php echo $form->field($model, 'title')->textInput(['maxlength' => 512]) ?>
 
     <?php echo $form->field($model, 'items')->widget(
-        \centigen\aceeditor\AceEditor::className(),
+        AceEditor::className(),
         [
             'mode' => 'json'
         ]
