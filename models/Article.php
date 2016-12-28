@@ -9,6 +9,7 @@ use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveQuery;
 use yii\db\Exception;
 use yii\helpers\ArrayHelper;
 
@@ -34,7 +35,7 @@ use yii\helpers\ArrayHelper;
  * @property string $body
  * @property ArticleCategory $category
  * @property ArticleAttachment[] $articleAttachments
- * @property ArticleTranslations[] $articleTranslations
+ * @property ArticleTranslations[] $translations
  * @property ArticleTranslations $activeTranslation
  */
 class Article extends \yii\db\ActiveRecord
@@ -56,6 +57,13 @@ class Article extends \yii\db\ActiveRecord
 
 
     public $articleCount = null;
+
+    /**
+     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
+     * @var ArticleTranslations[]
+     */
+    public $newTranslations = [];
+
     /**
      * @inheritdoc
      */
@@ -189,6 +197,9 @@ class Article extends \yii\db\ActiveRecord
         return $this->hasMany(ArticleTranslations::className(), ['article_id' => 'id']);
     }
 
+    /**
+     * @return ActiveQuery
+     */
     public function getActiveTranslation()
     {
         return $this->hasOne(ArticleTranslations::className(), ['article_id' => 'id'])->where([
@@ -196,6 +207,94 @@ class Article extends \yii\db\ActiveRecord
         ]);
     }
 
+    /**
+     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
+     * @inheritdoc
+     */
+    public function load($postData, $formName = null)
+    {
+        if (!parent::load($postData, $formName)) {
+            return false;
+        }
+
+        $translations = ArrayHelper::getValue($postData, 'ArticleTranslations');
+        $this->newTranslations = [];
+
+        $allValid = true;
+        foreach ($translations as $loc => $modelData) {
+            $modelData['locale'] = $loc;
+            $modelData['body'] = Html::encodeMediaItemUrls($modelData['body']);
+
+            if (Yii::$app->language == $loc) {
+                $this->title = $modelData['title'];
+            }
+            $translation = $this->isNewRecord ?
+                new ArticleTranslations() :
+                $this->findTranslationByLocale($loc);
+
+            $this->newTranslations[] = $translation;
+            if (!$translation->load($modelData, '')) {
+                $allValid = false;
+            }
+        }
+
+        return $allValid;
+    }
+
+    /**
+     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
+     * @inheritdoc
+     */
+    public function save($runValidation = true, $attributeNames = null)
+    {
+        $transaction = Yii::$app->db->beginTransaction();
+        if (!$this->validate() || !parent::save($runValidation, $attributeNames)) {
+            return false;
+        }
+
+        $allSaved = true;
+        foreach ($this->newTranslations as $translation) {
+            $translation->article_id = $this->id;
+            if (!$translation->save()) {
+                $allSaved = false;
+            }
+        }
+
+        if ($allSaved) {
+            $transaction->commit();
+        } else {
+            $transaction->rollBack();
+        }
+
+        return $allSaved;
+    }
+
+    /**
+     * Find ArticleTranslation object from `translations` array by locale
+     *
+     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
+     * @param $locale
+     * @return ArticleTranslations|null
+     */
+    private function findTranslationByLocale($locale)
+    {
+        foreach ($this->translations as $translation) {
+            if ($translation->locale === $locale) {
+                return $translation;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Find Article-s by category. Return array of Article or ActiveQuery
+     *
+     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
+     * @param ArticleCategory $cat
+     * @param bool $getQuery
+     * @return Article[]|\yii\db\ActiveRecord[]|ActiveQuery
+     */
     public static function getArticlesByCategory(ArticleCategory $cat, $getQuery = true)
     {
         $query = Article::find()
@@ -228,7 +327,7 @@ class Article extends \yii\db\ActiveRecord
     }
 
     /**
-     * Get article by slug
+     * Get single article by slug
      *
      * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
      * @param $slug
@@ -249,127 +348,13 @@ class Article extends \yii\db\ActiveRecord
         return $this->activeTranslation ? $this->activeTranslation->title : '';
     }
 
-    public function getBody($decode = false)
+    public function getBody()
     {
-        return $this->activeTranslation ? $this->activeTranslation->getBody($decode) : '';
-    }
-
-    public static function processAndSave($modelData, $translations, $locales)
-    {
-        $model = new self();
-
-        $data = [];
-        foreach ($locales as $loc => $locale) {
-            if (Yii::$app->language == $loc) {
-                $model->title = $translations['title'][$loc];
-            }
-            $body = ArrayHelper::getValue($translations, 'body.'.$loc);
-            $body = Html::encodeMediaItemUrls($body);
-            $data['translations'][] = [
-                'locale' => $loc,
-                'title' => $translations['title'][$loc],
-                'meta_title' => $translations['meta_title'][$loc],
-                'meta_description' => $translations['meta_description'][$loc],
-                'meta_keywords' => $translations['meta_keywords'][$loc],
-                'body' => $body
-            ];
-        }
-
-        $transaction = Yii::$app->db->beginTransaction();
-        try {
-            if (!$model->load(['Article' => $modelData]) || !$model->save()) {
-//                \ChromePhp::error($model->errors);
-                return false;
-            }
-
-            foreach ($data['translations'] as $item) {
-                $text = new ArticleTranslations();
-                $text->article_id = $model->id;
-                $text->locale = $item['locale'];
-                $text->title = $item['title'];
-                $text->meta_title = $item['meta_title'];
-                $text->meta_description = $item['meta_description'];
-                $text->meta_keywords = $item['meta_keywords'];
-
-                $text->body = $item['body'];
-
-                if (!$text->validate() || !$text->save()) {
-                    $transaction->rollBack();
-//                    \ChromePhp::error($text->errors);
-                    return false;
-                }
-            }
-        } catch (Exception $ex) {
-//            \ChromePhp::error($ex);
-            $transaction->rollBack();
-            return false;
-        }
-
-        $transaction->commit();
-        return true;
-    }
-
-    public static function processAndUpdate(Article $model, $translations, $modelData, $translationData, $locales)
-    {
-        $transaction = Yii::$app->db->beginTransaction();
-
-        $data = [];
-        foreach ($locales as $loc => $locale) {
-            $data['translations'][$loc] = [
-                'title' => $translationData['title'][$loc],
-                'body' => $translationData['body'][$loc],
-                'meta_title' => $translationData['meta_title'][$loc],
-                'meta_description' => $translationData['meta_description'][$loc],
-                'meta_keywords' => $translationData['meta_keywords'][$loc],
-            ];
-        }
-
-        try {
-            $model->attributes = $modelData;
-            if (!$model->save()) {
-//                \ChromePhp::error($model->errors);
-                return false;
-            }
-
-            foreach ($data['translations'] as $loc => $item) {
-                $currentTrans = null;
-                foreach ($translations as $trans) {
-                    if ($loc === $trans->locale) {
-                        $currentTrans = $trans;
-                        break;
-                    }
-                }
-
-                if (!$currentTrans) {
-                    $currentTrans = new ArticleTranslations();
-                }
-
-                $currentTrans->article_id = $model->id;
-                $currentTrans->locale = $loc;
-                $currentTrans->title = $item['title'];
-                $currentTrans->meta_title = $item['meta_title'];
-                $currentTrans->meta_description = $item['meta_description'];
-                $currentTrans->meta_keywords = $item['meta_keywords'];
-//                $currentTrans->body = $item['body'];
-                $currentTrans->body = Html::encodeMediaItemUrls($item['body']);
-
-                if (!$currentTrans->validate() || !$currentTrans->save()) {
-                    $transaction->rollBack();
-                    return false;
-                }
-            }
-        } catch (Exception $ex) {
-//            \ChromePhp::error($ex);
-            $transaction->rollBack();
-            return false;
-        }
-
-        $transaction->commit();
-        return true;
+        return $this->activeTranslation ? $this->activeTranslation->getBody() : '';
     }
 
 	public function getThumbnailPath()
     {
-        return getenv('STORAGE_URL').'/source/'.$this->thumbnail_path;
+        return Yii::getAlias('@storageUrl') . '/source/'.$this->thumbnail_path;
     }
 }

@@ -5,7 +5,7 @@
 /* @var $model centigen\i18ncontent\models\ArticleCategoryTranslations */
 /* @var $form yii\bootstrap\ActiveForm */
 
-$namePrefix = \yii\helpers\StringHelper::basename(\centigen\i18ncontent\models\ArticleCategoryTranslations::className());;
+$namePrefix = \yii\helpers\StringHelper::basename(\centigen\i18ncontent\models\ArticleCategoryTranslations::className());
 
 ?>
 

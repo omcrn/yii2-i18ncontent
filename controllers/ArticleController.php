@@ -71,23 +71,18 @@ class ArticleController extends Controller
      */
     public function actionCreate()
     {
-        $request = Yii::$app->request;
+        $model = new Article();
+        $articleCategories = ArticleCategory::getCategories();
         $locales = BaseHelper::getAvailableLocales();
-        if ($request->post()) {
 
-            $model = $request->post('Article');
-            $translations = $request->post('ArticleTranslations');
-
-//            \ChromePhp::log($model, $translations);
-            if (Article::processAndSave($model, $translations, $locales)) {
-                return $this->redirect(['index']);
-            } else {
-                return $this->renderCreateForm();
-            }
-
-        } else {
-            return $this->renderCreateForm();
+        if ($model->load(Yii::$app->request->post(), null) && $model->save()) {
+            return $this->redirect(['index']);
         }
+        return $this->render('create', [
+            'model' => $model,
+            'locales' => $locales,
+            'categories' => $articleCategories
+        ]);
     }
 
     /**
@@ -99,24 +94,21 @@ class ArticleController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $translations = $model->translations;
 
-        $request = Yii::$app->request;
+        $articleCategories = ArticleCategory::getCategories();
         $locales = BaseHelper::getAvailableLocales();
-        if ($request->post()) {
 
-            $modelData = $request->post('Article');
-            $languages = $request->post('ArticleTranslations');
-
-            if (Article::processAndUpdate($model, $translations, $modelData, $languages, $locales)) {
-                return $this->redirect(['index']);
-            } else {
-                return $this->renderUpdateForm($model, $translations);
-            }
-
-        } else {
-            return $this->renderUpdateForm($model, $translations);
+        if ($model->load(Yii::$app->request->post(), null) && $model->save()) {
+            return $this->redirect(['index']);
         }
+
+        $model->newTranslations = $model->translations;
+
+        return $this->render('create', [
+            'model' => $model,
+            'categories' => $articleCategories,
+            'locales' => $locales
+        ]);
 
     }
 
@@ -149,23 +141,4 @@ class ArticleController extends Controller
         }
     }
 
-    protected  function renderCreateForm()
-    {
-        return $this->render('create', [
-            'model' => new Article(),
-            'locales' => BaseHelper::getAvailableLocales(),
-            'categories' => ArticleCategory::getCategories(),
-        ]);
-    }
-
-
-    protected function renderUpdateForm($model, $translations)
-    {
-        return $this->render('update', [
-            'model' => $model,
-            'translations' => $translations,
-            'locales' => BaseHelper::getAvailableLocales(),
-            'categories' => ArticleCategory::getCategories(),
-        ]);
-    }
 }

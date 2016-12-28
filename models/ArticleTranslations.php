@@ -36,6 +36,7 @@ class ArticleTranslations extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['article_id', 'locale', 'title', 'body'], 'required'],
             [['article_id'], 'integer'],
             [['body'], 'string'],
             [['locale'], 'string', 'max' => 15],
