@@ -2,7 +2,6 @@
 
 /* @var $this yii\web\View */
 /* @var $model centigen\i18ncontent\models\WidgetText */
-/* @var $translations centigen\i18ncontent\models\WidgetTextLanguages[] */
 /* @var $locales array */
 
 $this->title = Yii::t('i18ncontent', 'Update {modelClass}: ', [
@@ -16,7 +15,6 @@ $this->params['breadcrumbs'][] = Yii::t('i18ncontent', 'Update');
 
     <?php echo $this->render('_form', [
         'model' => $model,
-        'translations' => $translations,
         'locales' => $locales
     ]) ?>
 

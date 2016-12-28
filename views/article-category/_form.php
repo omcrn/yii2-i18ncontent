@@ -25,8 +25,7 @@ use yii\bootstrap\ActiveForm;
 
 //            \centigen\base\helpers\UtilHelper::vardump($model->newTranslations[$ind], $ind);
             $title = $locale;
-            $translationModel = isset($model->newTranslations[$ind]) ?
-                $model->newTranslations[$ind] : new \centigen\i18ncontent\models\ArticleCategoryTranslations();
+            $translationModel = $model->findTranslationByLocale($key);
             $content = $this->render('_tab_content', [
                 'form' => $form,
                 'model' => $translationModel,

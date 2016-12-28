@@ -3,10 +3,11 @@
 namespace centigen\i18ncontent\models;
 
 use centigen\base\behaviors\CacheInvalidateBehavior;
+use centigen\i18ncontent\helpers\Html;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
-use yii\db\Exception;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "text_block".
@@ -24,6 +25,12 @@ class WidgetText extends \yii\db\ActiveRecord
 {
     const STATUS_ACTIVE = 1;
     const STATUS_DRAFT = 0;
+
+    /**
+     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
+     * @var WidgetTextLanguages[]
+     */
+    public $newTranslations = [];
 
     /**
      * @inheritdoc
@@ -98,6 +105,9 @@ class WidgetText extends \yii\db\ActiveRecord
         return $this->hasMany(WidgetTextLanguages::className(), ['widget_text_id' => 'id']);
     }
 
+    /**
+     * @return ActiveQuery
+     */
     public function getActiveTranslation()
     {
         return $this->hasOne(WidgetTextLanguages::className(), ['widget_text_id' => 'id'])->where([
@@ -106,144 +116,80 @@ class WidgetText extends \yii\db\ActiveRecord
     }
 
     /**
-     * Save widget with given data.
-     *
-     * @author zura
-     * @param array $data data to insert.
-     *
-     * The following options are specially handled:
-     *
-     * - key: the key of WidgetText
-     * - status: the status of WidgetText
-     * - translations: Array of arrays where each sub array is in the following format
-     *
-     * ~~~
-     * [
-     *      'title' => '...',
-     *      'body' => '...',
-     *      'locale'  => '...'
-     * ]
-     * ~~~
-     *
-     * @return bool
-     * @throws Exception
+     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
+     * @inheritdoc
      */
-    public static function saveWidget($data)
+    public function load($postData, $formName = null)
     {
-        $transaction = Yii::$app->db->beginTransaction();
-
-        $widgetText = new self();
-
-        $widgetText->key = $data['key'];
-        $widgetText->status = $data['status'];
-
-        try {
-
-            if (!$widgetText->validate() || !$widgetText->save()) {
-//                \ChromePhp::error($widgetText->errors);
-                return false;
-
-            }
-
-            foreach ($data['translations'] as $item) {
-                $text = new WidgetTextLanguages();
-                $text->widget_text_id = $widgetText->id;
-                $text->title = $item['title'];
-                $text->body = $item['body'];
-                $text->locale = $item['locale'];
-                if (!$text->validate() || !$text->save()) {
-                    $transaction->rollBack();
-
-//                    \ChromePhp::error($text->errors);
-                    return false;
-                }
-            }
-
-        } catch (Exception $ex) {
-//            \ChromePhp::error($ex);
-            $transaction->rollBack();
-
+        if (!parent::load($postData, $formName)) {
             return false;
         }
 
-        $transaction->commit();
+        $className = \yii\helpers\StringHelper::basename(\centigen\i18ncontent\models\WidgetTextLanguages::className());
+        $translations = ArrayHelper::getValue($postData, $className);
+        $this->newTranslations = [];
 
-        return true;
+        $allValid = true;
+        foreach ($translations as $loc => $modelData) {
+            $modelData['locale'] = $loc;
+            $modelData['body'] = Html::encodeMediaItemUrls($modelData['body']);
+
+            $translation = $this->findTranslationByLocale($loc);
+
+            $this->newTranslations[] = $translation;
+            if (!$translation->load($modelData, '')) {
+                $allValid = false;
+            }
+        }
+
+        return $allValid;
     }
 
     /**
-     * Update WidgetText with its translations
-     *
-     * @author zura
-     * @param WidgetText            $widget
-     * @param WidgetTextLanguages[] $translations
-     * @param array                 $data
-     *
-     * The following options are specially handled:
-     *
-     * - key: the key of WidgetText
-     * - status: the status of WidgetText
-     * - translations: Array of arrays where each sub array key is $locale and value is array of the following format
-     *
-     * ~~~
-     * [
-     *      'title' => '...',
-     *      'body' => '...'
-     * ]
-     * ~~~
-     *
-     * @return bool
-     * @throws Exception
+     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
+     * @inheritdoc
      */
-    public static function updateWidget(WidgetText $widget, $translations, $data)
+    public function save($runValidation = true, $attributeNames = null)
     {
         $transaction = Yii::$app->db->beginTransaction();
-
-        $widget->key = $data['key'];
-        $widget->status = $data['status'];
-
-        try {
-
-            if (!$widget->validate() || !$widget->save()) {
-//                \ChromePhp::error($widget->errors);
-                return false;
-            }
-
-            foreach ($data['translations'] as $loc => $item) {
-                $currentTrans = null;
-                foreach ($translations as $trans) {
-
-                    if ($loc === $trans->locale) {
-                        $currentTrans = $trans;
-                        break;
-                    }
-                }
-
-                if (!$currentTrans) {
-                    $currentTrans = new WidgetTextLanguages();
-                }
-
-                $currentTrans->widget_text_id = $widget->id;
-                $currentTrans->title = $item['title'];
-                $currentTrans->body = $item['body'];
-                $currentTrans->locale = $loc;
-
-                if (!$currentTrans->validate() || !$currentTrans->save()) {
-                    $transaction->rollBack();
-
-                    return false;
-                }
-            }
-        } catch (Exception $ex) {
-//            \ChromePhp::error($ex);
-            $transaction->rollBack();
-
+        if (!$this->validate() || !parent::save($runValidation, $attributeNames)) {
             return false;
         }
 
-        $transaction->commit();
+        $allSaved = true;
+        foreach ($this->newTranslations as $translation) {
+            $translation->widget_text_id = $this->id;
+            if (!$translation->save()) {
+                $allSaved = false;
+            }
+        }
 
-        return true;
+        if ($allSaved) {
+            $transaction->commit();
+        } else {
+            $transaction->rollBack();
+        }
+
+        return $allSaved;
+    }
+
+    /**
+     * Find WidgetTranslation object from `translations` array by locale
+     *
+     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
+     * @param $locale
+     * @return WidgetTextLanguages|null
+     */
+    public function findTranslationByLocale($locale)
+    {
+        $translations = array_merge($this->newTranslations, $this->translations);
+        foreach ($translations as $translation) {
+            if ($translation->locale === $locale) {
+                return $translation;
+            }
+        }
+
+        return new \centigen\i18ncontent\models\WidgetTextLanguages();
     }
 
     /**

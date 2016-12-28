@@ -184,9 +184,7 @@ class ArticleCategory extends \yii\db\ActiveRecord
             if (Yii::$app->language == $loc) {
                 $this->title = $modelData['title'];
             }
-            $translation = $this->isNewRecord ?
-                new ArticleCategoryTranslations() :
-                $this->findTranslationByLocale($loc);
+            $translation = $this->findTranslationByLocale($loc);
 
             $this->newTranslations[] = $translation;
             if (!$translation->load($modelData, '')) {
@@ -232,15 +230,16 @@ class ArticleCategory extends \yii\db\ActiveRecord
      * @param $locale
      * @return ArticleCategoryTranslations|null
      */
-    private function findTranslationByLocale($locale)
+    public function findTranslationByLocale($locale)
     {
-        foreach ($this->translations as $translation) {
+        $translations = array_merge($this->newTranslations, $this->translations);
+        foreach ($translations as $translation) {
             if ($translation->locale === $locale) {
                 return $translation;
             }
         }
 
-        return null;
+        return new \centigen\i18ncontent\models\ArticleCategoryTranslations();
     }
 
     /**

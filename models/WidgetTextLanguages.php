@@ -2,6 +2,7 @@
 
 namespace centigen\i18ncontent\models;
 
+use centigen\i18ncontent\helpers\Html;
 use Yii;
 
 /**
@@ -60,5 +61,10 @@ class WidgetTextLanguages extends \yii\db\ActiveRecord
     public function getWidgetText()
     {
         return $this->hasOne(WidgetText::className(), ['id' => 'widget_text_id']);
+    }
+
+    public function getBody()
+    {
+        return Html::decodeMediaItemUrls($this->body);
     }
 }

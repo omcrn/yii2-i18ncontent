@@ -23,16 +23,22 @@ use yii\bootstrap\ActiveForm;
         $ind = 0;
         foreach ($locales as $key => $locale) {
             $title = $locale;
+            $translationModel = $model->findTranslationByLocale($key);
+
+//            \centigen\base\helpers\UtilHelper::vardump($translationModel);
             $content = $this->render('_tab_content', [
                 'form' => $form,
-                'model' => isset($translations) && is_array($translations) && isset($translations[$ind]) ?
-                                $translations[$ind] : new \centigen\i18ncontent\models\WidgetTextLanguages(),
+                'model' => $translationModel,
                 'language' => $key,
             ]);
 
             $items[] = [
                 'label' => $title,
                 'content' => $content,
+                'headerOptions' => [
+                    'title' => $translationModel->hasErrors() ? Yii::t('i18ncontent', 'You have validation errors') : "",
+                    'class' => $translationModel->hasErrors() ? 'has-error' : ''
+                ],
                 'options' => [
                     'class' => 'fade' . ($ind++ === 0 ? ' in' : '')
                 ]

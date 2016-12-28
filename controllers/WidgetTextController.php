@@ -5,7 +5,6 @@ namespace centigen\i18ncontent\controllers;
 use centigen\i18ncontent\models\search\WidgetTextSearch;
 use centigen\i18ncontent\helpers\BaseHelper;
 use centigen\i18ncontent\models\WidgetText;
-use centigen\i18ncontent\models\WidgetTextLanguages;
 use centigen\i18ncontent\web\Controller;
 use Yii;
 use yii\web\NotFoundHttpException;
@@ -72,96 +71,37 @@ class WidgetTextController extends Controller
      */
     public function actionCreate()
     {
-        $request = Yii::$app->request;
+        $model = new WidgetText();
         $locales = BaseHelper::getAvailableLocales();
-        if ($request->post()) {
 
-            $widgetText = $request->post('WidgetText');
-            $languages = $request->post('WidgetTextLanguages');
-
-            $param = [
-                'key' => $widgetText['key'],
-                'status' => $widgetText['status'],
-                'translations' => []
-            ];
-
-
-            $titles = $languages['title'];
-            $descriptions = $languages['body'];
-
-            foreach ($locales as $loc => $locale) {
-                $title = $titles[$loc];
-                $description = $descriptions[$loc];
-//                \ChromePhp::log($title, $description);
-                $param['translations'][] = [
-                    'title' => $title,
-                    'body' => $description,
-                    'locale' => $loc,
-                ];
-            }
-//            \ChromePhp::log($param);
-//            return;
-            if (WidgetText::saveWidget($param)) {
-                return $this->redirect(['index']);
-            } else {
-                return $this->renderCreateForm();
-            }
-
-        } else {
-            return $this->renderCreateForm();
+        if ($model->load(Yii::$app->request->post(), null) && $model->save()) {
+            return $this->redirect(['index']);
         }
+        return $this->render('create', [
+            'model' => $model,
+            'locales' => $locales
+        ]);
     }
 
     /**
      * Updates an existing WidgetText model.
      *
-     * @author zura
+     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
      * @param integer $id
      * @return mixed
      */
     public function actionUpdate($id)
     {
-        $widgetText = $this->findModel($id);
-        $translations = $widgetText->translations;
-
-        $request = Yii::$app->request;
+        $model = $this->findModel($id);
         $locales = BaseHelper::getAvailableLocales();
-        if ($request->post()) {
 
-            $text = $request->post('WidgetText');
-            $languages = $request->post('WidgetTextLanguages');
-
-            $param = [
-                'key' => $text['key'],
-                'status' => $text['status'],
-                'translations' => [],
-            ];
-            $titles = $languages['title'];
-            $descriptions = $languages['body'];
-//            \ChromePhp::log($request->post());
-
-//            return;
-
-            foreach ($locales as $loc => $locale) {
-                $title = $titles[$loc];
-                $description = $descriptions[$loc];
-//                \ChromePhp::log($title, $description);
-                $param['translations'][$loc] = [
-                    'title' => $title,
-                    'body' => $description
-                ];
-            }
-//            \ChromePhp::log($param);
-//            return;
-            if (WidgetText::updateWidget($widgetText, $translations, $param)) {
-                return $this->redirect(['index']);
-            } else {
-                return $this->renderUpdateForm($widgetText, $translations);
-            }
-
-        } else {
-            return $this->renderUpdateForm($widgetText, $translations);
+        if ($model->load(Yii::$app->request->post(), null) && $model->save()) {
+            return $this->redirect(['index']);
         }
+        return $this->render('update', [
+            'model' => $model,
+            'locales' => $locales
+        ]);
     }
 
     /**
@@ -191,37 +131,6 @@ class WidgetTextController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
-    }
-
-    /**
-     * Render create form
-     *
-     * @author zura
-     * @return string
-     */
-    protected function renderCreateForm()
-    {
-        return $this->render('create', [
-            'model' => new WidgetText(),
-            'locales' => BaseHelper::getAvailableLocales()
-        ]);
-    }
-
-    /**
-     * Render update form with information to update
-     *
-     * @author zura
-     * @param WidgetText $widgetText
-     * @param WidgetTextLanguages[] $translations
-     * @return string
-     */
-    protected function renderUpdateForm(WidgetText $widgetText, $translations)
-    {
-        return $this->render('update', [
-            'model' => $widgetText,
-            'translations' => $translations,
-            'locales' => BaseHelper::getAvailableLocales()
-        ]);
     }
 
 }

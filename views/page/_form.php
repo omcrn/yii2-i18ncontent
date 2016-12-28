@@ -23,8 +23,7 @@ use yii\bootstrap\ActiveForm;
         $ind = 0;
         foreach ($locales as $key => $locale) {
             $title = $locale;
-            $translationModel = isset($model->newTranslations[$ind]) ?
-                $model->newTranslations[$ind] : new \centigen\i18ncontent\models\PageTranslations();
+            $translationModel = $model->findTranslationByLocale($key);
             $content = $this->render('_tab_content', [
                 'form' => $form,
                 'model' => $translationModel,

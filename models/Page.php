@@ -166,9 +166,7 @@ class Page extends \yii\db\ActiveRecord
             if (Yii::$app->language == $loc) {
                 $this->title = $modelData['title'];
             }
-            $translation = $this->isNewRecord ?
-                new PageTranslations() :
-                $this->findTranslationByLocale($loc);
+            $translation = $this->findTranslationByLocale($loc);
 
             $this->newTranslations[] = $translation;
             if (!$translation->load($modelData, '')) {
@@ -214,15 +212,16 @@ class Page extends \yii\db\ActiveRecord
      * @param $locale
      * @return PageTranslations|null
      */
-    private function findTranslationByLocale($locale)
+    public function findTranslationByLocale($locale)
     {
-        foreach ($this->translations as $translation) {
+        $translations = array_merge($this->newTranslations, $this->translations);
+        foreach ($translations as $translation) {
             if ($translation->locale === $locale) {
                 return $translation;
             }
         }
 
-        return null;
+        return new \centigen\i18ncontent\models\PageTranslations();
     }
 
     /**

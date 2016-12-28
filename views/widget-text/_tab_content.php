@@ -1,22 +1,19 @@
 <?php
 
-/* @var $this yii\web\View */
 use yii\helpers\Url;
 
+/* @var $this yii\web\View */
+/* @var $language string */
 /* @var $model centigen\i18ncontent\models\WidgetTextLanguages */
 /* @var $form yii\bootstrap\ActiveForm */
 
-$namePrefix = 'WidgetTextLanguages';
-$nameSuffix = '';
-if (isset($language)) {
-    $nameSuffix = '[' . $language . ']';
-}
+$className = \yii\helpers\StringHelper::basename(\centigen\i18ncontent\models\WidgetTextLanguages::className());
 
 ?>
 
 <?php echo $form->field($model, 'title', [
     'inputOptions' => [
-        'name' => $namePrefix . '[title]' . $nameSuffix
+        'name' => "{$className}[$language][title]"
     ]
 ])->textInput(['maxlength' => 512]) ?>
 
@@ -24,7 +21,8 @@ if (isset($language)) {
     // More options, see http://imperavi.com/redactor/docs/
     'plugins' => ['fullscreen', 'fontcolor', 'video'],
     'htmlOptions' => [
-        'name' => $namePrefix . '[body]' . $nameSuffix
+        'name' => "{$className}[$language][body]",
+        'value' => $model->getBody()
     ],
     'options' => [
         'minHeight' => 400,
