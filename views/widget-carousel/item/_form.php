@@ -6,6 +6,7 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model centigen\i18ncontent\models\WidgetCarouselItem */
+/* @var $carousel centigen\i18ncontent\models\WidgetCarousel */
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $translations array */
 ?>
@@ -14,7 +15,11 @@ use yii\helpers\Html;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?php echo $form->errorSummary($model) ?>
+    <?php echo $form->errorSummary($model, ['class' => 'alert alert-danger']) ?>
+
+    <?php echo $form->field($model, 'carousel_id', [
+        'template' => '{input}',
+    ])->hiddenInput(['value' => $carousel->id]) ?>
 
     <?php echo $form->field($model, 'image')->widget(
         \trntv\filekit\widget\Upload::className(),
@@ -34,16 +39,21 @@ use yii\helpers\Html;
         $ind = 0;
         foreach ($locales as $key => $locale) {
             $title = $locale;
+            $translationModel = $model->findTranslationByLocale($key);
+
             $content = $this->render('_tab_content', [
                 'form' => $form,
-                'model' => isset($translations) && is_array($translations) && isset($translations[$ind]) ?
-                                    $translations[$ind] : new \centigen\i18ncontent\models\WidgetCarouselItemLanguages(),
+                'model' => $translationModel,
                 'language' => $key,
             ]);
 
             $items[] = [
                 'label' => $title,
                 'content' => $content,
+                'headerOptions' => [
+                    'title' => $translationModel->hasErrors() ? Yii::t('i18ncontent', 'You have validation errors') : "",
+                    'class' => $translationModel->hasErrors() ? 'has-error' : ''
+                ],
                 'options' => [
                     'class' => 'fade' . ($ind++ === 0 ? ' in' : '')
                 ]

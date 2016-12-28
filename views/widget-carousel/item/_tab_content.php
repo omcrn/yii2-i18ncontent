@@ -1,16 +1,13 @@
 <?php
 
-/* @var $this yii\web\View */
 use yii\helpers\Url;
 
+/* @var $this yii\web\View */
+/* @var $language string */
 /* @var $model centigen\i18ncontent\models\WidgetCarouselItemLanguages */
 /* @var $form yii\bootstrap\ActiveForm */
 
-$namePrefix = 'WidgetCarouselItemLanguages';
-$nameSuffix = '';
-if (isset($language)) {
-    $nameSuffix = '[' . $language . ']';
-}
+$className = \yii\helpers\StringHelper::basename(\centigen\i18ncontent\models\WidgetCarouselItemLanguages::className());
 
 ?>
 
@@ -18,7 +15,7 @@ if (isset($language)) {
     \yii\imperavi\Widget::className(), [
         'plugins' => ['fullscreen', 'fontcolor', 'video'],
         'htmlOptions' => [
-            'name' => $namePrefix . '[caption]' . $nameSuffix
+            'name' => "{$className}[$language][caption]"
         ],
         'options' => [
             'minHeight' => 400,

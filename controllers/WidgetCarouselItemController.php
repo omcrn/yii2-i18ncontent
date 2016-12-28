@@ -5,7 +5,6 @@ namespace centigen\i18ncontent\controllers;
 use centigen\i18ncontent\helpers\BaseHelper;
 use centigen\i18ncontent\models\WidgetCarousel;
 use centigen\i18ncontent\models\WidgetCarouselItem;
-use centigen\i18ncontent\models\WidgetCarouselItemLanguages;
 use centigen\i18ncontent\web\Controller;
 use Yii;
 use yii\web\HttpException;
@@ -73,80 +72,42 @@ class WidgetCarouselItemController extends Controller
             throw new HttpException(400);
         }
 
-        $request = Yii::$app->request;
+        $model = new WidgetCarouselItem();
         $locales = BaseHelper::getAvailableLocales();
-        if ($request->post()) {
 
-            $carouselItem = $request->post('WidgetCarouselItem');
-            $languages = $request->post('WidgetCarouselItemLanguages');
-            $param = [
-                'carousel_id' => $carousel_id,
-                'image' => $carouselItem['image'],
-                'url' => $carouselItem['url'],
-                'status' => $carouselItem['status'],
-                'order' => $carouselItem['order'],
-                'translations' => []
-            ];
-
-            foreach ($locales as $loc => $locale) {
-                $param['translations'][] = [
-                    'caption' => $languages['caption'][$loc],
-                    'locale' => $loc,
-                ];
-            }
-//            \ChromePhp::log($param);
-//            return;
-            if (WidgetCarouselItem::saveWidget($param)) {
-                Yii::$app->getSession()->setFlash('alert', ['options' => ['class' => 'alert-success'], 'body' => Yii::t('i18ncontent', 'Carousel slide was successfully saved')]);
-                return $this->redirect(['widget-carousel/update', 'id' => $carousel_id]);
-            } else {
-                return $this->renderCreateForm($carousel);
-            }
-
-        } else {
-            return $this->renderCreateForm($carousel);
+        if ($model->load(Yii::$app->request->post(), null) && $model->save()) {
+            return $this->redirect(['widget-carousel/update', 'id' => $carousel_id]);
         }
+        return $this->render('create', [
+            'model' => $model,
+            'locales' => $locales,
+            'carousel' => $carousel
+        ]);
+
     }
 
     /**
      * Updates an existing WidgetCarouselItem model.
-     * If update is successful, the browser will be redirected to the 'view' page.
+     * If update is successful, the browser will be redirected to the carousel update page
      * @param integer $id
      * @return mixed
      */
     public function actionUpdate($id)
     {
-        $widget = $this->findModel($id);
-        $translations = $widget->translations;
+        $model = $this->findModel($id);
+        $carousel = $model->carousel;
 
-        $request = Yii::$app->request;
         $locales = BaseHelper::getAvailableLocales();
-        if ($request->post()) {
 
-            $carouselItem = $request->post('WidgetCarouselItem');
-            $languages = $request->post('WidgetCarouselItemLanguages');
-            $param = [
-                'image' => $carouselItem['image'],
-                'url' => $carouselItem['url'],
-                'status' => $carouselItem['status'],
-                'order' => $carouselItem['order'],
-                'translations' => []
-            ];
-
-            foreach ($locales as $loc => $locale) {
-                $param['translations'][$loc] = $languages['caption'][$loc];
-            }
-
-            if (WidgetCarouselItem::updateWidget($widget, $translations, $param)) {
-                Yii::$app->getSession()->setFlash('alert', ['options' => ['class' => 'alert-success'], 'body' => Yii::t('i18ncontent', 'Carousel slide was successfully saved')]);
-                return $this->redirect(['widget-carousel/update', 'id' => $widget->carousel_id]);
-            } else {
-                return $this->renderUpdateForm($widget, $translations);
-            }
-
-        } else {
-            return $this->renderUpdateForm($widget, $translations);
+        if ($model->load(Yii::$app->request->post(), null) && $model->save()) {
+            return $this->redirect(['widget-carousel/update', 'id' => $model->carousel_id]);
         }
+
+        return $this->render('update', [
+            'model' => $model,
+            'locales' => $locales,
+            'carousel' => $carousel
+        ]);
     }
 
     /**
@@ -180,36 +141,4 @@ class WidgetCarouselItemController extends Controller
         }
     }
 
-    /**
-     * Render WidgetCarouselItem form
-     *
-     * @author zura
-     * @param WidgetCarousel $carousel
-     * @return string
-     */
-    protected function renderCreateForm(WidgetCarousel $carousel)
-    {
-        return $this->render('create', [
-            'model' => new WidgetCarouselItem(),
-            'carousel' => $carousel,
-            'locales' => BaseHelper::getAvailableLocales()
-        ]);
-    }
-
-    /**
-     * Render update form with information to update
-     *
-     * @author zura
-     * @param WidgetCarouselItem $widget
-     * @param WidgetCarouselItemLanguages[] $translations
-     * @return string
-     */
-    protected function renderUpdateForm(WidgetCarouselItem $widget, $translations)
-    {
-        return $this->render('update', [
-            'model' => $widget,
-            'translations' => $translations,
-            'locales' => BaseHelper::getAvailableLocales()
-        ]);
-    }
 }

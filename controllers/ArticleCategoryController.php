@@ -95,8 +95,6 @@ class ArticleCategoryController extends Controller
             return $this->redirect(['index']);
         }
 
-        $model->newTranslations = $model->translations;
-
         return $this->render('update', [
             'model' => $model,
             'categories' => $articleCategories,

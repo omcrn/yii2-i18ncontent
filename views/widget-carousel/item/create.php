@@ -16,7 +16,8 @@ $this->params['breadcrumbs'][] = Yii::t('i18ncontent', 'Create');
 
     <?php echo $this->render('_form', [
         'model' => $model,
-        'locales' => $locales
+        'locales' => $locales,
+        'carousel' => $carousel
     ]) ?>
 
 </div>

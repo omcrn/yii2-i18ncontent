@@ -1,8 +1,8 @@
 <?php
 
 /* @var $this yii\web\View */
+/* @var $carousel centigen\i18ncontent\models\WidgetCarousel */
 /* @var $model centigen\i18ncontent\models\WidgetCarouselItem */
-/* @var $translations centigen\i18ncontent\models\WidgetCarouselItemLanguages */
 /* @var $locales array */
 
 $this->title = Yii::t('i18ncontent', 'Update {modelClass}: ', [
@@ -16,8 +16,8 @@ $this->params['breadcrumbs'][] = Yii::t('i18ncontent', 'Update');
 
     <?php echo $this->render('_form', [
         'model' => $model,
-        'translations' => $translations,
-        'locales' => $locales
+        'locales' => $locales,
+        'carousel' => $carousel
     ]) ?>
 
 </div>

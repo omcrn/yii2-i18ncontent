@@ -258,6 +258,6 @@ class Article extends TranslatableModel
 
 	public function getThumbnailPath()
     {
-        return Yii::getAlias('@storageUrl') . '/source/'.$this->thumbnail_path;
+        return Yii::getAlias('@storageUrl') . '/source/'.ltrim($this->thumbnail_path, '/');
     }
 }
