@@ -6,7 +6,6 @@ use centigen\i18ncontent\models\query\ArticleCategoryQuery;
 use Yii;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
-use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "article_category".
@@ -21,7 +20,7 @@ use yii\helpers\ArrayHelper;
  * @property ArticleCategoryTranslations $activeTranslation
  * @property ArticleCategoryTranslations[] $translations
  */
-class ArticleCategory extends \yii\db\ActiveRecord
+class ArticleCategory extends TranslatableModel
 {
     const STATUS_ACTIVE = 1;
     const STATUS_DRAFT = 0;
@@ -33,6 +32,10 @@ class ArticleCategory extends \yii\db\ActiveRecord
      * @var ArticleCategoryTranslations[]
      */
     public $newTranslations = [];
+
+    public static $translateModelForeignKey = 'article_category_id';
+
+    public static $translateModel = ArticleCategoryTranslations::class;
 
     /**
      * @inheritdoc
@@ -147,99 +150,6 @@ class ArticleCategory extends \yii\db\ActiveRecord
     public function getChildCategories()
     {
         return $this->hasMany(ArticleCategory::className(), ['parent_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getTranslations()
-    {
-        return $this->hasMany(ArticleCategoryTranslations::className(), ['article_category_id' => 'id']);
-    }
-
-    public function getActiveTranslation()
-    {
-        return $this->hasOne(ArticleCategoryTranslations::className(), ['article_category_id' => 'id'])->where([
-            'locale' => Yii::$app->language
-        ]);
-    }
-
-    /**
-     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
-     * @inheritdoc
-     */
-    public function load($postData, $formName = null)
-    {
-        if (!parent::load($postData, $formName)) {
-            return false;
-        }
-
-        $className = \yii\helpers\StringHelper::basename(\centigen\i18ncontent\models\ArticleCategoryTranslations::className());
-        $translations = ArrayHelper::getValue($postData, $className);
-        $this->newTranslations = [];
-
-        $allValid = true;
-        foreach ($translations as $loc => $modelData) {
-            $modelData['locale'] = $loc;
-            if (Yii::$app->language == $loc) {
-                $this->title = $modelData['title'];
-            }
-            $translation = $this->findTranslationByLocale($loc);
-
-            $this->newTranslations[] = $translation;
-            if (!$translation->load($modelData, '')) {
-                $allValid = false;
-            }
-        }
-
-        return $allValid;
-    }
-
-    /**
-     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
-     * @inheritdoc
-     */
-    public function save($runValidation = true, $attributeNames = null)
-    {
-        $transaction = Yii::$app->db->beginTransaction();
-        if (!$this->validate() || !parent::save($runValidation, $attributeNames)) {
-            return false;
-        }
-
-        $allSaved = true;
-        foreach ($this->newTranslations as $translation) {
-            $translation->article_category_id = $this->id;
-            if (!$translation->save()) {
-                $allSaved = false;
-            }
-        }
-
-        if ($allSaved) {
-            $transaction->commit();
-        } else {
-            $transaction->rollBack();
-        }
-
-        return $allSaved;
-    }
-
-    /**
-     * Find ArticleCategoryTranslations object from `translations` array by locale
-     *
-     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
-     * @param $locale
-     * @return ArticleCategoryTranslations|null
-     */
-    public function findTranslationByLocale($locale)
-    {
-        $translations = array_merge($this->newTranslations, $this->translations);
-        foreach ($translations as $translation) {
-            if ($translation->locale === $locale) {
-                return $translation;
-            }
-        }
-
-        return new \centigen\i18ncontent\models\ArticleCategoryTranslations();
     }
 
     /**
