@@ -48,4 +48,12 @@ class ArticleCategoryQuery extends ActiveQuery
     {
         return parent::all($db);
     }
+
+    /**
+     * @param $slug
+     * @return $this
+     */
+    public function bySlug($slug){
+        return $this->andWhere(['{{%article_category}}.slug' => $slug]);
+    }
 }
