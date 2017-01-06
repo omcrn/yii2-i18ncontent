@@ -16,6 +16,14 @@ class ArticleQuery extends ActiveQuery
     }
 
     /**
+     * @param $categoryId
+     * @return $this
+     */
+    public function byCategoryId($categoryId){
+        return $this->andWhere(['{{%article}}.category_id' => $categoryId]);
+    }
+
+    /**
      * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
      * @param null $bd
      * @return array|Article|mixed|null|\yii\db\ActiveRecord
