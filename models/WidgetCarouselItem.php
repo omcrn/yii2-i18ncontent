@@ -73,7 +73,7 @@ class WidgetCarouselItem extends TranslatableModel
                 'class' => UploadBehavior::className(),
                 'attribute' => 'image',
                 'pathAttribute' => 'path',
-                'baseUrlAttribute' => 'base_url',
+                'baseUrlAttribute' => null,
                 'typeAttribute' => 'type'
             ],
             'cacheInvalidate'=>[

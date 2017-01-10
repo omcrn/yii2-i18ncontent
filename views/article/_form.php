@@ -41,7 +41,8 @@ use yii\bootstrap\ActiveForm;
                 'content' => $content,
                 'headerOptions' => [
                     'title' => $translationModel->hasErrors() ? Yii::t('i18ncontent', 'You have validation errors') : "",
-                    'class' => $translationModel->hasErrors() ? 'has-error' : ''
+                    'class' => $translationModel->hasErrors() ? 'has-error' : '',
+                    'data-toggle' => 'tooltip'
                 ],
                 'options' => [
                     'class' => 'fade' . ($ind++ === 0 ? ' in' : '')

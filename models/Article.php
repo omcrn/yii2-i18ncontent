@@ -105,7 +105,7 @@ class Article extends TranslatableModel
                 'multiple' => true,
                 'uploadRelation' => 'articleAttachments',
                 'pathAttribute' => 'path',
-                'baseUrlAttribute' => 'base_url',
+                'baseUrlAttribute' => null,
                 'typeAttribute' => 'type',
                 'sizeAttribute' => 'size',
                 'nameAttribute' => 'name',
@@ -114,7 +114,7 @@ class Article extends TranslatableModel
                 'class' => UploadBehavior::className(),
                 'attribute' => 'thumbnail',
                 'pathAttribute' => 'thumbnail_path',
-                'baseUrlAttribute' => 'thumbnail_base_url'
+                'baseUrlAttribute' => null
             ]
         ];
     }
@@ -256,8 +256,11 @@ class Article extends TranslatableModel
         return $this->activeTranslation ? $this->activeTranslation->getBody() : '';
     }
 
-	public function getThumbnailPath()
+	public function getThumbnailUrl()
     {
-        return Yii::getAlias('@storageUrl') . '/source/'.ltrim($this->thumbnail_path, '/');
+        if ($this->thumbnail_path){
+            return Yii::getAlias('@storageUrl') . '/source/'.ltrim($this->thumbnail_path, '/');
+        }
+        return null;
     }
 }
