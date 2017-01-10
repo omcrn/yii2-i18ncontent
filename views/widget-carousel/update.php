@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = Yii::t('i18ncontent', 'Update');
                 'format' => 'raw',
                 'value' => function ($model) {
                     /* @var $model \centigen\i18ncontent\models\WidgetCarouselItem */
-                    return $model->path ? Html::img($model->getImageUrl(), ['style' => 'width: 100%']) : null;
+                    return $model->path ? Html::img($model->getImageUrl(), ['style' => 'width: 200px;']) : null;
                 }
             ],
             'url:url',
