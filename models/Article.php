@@ -105,7 +105,7 @@ class Article extends TranslatableModel
                 'multiple' => true,
                 'uploadRelation' => 'articleAttachments',
                 'pathAttribute' => 'path',
-                'baseUrlAttribute' => 'base_url',
+                'baseUrlAttribute' => null,
                 'typeAttribute' => 'type',
                 'sizeAttribute' => 'size',
                 'nameAttribute' => 'name',
@@ -114,7 +114,7 @@ class Article extends TranslatableModel
                 'class' => UploadBehavior::className(),
                 'attribute' => 'thumbnail',
                 'pathAttribute' => 'thumbnail_path',
-                'baseUrlAttribute' => 'thumbnail_base_url'
+                'baseUrlAttribute' => null
             ]
         ];
     }
