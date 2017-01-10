@@ -256,8 +256,11 @@ class Article extends TranslatableModel
         return $this->activeTranslation ? $this->activeTranslation->getBody() : '';
     }
 
-	public function getThumbnailPath()
+	public function getThumbnailUrl()
     {
-        return Yii::getAlias('@storageUrl') . '/source/'.ltrim($this->thumbnail_path, '/');
+        if ($this->thumbnail_path){
+            return Yii::getAlias('@storageUrl') . '/source/'.ltrim($this->thumbnail_path, '/');
+        }
+        return null;
     }
 }
