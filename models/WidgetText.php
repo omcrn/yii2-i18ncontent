@@ -34,6 +34,8 @@ class WidgetText extends TranslatableModel
 
     public static $translateModel = WidgetTextLanguages::class;
 
+    public $title = null;
+
     /**
      * @inheritdoc
      */
