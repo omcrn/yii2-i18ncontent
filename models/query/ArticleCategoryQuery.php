@@ -60,6 +60,6 @@ class ArticleCategoryQuery extends ActiveQuery
 
     public function byParentId($id)
     {
-        return $this->andWhere(['parent_id'=>$id]);
+        return $this->andWhere(['{{%article_category}}.parent_id'=>$id]);
     }
 }
