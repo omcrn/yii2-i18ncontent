@@ -53,7 +53,13 @@ class ArticleCategoryQuery extends ActiveQuery
      * @param $slug
      * @return $this
      */
-    public function bySlug($slug){
+    public function bySlug($slug)
+    {
         return $this->andWhere(['{{%article_category}}.slug' => $slug]);
+    }
+
+    public function byParentId($id)
+    {
+        return $this->andWhere(['{{%article_category}}.parent_id'=>$id]);
     }
 }
