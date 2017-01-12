@@ -128,6 +128,6 @@ class WidgetText extends TranslatableModel
 
     public function getBody()
     {
-        return $this->activeTranslation ? $this->activeTranslation->body : '';
+        return $this->activeTranslation ? $this->activeTranslation->getBody() : '';
     }
 }
