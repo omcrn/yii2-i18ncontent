@@ -1,7 +1,14 @@
 @import "tabs";
 
-.table-wrapper{
-    table>thead>tr>th{
-        white-space: nowrap;
+.table-wrapper {
+  table > thead > tr > th {
+    white-space: nowrap;
+  }
+  &.article-index {
+    table {
+      > tbody > tr > td {
+        width: 160px;
+      }
     }
+  }
 }

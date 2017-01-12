@@ -12,34 +12,48 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="article-index table-wrapper">
 
-<!--    --><?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
     <p>
-        <?php echo Html::a(
+        <?php
+        echo Html::a(
             Yii::t('i18ncontent', 'Create {modelClass}', ['modelClass' => 'Article']),
             ['create'],
-            ['class' => 'btn btn-success']) ?>
+            ['class' => 'btn btn-success'])
+        ?>
     </p>
 
-    <?php echo GridView::widget([
+    <?php
+    echo GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
 
-            'id',
-            'slug',
+            [
+                'attribute' => 'id',
+                'contentOptions' => [
+                    'style' => 'width: 100px'
+                ]
+            ],
+            [
+                'attribute' => 'slug',
+                'contentOptions' => [
+                    'style' => 'width: auto'
+                ]
+            ],
             [
                 'attribute' => 'title',
                 'value' => function ($model) {
                     return $model->activeTranslation ? $model->activeTranslation->title : "";
-                }
+                },
+                'contentOptions' => [
+                    'style' => 'width: auto'
+                ]
             ],
             [
                 'attribute' => 'category_id',
                 'value' => function ($model) {
                     return $model->category ? $model->category->activeTranslation->title : null;
                 },
-                'filter' => \centigen\i18ncontent\models\ArticleCategory::getCategories()
+                'filter' => \centigen\i18ncontent\models\ArticleCategory::getCategories(),
             ],
             [
                 'attribute' => 'author',
@@ -68,7 +82,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{update} {delete}'
+                'template' => '{update} {delete}',
+                'contentOptions' => [
+                    'style' => 'width: 80px'
+                ]
             ]
         ]
     ]); ?>
