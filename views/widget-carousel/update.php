@@ -29,27 +29,43 @@ $this->params['breadcrumbs'][] = Yii::t('i18ncontent', 'Update');
     <?php echo GridView::widget([
         'dataProvider' => $carouselItemsProvider,
         'columns' => [
-            'order',
+            [
+                'attribute' => 'order',
+                'contentOptions' => [
+                    'style' => 'width: 50px;'
+                ]
+            ],
             [
                 'attribute' => 'path',
                 'format' => 'raw',
                 'value' => function ($model) {
                     /* @var $model \centigen\i18ncontent\models\WidgetCarouselItem */
-                    return $model->path ? Html::img($model->getImageUrl(), ['style' => 'width: 200px;']) : null;
-                }
+                    return $model->path ? Html::img($model->getImageUrl(), ['class' => 'img-responsive']) : null;
+                },
+                'contentOptions' => [
+                    'style' => 'width: 200px;'
+                ]
             ],
-            'url:url',
+            [
+                'attribute' => 'url',
+                'format' => ['url']
+            ],
             [
                 'format' => 'html',
                 'attribute' => 'activeTranslation.caption',
-                'options' => ['style' => 'width: 20%']
             ],
-            'status',
+            [
+                'attribute' => 'status',
+                'contentOptions' => ['style' => 'width: 50px']
+            ],
 
             [
                 'class' => 'yii\grid\ActionColumn',
                 'controller' => 'widget-carousel-item',
-                'template' => '{update} {delete}'
+                'template' => '{update} {delete}',
+                'contentOptions' => [
+                    'style' => 'width: 50px'
+                ]
             ],
         ],
     ]); ?>
