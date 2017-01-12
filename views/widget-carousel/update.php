@@ -56,6 +56,7 @@ $this->params['breadcrumbs'][] = Yii::t('i18ncontent', 'Update');
             ],
             [
                 'attribute' => 'status',
+                'format' => ['statusLabel'],
                 'contentOptions' => ['style' => 'width: 50px']
             ],
 

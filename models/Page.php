@@ -103,7 +103,7 @@ class Page extends TranslatableModel
             'id' => Yii::t('i18ncontent', 'ID'),
             'slug' => Yii::t('i18ncontent', 'Slug'),
             'view' => Yii::t('i18ncontent', 'Page View'),
-            'status' => Yii::t('i18ncontent', 'Active'),
+            'status' => Yii::t('i18ncontent', 'Status'),
             'author_id' => Yii::t('i18ncontent', 'Author'),
             'updater_id' => Yii::t('i18ncontent', 'Updater'),
             'created_at' => Yii::t('i18ncontent', 'Created At'),

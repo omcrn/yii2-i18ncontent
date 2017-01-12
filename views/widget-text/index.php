@@ -36,9 +36,10 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'class' => \centigen\base\grid\EnumColumn::className(),
                 'attribute' => 'status',
+                'format' => ['statusLabel'],
                 'enum' => [
-                    Yii::t('i18ncontent', 'Disabled'),
-                    Yii::t('i18ncontent', 'Enabled')
+                    Yii::t('i18ncontent', 'Inactive'),
+                    Yii::t('i18ncontent', 'Active')
                 ],
             ],
             'created_at:datetime',

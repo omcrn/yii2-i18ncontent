@@ -66,7 +66,7 @@ class WidgetCarousel extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('i18ncontent', 'ID'),
             'key' => Yii::t('i18ncontent', 'Key'),
-            'status' => Yii::t('i18ncontent', 'Active'),
+            'status' => Yii::t('i18ncontent', 'Status'),
         ];
     }
 

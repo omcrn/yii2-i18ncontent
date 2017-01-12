@@ -33,14 +33,22 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->activeTranslation ? $model->activeTranslation->title : "";
                 }
             ],
-            'status',
+            [
+                'class' => \centigen\base\grid\EnumColumn::className(),
+                'attribute' => 'status',
+                'format' => ['statusLabel'],
+                'enum' => [
+                    Yii::t('i18ncontent', 'Inactive'),
+                    Yii::t('i18ncontent', 'Active')
+                ],
+            ],
             [
                 'attribute' => 'parent.activeTranslation.title',
                 'label' => Yii::t('backend', 'Parent category')
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template'=>'{update} {delete}'
+                'template' => '{update} {delete}'
             ],
         ],
     ]); ?>

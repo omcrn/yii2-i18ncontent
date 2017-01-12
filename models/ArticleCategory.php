@@ -124,7 +124,7 @@ class ArticleCategory extends TranslatableModel
             'slug' => Yii::t('i18ncontent', 'Slug'),
             'view' => Yii::t('i18ncontent', 'View'),
             'parent_id' => Yii::t('i18ncontent', 'Parent Category'),
-            'status' => Yii::t('i18ncontent', 'Active')
+            'status' => Yii::t('i18ncontent', 'Status')
         ];
     }
 

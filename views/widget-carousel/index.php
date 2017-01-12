@@ -28,14 +28,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'key',
             [
-                'class'=>EnumColumn::className(),
-                'attribute'=>'status',
-                'enum'=>[
-                    Yii::t('i18ncontent', 'Disabled'),
-                    Yii::t('i18ncontent', 'Enabled')
+                'class' => \centigen\base\grid\EnumColumn::className(),
+                'attribute' => 'status',
+                'format' => ['statusLabel'],
+                'enum' => [
+                    Yii::t('i18ncontent', 'Inactive'),
+                    Yii::t('i18ncontent', 'Active')
                 ],
             ],
-
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template'=>'{update} {delete}'
