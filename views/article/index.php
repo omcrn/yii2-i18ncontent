@@ -55,6 +55,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     Yii::t('i18ncontent', 'Published')
                 ]
             ],
+            [
+                'attribute' => 'position',
+                'contentOptions' => [
+                    'style' => 'width: 120px'
+                ]
+            ],
             'published_at:datetime',
             'created_at:datetime',
 
