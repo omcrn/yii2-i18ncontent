@@ -68,4 +68,13 @@ class ArticleQuery extends ActiveQuery
         }
         return $this->andWhere(['ac.slug' => $categorySlug]);
     }
+
+    /**
+     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
+     * @return self
+     */
+    public function orderByPosition()
+    {
+        return $this->orderBy(['{{%article}}.position' => SORT_ASC]);
+    }
 }
