@@ -22,7 +22,7 @@ class m150814_064233_page extends Migration
             'updated_at' => Schema::TYPE_INTEGER,
         ], $tableOptions);
 
-        $this->createTable('{{%page_translations}}', [
+        $this->createTable('{{%page_translation}}', [
             'id' => $this->primaryKey(11),
             'page_id' => $this->integer(11)->notNull(),
             'locale' => $this->string(15)->notNull(),
@@ -40,14 +40,14 @@ class m150814_064233_page extends Migration
             'updated_at' => time(),
         ]);
 
-        $this->insert('{{%page_translations}}', [
+        $this->insert('{{%page_translation}}', [
             'page_id' => 1,
             'locale' => 'en-US',
             'title' => 'About us',
             'body' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sagittis, turpis sit amet molestie elementum, ante tortor vehicula risus, et finibus ipsum magna et ipsum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Praesent erat lacus, facilisis eget vestibulum in, consequat in purus. Mauris venenatis non augue vitae auctor. Suspendisse eu erat et tortor condimentum accumsan. Pellentesque orci tortor, dapibus a sodales sed, mollis ut tellus. Sed dapibus diam non diam pharetra, at varius ipsum efficitur. Fusce congue ipsum ante. Fusce ipsum metus, posuere eget vestibulum at, hendrerit vel odio.'
         ]);
 
-        $this->insert('{{%page_translations}}', [
+        $this->insert('{{%page_translation}}', [
             'page_id' => 1,
             'locale' => 'ru-RU',
             'title' => 'О нас',
@@ -55,15 +55,15 @@ class m150814_064233_page extends Migration
         ]);
 
         if ($this->db->driverName === 'mysql') {
-            $this->createIndex('IDX_page_translations_page_id', '{{%page_translations}}', 'page_id');
-            $this->addForeignKey('FK_page_translations_page_id', '{{%page_translations}}', 'page_id', '{{%page}}', 'id', 'cascade', 'cascade');
+            $this->createIndex('IDX_page_translation_page_id', '{{%page_translation}}', 'page_id');
+            $this->addForeignKey('FK_page_translation_page_id', '{{%page_translation}}', 'page_id', '{{%page}}', 'id', 'cascade', 'cascade');
         }
     }
 
     public function safeDown()
     {
-        $this->dropForeignKey('FK_page_translations_page_id', '{{%page_translations}}');
-        $this->dropTable('{{%page_translations}}');
+        $this->dropForeignKey('FK_page_translation_page_id', '{{%page_translation}}');
+        $this->dropTable('{{%page_translation}}');
         $this->dropTable('{{%page}}');
     }
 

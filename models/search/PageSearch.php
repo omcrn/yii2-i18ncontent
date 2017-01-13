@@ -3,6 +3,7 @@
 namespace centigen\i18ncontent\models\search;
 
 use centigen\i18ncontent\models\Page;
+use centigen\i18ncontent\models\PageTranslation;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -43,7 +44,7 @@ class PageSearch extends Page
     {
         $query = Page::find()
             ->from(self::tableName().' p')
-            ->innerJoin('{{%page_translations}} t', 't.page_id = p.id and t.locale = :locale', ['locale' => Yii::$app->language]);
+            ->innerJoin(PageTranslation::tableName().' t', 't.page_id = p.id and t.locale = :locale', ['locale' => Yii::$app->language]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

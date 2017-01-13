@@ -6,7 +6,7 @@ use centigen\i18ncontent\helpers\Html;
 use Yii;
 
 /**
- * This is the model class for table "page_translations".
+ * This is the model class for table "page_translation".
  *
  * @property integer $id
  * @property integer $page_id
@@ -27,7 +27,7 @@ class PageTranslation extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%page_translations}}';
+        return '{{%page_translation}}';
     }
 
     /**
