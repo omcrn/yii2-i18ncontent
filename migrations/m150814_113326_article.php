@@ -57,7 +57,7 @@ class m150814_113326_article extends Migration
             'body' => $this->text()
         ], $tableOptions);
 
-        $this->createTable('{{%article_translations}}', [
+        $this->createTable(\centigen\i18ncontent\models\ArticleTranslation::tableName(), [
             'id' => $this->primaryKey(11),
             'article_id' => $this->integer(11)->notNull(),
             'locale' => $this->string(15)->notNull(),
@@ -67,8 +67,8 @@ class m150814_113326_article extends Migration
 
         $this->createIndex('IDX_article_category_translation_article_category_id', \centigen\i18ncontent\models\ArticleCategoryTranslation::tableName(), 'article_category_id');
         $this->addForeignKey('FK_article_category_translation_article_category_id', \centigen\i18ncontent\models\ArticleCategoryTranslation::tableName(), 'article_category_id', '{{%article_category}}', 'id', 'cascade', 'cascade');
-        $this->createIndex('IDX_article_translations_article_id', '{{%article_translations}}', 'article_id');
-        $this->addForeignKey('FK_article_translations_article_id', '{{%article_translations}}', 'article_id', '{{%article}}', 'id', 'cascade', 'cascade');
+        $this->createIndex('IDX_article_translation_article_id', \centigen\i18ncontent\models\ArticleTranslation::tableName(), 'article_id');
+        $this->addForeignKey('FK_article_translation_article_id', \centigen\i18ncontent\models\ArticleTranslation::tableName(), 'article_id', '{{%article}}', 'id', 'cascade', 'cascade');
 
         $this->insert('{{%article_category}}', [
             'slug' => 'news',
@@ -94,13 +94,13 @@ class m150814_113326_article extends Migration
     public function safeDown()
     {
         $this->dropForeignKey('FK_article_category_translation_article_category_id', \centigen\i18ncontent\models\ArticleCategoryTranslation::tableName());
-        $this->dropForeignKey('FK_article_translations_article_id', '{{%article_translations}}');
+        $this->dropForeignKey('FK_article_translation_article_id', \centigen\i18ncontent\models\ArticleTranslation::tableName());
         $this->dropForeignKey('fk_article_author', '{{%article}}');
         $this->dropForeignKey('fk_article_updater', '{{%article}}');
         $this->dropForeignKey('fk_article_category', '{{%article}}');
         $this->dropForeignKey('fk_article_category_section', '{{%article_category}}');
 
-        $this->dropTable('{{%article_translations}}');
+        $this->dropTable(\centigen\i18ncontent\models\ArticleTranslation::tableName());
         $this->dropTable(\centigen\i18ncontent\models\ArticleCategoryTranslation::tableName());
         $this->dropTable('{{%article}}');
         $this->dropTable('{{%article_category}}');
