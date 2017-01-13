@@ -2,6 +2,7 @@
 
 namespace centigen\i18ncontent\models\search;
 
+use centigen\i18ncontent\models\ArticleTranslation;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -48,7 +49,7 @@ class ArticleSearch extends Article
 //        \ChromePhp::log($params);
         $query = Article::find();
         $query->from('{{%article}} a');
-        $query->innerJoin('{{%article_translations}} at', 'at.article_id = a.id AND at.locale = :locale', ['locale' => Yii::$app->language]);
+        $query->innerJoin(ArticleTranslation::tableName().'at', 'at.article_id = a.id AND at.locale = :locale', ['locale' => Yii::$app->language]);
         $query->innerJoin('{{%user}} u', 'u.id = a.author_id');
 
         $dataProvider = new ActiveDataProvider([
@@ -103,7 +104,7 @@ class ArticleSearch extends Article
         $query = Article::find();
         $query->from('{{%article}} a');
 //        $query->innerJoin('article_category', 'article_category.id = a.category_id');
-        $query->innerJoin('{{%article_translations}} at', 'at.article_id = a.id AND at.locale = :locale', ['locale' => Yii::$app->language]);
+        $query->innerJoin(ArticleTranslation::tableName().' at', 'at.article_id = a.id AND at.locale = :locale', ['locale' => Yii::$app->language]);
         $query->innerJoin('{{%user}} u', 'u.id = a.author_id');
 
         $dataProvider = new ActiveDataProvider([
