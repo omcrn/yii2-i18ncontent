@@ -33,7 +33,7 @@ class WidgetTextLanguages extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['widget_text_id', 'title', 'body', 'locale'], 'required'],
+            [['widget_text_id', 'locale'], 'required'],
             [['widget_text_id'], 'integer'],
             [['body'], 'string'],
             [['title'], 'string', 'max' => 512],
