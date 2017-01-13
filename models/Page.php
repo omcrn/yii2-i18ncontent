@@ -22,8 +22,8 @@ use yii\db\ActiveQuery;
  *
  * @property string $title
  * @property string $body
- * @property PageTranslations[] $translations
- * @property PageTranslations $activeTranslation
+ * @property PageTranslation[] $translations
+ * @property PageTranslation $activeTranslation
  */
 class Page extends TranslatableModel
 {
@@ -34,13 +34,13 @@ class Page extends TranslatableModel
 
     /**
      * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
-     * @var PageTranslations[]
+     * @var PageTranslation[]
      */
     public $newTranslations = [];
 
     public static $translateModelForeignKey = 'page_id';
 
-    public static $translateModel = PageTranslations::class;
+    public static $translateModel = PageTranslation::class;
 
     /**
      * @inheritdoc

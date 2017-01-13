@@ -19,7 +19,7 @@ use Yii;
  *
  * @property Page $page
  */
-class PageTranslations extends \yii\db\ActiveRecord
+class PageTranslation extends \yii\db\ActiveRecord
 {
 
     /**

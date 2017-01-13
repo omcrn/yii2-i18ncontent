@@ -4,10 +4,10 @@ use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $language string */
-/* @var $model centigen\i18ncontent\models\PageTranslations */
+/* @var $model centigen\i18ncontent\models\PageTranslation */
 /* @var $form yii\bootstrap\ActiveForm */
 
-$className = \yii\helpers\StringHelper::basename(\centigen\i18ncontent\models\PageTranslations::className());
+$className = \yii\helpers\StringHelper::basename(\centigen\i18ncontent\models\PageTranslation::className());
 
 ?>
 
