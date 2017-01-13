@@ -15,10 +15,13 @@ var less = require('gulp-less');
  *  Default task clean temporaries directories and launch the
  *  main optimization build task
  */
-gulp.task('default', function () {
-  gulp.watch('assets/less/**/*.less', ['default']);
-
+gulp.task('less', function () {
   return gulp.src('assets/less/main.less')
     .pipe(less()) // Using gulp-less
     .pipe(gulp.dest('assets/css/'))
+});
+
+gulp.task('default', function () {
+  gulp.start('less');
+  gulp.watch('assets/less/**/*.less', ['less']);
 });
