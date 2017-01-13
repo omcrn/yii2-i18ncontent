@@ -15,7 +15,7 @@ use Yii;
  *
  * @property ArticleCategory $articleCategory
  */
-class ArticleCategoryTranslations extends \yii\db\ActiveRecord
+class ArticleCategoryTranslation extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
