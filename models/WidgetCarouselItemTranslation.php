@@ -16,8 +16,9 @@ use Yii;
  * @property integer $updated_at
  * @property WidgetCarouselItem $widgetCarouselItem
  */
-class WidgetCarouselItemLanguages extends \yii\db\ActiveRecord
+class WidgetCarouselItemTranslation extends \yii\db\ActiveRecord
 {
+
 
     /**
      * @inheritdoc

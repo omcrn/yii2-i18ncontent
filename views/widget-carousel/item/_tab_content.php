@@ -4,10 +4,10 @@ use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $language string */
-/* @var $model centigen\i18ncontent\models\WidgetCarouselItemLanguages */
+/* @var $model centigen\i18ncontent\models\WidgetCarouselItemTranslation */
 /* @var $form yii\bootstrap\ActiveForm */
 
-$className = \yii\helpers\StringHelper::basename(\centigen\i18ncontent\models\WidgetCarouselItemLanguages::className());
+$className = \yii\helpers\StringHelper::basename(\centigen\i18ncontent\models\WidgetCarouselItemTranslation::className());
 
 ?>
 

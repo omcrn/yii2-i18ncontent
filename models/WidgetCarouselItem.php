@@ -25,8 +25,8 @@ use yii\db\ActiveQuery;
  * @property integer $updated_at
  *
  * @property WidgetCarousel $carousel
- * @property WidgetCarouselItemLanguages[] $translations
- * @property WidgetCarouselItemLanguages $activeTranslation
+ * @property WidgetCarouselItemTranslation[] $translations
+ * @property WidgetCarouselItemTranslation $activeTranslation
  */
 class WidgetCarouselItem extends TranslatableModel
 {
@@ -38,7 +38,7 @@ class WidgetCarouselItem extends TranslatableModel
 
     public static $translateModelForeignKey = 'widget_carousel_item_id';
 
-    public static $translateModel = WidgetCarouselItemLanguages::class;
+    public static $translateModel = WidgetCarouselItemTranslation::class;
 
     /**
      * @inheritdoc
@@ -135,12 +135,12 @@ class WidgetCarouselItem extends TranslatableModel
      */
     public function getTranslations()
     {
-        return $this->hasMany(WidgetCarouselItemLanguages::className(), ['widget_carousel_item_id' => 'id']);
+        return $this->hasMany(WidgetCarouselItemTranslation::className(), ['widget_carousel_item_id' => 'id']);
     }
 
     public function getActiveTranslation()
     {
-        return $this->hasOne(WidgetCarouselItemLanguages::className(), ['widget_carousel_item_id' => 'id'])->where([
+        return $this->hasOne(WidgetCarouselItemTranslation::className(), ['widget_carousel_item_id' => 'id'])->where([
             'locale' => Yii::$app->language
         ]);
     }
