@@ -19,8 +19,8 @@ use yii\helpers\ArrayHelper;
  * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
  * @package omcrn\i18ncontent\models
  *
- * @property ActiveRecord|null      $activeTranslation
- * @property ActiveRecord[]|array   $translations
+ * @property ActiveRecord|null $activeTranslation
+ * @property ActiveRecord[]|array $translations
  */
 class TranslatableModel extends ActiveRecord
 {
@@ -64,21 +64,24 @@ class TranslatableModel extends ActiveRecord
         $this->newTranslations = [];
 
         $allValid = true;
-        foreach ($translations as $loc => $modelData) {
-            $modelData['locale'] = $loc;
-            if (isset($modelData['body'])) {
-                $modelData['body'] = Html::encodeMediaItemUrls($modelData['body']);
-            }
+        if(!empty($translations)){
+            foreach ($translations as $loc => $modelData) {
+                $modelData['locale'] = $loc;
+                if (isset($modelData['body'])) {
+                    $modelData['body'] = Html::encodeMediaItemUrls($modelData['body']);
+                }
 
-            if (Yii::$app->language === $loc && isset($modelData['title']) &&
-                ($this->hasAttribute('title') || $this->hasProperty('title'))) {
-                $this->title = $modelData['title'];
-            }
-            $translation = $this->findTranslationByLocale($loc);
+                if (Yii::$app->language === $loc && isset($modelData['title']) &&
+                    ($this->hasAttribute('title') || $this->hasProperty('title'))
+                ) {
+                    $this->title = $modelData['title'];
+                }
+                $translation = $this->findTranslationByLocale($loc);
 
-            $this->newTranslations[] = $translation;
-            if (!$translation->load($modelData, '')) {
-                $allValid = false;
+                $this->newTranslations[] = $translation;
+                if (!$translation->load($modelData, '')) {
+                    $allValid = false;
+                }
             }
         }
 
