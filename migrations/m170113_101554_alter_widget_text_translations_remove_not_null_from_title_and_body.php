@@ -6,8 +6,8 @@ class m170113_101554_alter_widget_text_translation_remove_not_null_from_title_an
 {
     public function up()
     {
-        $this->alterColumn('{{%widget_text_translation}}', 'title', 'string NULL');
-        $this->alterColumn('{{%widget_text_translation}}', 'body', 'text NULL');
+        $this->alterColumn(\centigen\i18ncontent\models\WidgetTextTranslation::tableName(), 'title', 'string NULL');
+        $this->alterColumn(\centigen\i18ncontent\models\WidgetTextTranslation::tableName(), 'body', 'text NULL');
     }
 
     public function down()

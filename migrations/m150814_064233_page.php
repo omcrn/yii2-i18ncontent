@@ -13,7 +13,7 @@ class m150814_064233_page extends Migration
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
 
-        $this->createTable('{{%page}}', [
+        $this->createTable(\centigen\i18ncontent\models\Page::tableName(), [
             'id' => Schema::TYPE_PK,
             'slug' => Schema::TYPE_STRING . '(2048) NOT NULL',
             'view' => Schema::TYPE_STRING . '(255)',
@@ -22,7 +22,7 @@ class m150814_064233_page extends Migration
             'updated_at' => Schema::TYPE_INTEGER,
         ], $tableOptions);
 
-        $this->createTable('{{%page_translation}}', [
+        $this->createTable(\centigen\i18ncontent\models\PageTranslation::tableName(), [
             'id' => $this->primaryKey(11),
             'page_id' => $this->integer(11)->notNull(),
             'locale' => $this->string(15)->notNull(),
@@ -33,21 +33,21 @@ class m150814_064233_page extends Migration
             'meta_description' => $this->string(512),
         ]);
 
-        $this->insert('{{%page}}', [
+        $this->insert(\centigen\i18ncontent\models\Page::tableName(), [
             'slug' => 'about',
             'status' => \centigen\i18ncontent\models\Page::STATUS_PUBLISHED,
             'created_at' => time(),
             'updated_at' => time(),
         ]);
 
-        $this->insert('{{%page_translation}}', [
+        $this->insert(\centigen\i18ncontent\models\PageTranslation::tableName(), [
             'page_id' => 1,
             'locale' => 'en-US',
             'title' => 'About us',
             'body' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sagittis, turpis sit amet molestie elementum, ante tortor vehicula risus, et finibus ipsum magna et ipsum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Praesent erat lacus, facilisis eget vestibulum in, consequat in purus. Mauris venenatis non augue vitae auctor. Suspendisse eu erat et tortor condimentum accumsan. Pellentesque orci tortor, dapibus a sodales sed, mollis ut tellus. Sed dapibus diam non diam pharetra, at varius ipsum efficitur. Fusce congue ipsum ante. Fusce ipsum metus, posuere eget vestibulum at, hendrerit vel odio.'
         ]);
 
-        $this->insert('{{%page_translation}}', [
+        $this->insert(\centigen\i18ncontent\models\PageTranslation::tableName(), [
             'page_id' => 1,
             'locale' => 'ru-RU',
             'title' => 'О нас',
@@ -55,16 +55,16 @@ class m150814_064233_page extends Migration
         ]);
 
         if ($this->db->driverName === 'mysql') {
-            $this->createIndex('IDX_page_translation_page_id', '{{%page_translation}}', 'page_id');
-            $this->addForeignKey('FK_page_translation_page_id', '{{%page_translation}}', 'page_id', '{{%page}}', 'id', 'cascade', 'cascade');
+            $this->createIndex('IDX_page_translation_page_id', \centigen\i18ncontent\models\PageTranslation::tableName(), 'page_id');
+            $this->addForeignKey('FK_page_translation_page_id', \centigen\i18ncontent\models\PageTranslation::tableName(), 'page_id', \centigen\i18ncontent\models\Page::tableName(), 'id', 'cascade', 'cascade');
         }
     }
 
     public function safeDown()
     {
-        $this->dropForeignKey('FK_page_translation_page_id', '{{%page_translation}}');
-        $this->dropTable('{{%page_translation}}');
-        $this->dropTable('{{%page}}');
+        $this->dropForeignKey('FK_page_translation_page_id', \centigen\i18ncontent\models\PageTranslation::tableName());
+        $this->dropTable(\centigen\i18ncontent\models\PageTranslation::tableName());
+        $this->dropTable(\centigen\i18ncontent\models\Page::tableName());
     }
 
 }

@@ -6,11 +6,11 @@ class m161226_153220_add_caption_column_to_carousel_item extends Migration
 {
     public function up()
     {
-        $this->addColumn('{{%widget_carousel_item}}', 'caption', $this->string(2048));
+        $this->addColumn(\centigen\i18ncontent\models\WidgetCarouselItem::tableName(), 'caption', $this->string(2048));
     }
 
     public function down()
     {
-        $this->dropColumn('{{%widget_carousel_item}}', 'caption');
+        $this->dropColumn(\centigen\i18ncontent\models\WidgetCarouselItem::tableName(), 'caption');
     }
 }

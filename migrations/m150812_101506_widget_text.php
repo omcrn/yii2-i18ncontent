@@ -12,7 +12,7 @@ class m150812_101506_widget_text extends Migration
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
 
-        $this->createTable('{{%widget_text}}', [
+        $this->createTable(\centigen\i18ncontent\models\WidgetText::tableName(), [
             'id' => Schema::TYPE_PK,
             'key' => Schema::TYPE_STRING . '(255) NOT NULL',
             'status' => Schema::TYPE_SMALLINT . ' NOT NULL DEFAULT 0',
@@ -20,7 +20,7 @@ class m150812_101506_widget_text extends Migration
             'updated_at' => Schema::TYPE_INTEGER,
         ], $tableOptions);
 
-        $this->createIndex('idx_widget_text_key', '{{%widget_text}}', 'key');
+        $this->createIndex('idx_widget_text_key', \centigen\i18ncontent\models\WidgetText::tableName(), 'key');
 
         $this->createTable(\centigen\i18ncontent\models\WidgetTextTranslation::tableName(), [
             'id' => $this->primaryKey(11),
@@ -30,13 +30,13 @@ class m150812_101506_widget_text extends Migration
             'locale' => $this->string(15)->notNull()
         ], $tableOptions);
 
-        $this->insert('{{%widget_text}}', [
+        $this->insert(\centigen\i18ncontent\models\WidgetText::tableName(), [
             'key' => 'backend_welcome',
             'status' => 1,
             'created_at' => time(),
             'updated_at' => time(),
         ]);
-        $this->insert('{{%widget_text}}', [
+        $this->insert(\centigen\i18ncontent\models\WidgetText::tableName(), [
             'key' => 'frontend_welcome',
             'status' => 1,
             'created_at' => time(),
@@ -72,7 +72,7 @@ class m150812_101506_widget_text extends Migration
 
         if ($this->db->driverName === 'mysql') {
             $this->createIndex('IDX_widget_text_translation_widget_text_id', \centigen\i18ncontent\models\WidgetTextTranslation::tableName(), 'widget_text_id');
-            $this->addForeignKey('FK_widget_text_translation_widget_text_id', \centigen\i18ncontent\models\WidgetTextTranslation::tableName(), 'widget_text_id', '{{%widget_text}}', 'id', 'cascade', 'cascade');
+            $this->addForeignKey('FK_widget_text_translation_widget_text_id', \centigen\i18ncontent\models\WidgetTextTranslation::tableName(), 'widget_text_id', \centigen\i18ncontent\models\WidgetText::tableName(), 'id', 'cascade', 'cascade');
         }
     }
 
@@ -80,6 +80,6 @@ class m150812_101506_widget_text extends Migration
     {
         $this->dropForeignKey('FK_widget_text_translation_widget_text_id', \centigen\i18ncontent\models\WidgetTextTranslation::tableName());
         $this->dropTable(\centigen\i18ncontent\models\WidgetTextTranslation::tableName());
-        $this->dropTable('{{%widget_text}}');
+        $this->dropTable(\centigen\i18ncontent\models\WidgetText::tableName());
     }
 }
