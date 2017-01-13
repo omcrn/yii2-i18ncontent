@@ -16,8 +16,8 @@ use yii\db\ActiveQuery;
  * @property integer               $created_at
  * @property integer               $updated_at
  *
- * @property WidgetTextLanguages[] $translations
- * @property WidgetTextLanguages   $activeTranslation
+ * @property WidgetTextTranslation[] $translations
+ * @property WidgetTextTranslation   $activeTranslation
  */
 class WidgetText extends TranslatableModel
 {
@@ -26,13 +26,13 @@ class WidgetText extends TranslatableModel
 
     /**
      * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
-     * @var WidgetTextLanguages[]
+     * @var WidgetTextTranslation[]
      */
     public $newTranslations = [];
 
     public static $translateModelForeignKey = 'widget_text_id';
 
-    public static $translateModel = WidgetTextLanguages::class;
+    public static $translateModel = WidgetTextTranslation::class;
 
     public $title = null;
 
