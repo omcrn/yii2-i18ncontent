@@ -19,7 +19,7 @@ use Yii;
  *
  * @property Article $article
  */
-class ArticleTranslations extends \yii\db\ActiveRecord
+class ArticleTranslation extends \yii\db\ActiveRecord
 {
 
     /**
