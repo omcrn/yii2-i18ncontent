@@ -16,17 +16,9 @@ use Yii;
  * @property integer $updated_at
  * @property WidgetCarouselItem $widgetCarouselItem
  */
-class WidgetCarouselItemLanguages extends \yii\db\ActiveRecord
+class WidgetCarouselItemTranslation extends \yii\db\ActiveRecord
 {
-    public function __construct(WidgetCarouselItem $item = null, $caption = null, $locale = null)
-    {
-        if ($item){
-            $this->widget_carousel_item_id = $item->id;
-        }
 
-        $this->caption = $caption;
-        $this->locale = $locale;
-    }
 
     /**
      * @inheritdoc

@@ -17,8 +17,8 @@ use yii\behaviors\TimestampBehavior;
  *
  * @property Article[] $articles
  * @property ArticleCategory $parent
- * @property ArticleCategoryTranslations $activeTranslation
- * @property ArticleCategoryTranslations[] $translations
+ * @property ArticleCategoryTranslation $activeTranslation
+ * @property ArticleCategoryTranslation[] $translations
  */
 class ArticleCategory extends TranslatableModel
 {
@@ -29,13 +29,13 @@ class ArticleCategory extends TranslatableModel
 
     /**
      * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
-     * @var ArticleCategoryTranslations[]
+     * @var ArticleCategoryTranslation[]
      */
     public $newTranslations = [];
 
     public static $translateModelForeignKey = 'article_category_id';
 
-    public static $translateModel = ArticleCategoryTranslations::class;
+    public static $translateModel = ArticleCategoryTranslation::class;
 
     /**
      * @inheritdoc

@@ -6,20 +6,20 @@ use centigen\i18ncontent\helpers\Html;
 use Yii;
 
 /**
- * This is the model class for table "page_translations".
+ * This is the model class for table "article_translations".
  *
  * @property integer $id
- * @property integer $page_id
+ * @property integer $article_id
  * @property string $locale
  * @property string $title
  * @property string $body
  * @property string $meta_title
- * @property string $meta_keywords
  * @property string $meta_description
+ * @property string $meta_keywords
  *
- * @property Page $page
+ * @property Article $article
  */
-class PageTranslations extends \yii\db\ActiveRecord
+class ArticleTranslation extends \yii\db\ActiveRecord
 {
 
     /**
@@ -27,7 +27,7 @@ class PageTranslations extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%page_translations}}';
+        return '{{%article_translations}}';
     }
 
     /**
@@ -36,11 +36,11 @@ class PageTranslations extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['page_id', 'locale', 'title', 'body'], 'required'],
-            [['page_id'], 'integer'],
+            [['article_id', 'locale', 'title', 'body'], 'required'],
+            [['article_id'], 'integer'],
             [['body'], 'string'],
             [['locale'], 'string', 'max' => 15],
-            [['title', 'meta_title', 'meta_keywords', 'meta_description'], 'string', 'max' => 512]
+            [['title', 'meta_title', 'meta_description', 'meta_keywords'], 'string', 'max' => 512]
         ];
     }
 
@@ -51,22 +51,22 @@ class PageTranslations extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('i18ncontent', 'ID'),
-            'page_id' => Yii::t('i18ncontent', 'Page ID'),
+            'article_id' => Yii::t('i18ncontent', 'Article ID'),
             'locale' => Yii::t('i18ncontent', 'Locale'),
             'title' => Yii::t('i18ncontent', 'Title'),
             'body' => Yii::t('i18ncontent', 'Body'),
             'meta_title' => Yii::t('i18ncontent', 'Meta Title'),
-            'meta_keywords' => Yii::t('i18ncontent', 'Meta Keywords'),
             'meta_description' => Yii::t('i18ncontent', 'Meta Description'),
+            'meta_keywords' => Yii::t('i18ncontent', 'Meta Keywords'),
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPage()
+    public function getArticle()
     {
-        return $this->hasOne(Page::className(), ['id' => 'page_id']);
+        return $this->hasOne(Article::className(), ['id' => 'article_id']);
     }
 
     public function getBody()

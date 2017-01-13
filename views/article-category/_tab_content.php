@@ -2,10 +2,10 @@
 
 /* @var $this yii\web\View */
 /* @var $language string */
-/* @var $model centigen\i18ncontent\models\ArticleCategoryTranslations */
+/* @var $model centigen\i18ncontent\models\ArticleCategoryTranslation */
 /* @var $form yii\bootstrap\ActiveForm */
 
-$className = \yii\helpers\StringHelper::basename(\centigen\i18ncontent\models\ArticleCategoryTranslations::className());
+$className = \yii\helpers\StringHelper::basename(\centigen\i18ncontent\models\ArticleCategoryTranslation::className());
 
 ?>
 

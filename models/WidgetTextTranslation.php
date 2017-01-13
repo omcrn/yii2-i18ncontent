@@ -16,7 +16,7 @@ use Yii;
  *
  * @property WidgetText $widgetText
  */
-class WidgetTextLanguages extends \yii\db\ActiveRecord
+class WidgetTextTranslation extends \yii\db\ActiveRecord
 {
 
     /**

@@ -33,8 +33,8 @@ use yii\db\ActiveQuery;
  * @property string $body
  * @property ArticleCategory $category
  * @property ArticleAttachment[] $articleAttachments
- * @property ArticleTranslations[] $translations
- * @property ArticleTranslations $activeTranslation
+ * @property ArticleTranslation[] $translations
+ * @property ArticleTranslation $activeTranslation
  */
 class Article extends TranslatableModel
 {
@@ -58,13 +58,13 @@ class Article extends TranslatableModel
 
     /**
      * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
-     * @var ArticleTranslations[]
+     * @var ArticleTranslation[]
      */
     public $newTranslations = [];
 
     public static $translateModelForeignKey = 'article_id';
 
-    public static $translateModel = ArticleTranslations::class;
+    public static $translateModel = ArticleTranslation::class;
 
     /**
      * @inheritdoc
