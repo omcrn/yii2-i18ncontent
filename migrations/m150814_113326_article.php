@@ -49,7 +49,7 @@ class m150814_113326_article extends Migration
         $this->createIndex('idx_parent_id', '{{%article_category}}', 'parent_id');
         $this->addForeignKey('fk_article_category_section', '{{%article_category}}', 'parent_id', '{{%article_category}}', 'id', 'cascade', 'cascade');
 
-        $this->createTable('{{%article_category_translations}}', [
+        $this->createTable(\centigen\i18ncontent\models\ArticleCategoryTranslation::tableName(), [
             'id' => $this->primaryKey(11),
             'article_category_id' => $this->integer(11)->notNull(),
             'locale' => $this->string(11)->notNull(),
@@ -65,8 +65,8 @@ class m150814_113326_article extends Migration
             'body' => $this->text()->notNull()
         ]);
 
-        $this->createIndex('IDX_article_category_translations_article_category_id', '{{%article_category_translations}}', 'article_category_id');
-        $this->addForeignKey('FK_article_category_translations_article_category_id', '{{%article_category_translations}}', 'article_category_id', '{{%article_category}}', 'id', 'cascade', 'cascade');
+        $this->createIndex('IDX_article_category_translation_article_category_id', \centigen\i18ncontent\models\ArticleCategoryTranslation::tableName(), 'article_category_id');
+        $this->addForeignKey('FK_article_category_translation_article_category_id', \centigen\i18ncontent\models\ArticleCategoryTranslation::tableName(), 'article_category_id', '{{%article_category}}', 'id', 'cascade', 'cascade');
         $this->createIndex('IDX_article_translations_article_id', '{{%article_translations}}', 'article_id');
         $this->addForeignKey('FK_article_translations_article_id', '{{%article_translations}}', 'article_id', '{{%article}}', 'id', 'cascade', 'cascade');
 
@@ -77,13 +77,13 @@ class m150814_113326_article extends Migration
             'updated_at' => time()
         ]);
 
-        $this->insert('{{%article_category_translations}}', [
+        $this->insert(\centigen\i18ncontent\models\ArticleCategoryTranslation::tableName(), [
             'article_category_id' => 1,
             'locale' => 'en-US',
             'title' => 'News'
         ]);
 
-        $this->insert('{{%article_category_translations}}', [
+        $this->insert(\centigen\i18ncontent\models\ArticleCategoryTranslation::tableName(), [
             'article_category_id' => 1,
             'locale' => 'ru-RU',
             'title' => 'новости'
@@ -93,7 +93,7 @@ class m150814_113326_article extends Migration
 
     public function safeDown()
     {
-        $this->dropForeignKey('FK_article_category_translations_article_category_id', '{{%article_category_translations}}');
+        $this->dropForeignKey('FK_article_category_translation_article_category_id', \centigen\i18ncontent\models\ArticleCategoryTranslation::tableName());
         $this->dropForeignKey('FK_article_translations_article_id', '{{%article_translations}}');
         $this->dropForeignKey('fk_article_author', '{{%article}}');
         $this->dropForeignKey('fk_article_updater', '{{%article}}');
@@ -101,7 +101,7 @@ class m150814_113326_article extends Migration
         $this->dropForeignKey('fk_article_category_section', '{{%article_category}}');
 
         $this->dropTable('{{%article_translations}}');
-        $this->dropTable('{{%article_category_translations}}');
+        $this->dropTable(\centigen\i18ncontent\models\ArticleCategoryTranslation::tableName());
         $this->dropTable('{{%article}}');
         $this->dropTable('{{%article_category}}');
     }

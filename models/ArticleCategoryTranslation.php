@@ -5,7 +5,7 @@ namespace centigen\i18ncontent\models;
 use Yii;
 
 /**
- * This is the model class for table "article_category_translations".
+ * This is the model class for table "article_category_translation".
  *
  * @property integer $id
  * @property integer $article_category_id
@@ -22,7 +22,7 @@ class ArticleCategoryTranslation extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%article_category_translations}}';
+        return '{{%article_category_translation}}';
     }
 
     /**

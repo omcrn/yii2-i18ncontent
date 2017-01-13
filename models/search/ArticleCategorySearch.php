@@ -42,7 +42,8 @@ class ArticleCategorySearch extends ArticleCategory
         $query = ArticleCategory::find()
             ->select('ac.*')
             ->from('{{%article_category}} ac')
-            ->leftJoin('{{%article_category_translations}} t', 't.article_category_id = ac.id and t.locale = :locale', ['locale' => Yii::$app->language])
+            ->leftJoin(\centigen\i18ncontent\models\ArticleCategoryTranslation::tableName()
+                . ' t', 't.article_category_id = ac.id and t.locale = :locale', ['locale' => Yii::$app->language])
             ->with(['parent', 'parent.activeTranslation'])
 
 //        ->where([
