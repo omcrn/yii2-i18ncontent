@@ -2,12 +2,12 @@
 
 use yii\db\Migration;
 
-class m170113_101554_alter_widget_text_translations_remove_not_null_from_title_and_body extends Migration
+class m170113_101554_alter_widget_text_translation_remove_not_null_from_title_and_body extends Migration
 {
     public function up()
     {
-        $this->alterColumn('widget_text_translations', 'title', 'string NULL');
-        $this->alterColumn('widget_text_translations', 'body', 'text NULL');
+        $this->alterColumn('{{%widget_text_translation}}', 'title', 'string NULL');
+        $this->alterColumn('{{%widget_text_translation}}', 'body', 'text NULL');
     }
 
     public function down()

@@ -53,7 +53,7 @@ class m150812_102053_widget_carousel extends Migration
             $this->addForeignKey('fk_item_carousel', '{{%widget_carousel_item}}', 'carousel_id', '{{%widget_carousel}}', 'id', 'cascade', 'cascade');
         }
 
-        $this->createTable('{{%widget_carousel_item_translations}}', [
+        $this->createTable(\centigen\i18ncontent\models\WidgetCarouselItemTranslation::tableName(), [
             'id' => $this->primaryKey(11),
             'widget_carousel_item_id' => $this->integer(11)->notNull(),
             'locale' => $this->string(15)->notNull(),
@@ -61,16 +61,20 @@ class m150812_102053_widget_carousel extends Migration
         ], $tableOptions);
 
         if ($this->db->driverName === 'mysql') {
-            $this->createIndex('IDX_widget_carousel_item_translations_widget_carousel_item_id', '{{%widget_carousel_item_translations}}', 'widget_carousel_item_id');
-            $this->addForeignKey('FK_widget_carousel_item_translations_widget_carousel_item_id', '{{%widget_carousel_item_translations}}', 'widget_carousel_item_id', '{{%widget_carousel_item}}', 'id', 'cascade', 'cascade');
+            $this->createIndex('IDX_widget_carousel_item_translation_widget_carousel_item_id',
+                \centigen\i18ncontent\models\WidgetCarouselItemTranslation::tableName(), 'widget_carousel_item_id');
+            $this->addForeignKey('FK_widget_carousel_item_translation_widget_carousel_item_id',
+                \centigen\i18ncontent\models\WidgetCarouselItemTranslation::tableName(), 'widget_carousel_item_id',
+                '{{%widget_carousel_item}}', 'id', 'cascade', 'cascade');
         }
     }
 
 
     public function safeDown()
     {
-        $this->dropForeignKey('FK_widget_carousel_item_translations_widget_carousel_item_id', '{{%widget_carousel_item_translations}}');
-        $this->dropTable('{{%widget_carousel_item_translations}}');
+        $this->dropForeignKey('FK_widget_carousel_item_translation_widget_carousel_item_id',
+            \centigen\i18ncontent\models\WidgetCarouselItemTranslation::tableName());
+        $this->dropTable(\centigen\i18ncontent\models\WidgetCarouselItemTranslation::tableName());
         $this->dropForeignKey('fk_item_carousel', '{{%widget_carousel_item}}');
         $this->dropTable('{{%widget_carousel_item}}');
         $this->dropTable('{{%widget_carousel}}');
