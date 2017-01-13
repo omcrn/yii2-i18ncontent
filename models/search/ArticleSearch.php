@@ -2,7 +2,6 @@
 
 namespace centigen\i18ncontent\models\search;
 
-use centigen\base\helpers\QueryHelper;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -64,7 +63,7 @@ class ArticleSearch extends Article
             'asc' => ['u.username' => SORT_ASC],
             'desc' => ['u.username' => SORT_DESC]
         ];
-        $this->load($params);
+       $this->load($params);
         if (!$this->validate()) {
             return $dataProvider;
         }
@@ -75,6 +74,7 @@ class ArticleSearch extends Article
             'a.id' => $this->id,
             'a.category_id' => $this->category_id,
             'a.status' => $this->status,
+            'a.position' => $this->position,
             'a.published_at' => $this->published_at,
             'a.created_at' => $this->created_at
         ]);

@@ -25,6 +25,7 @@ use yii\db\ActiveQuery;
  * @property integer $category_id
  * @property integer $status
  * @property integer $published_at
+ * @property integer $position
  * @property integer $created_at
  * @property integer $updated_at
  *
