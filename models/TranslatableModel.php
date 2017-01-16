@@ -59,10 +59,6 @@ class TranslatableModel extends ActiveRecord
             return false;
         }
 
-        if($this->hasAttribute('published_at')){
-            $this->published_at = $this->published_at ? strtotime($this->published_at) : time();
-        }
-
         $className = \yii\helpers\StringHelper::basename(static::$translateModel);
         $translations = ArrayHelper::getValue($postData, $className);
         $this->newTranslations = [];
