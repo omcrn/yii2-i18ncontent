@@ -52,7 +52,7 @@ class DbText extends Widget
                 ->where(['key' => $this->key, 'status' => WidgetText::STATUS_ACTIVE])->one();
         }
         if(!$this->model){
-            return "";
+            throw new \InvalidArgumentException("No text widget found for key: \"".$this->key."\"");
         }
         return $this->model->activeTranslation;
     }
