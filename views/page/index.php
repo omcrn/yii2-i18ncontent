@@ -33,12 +33,18 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'slug',
             [
-                'class' => \centigen\base\grid\EnumColumn::className(),
+                'label' => Yii::t('i18ncontent', 'Status'),
                 'attribute' => 'status',
-                'format' => ['statusLabel'],
-                'enum' => [
-                    Yii::t('i18ncontent', 'Inactive'),
-                    Yii::t('i18ncontent', 'Active')
+                'content' => function($model){
+                    /** @var \common\models\User $model */
+                    return \centigen\i18ncontent\helpers\Html::asFab($model);
+                },
+                'headerOptions' => [
+                    'class' => 'text-center',
+                ],
+                'contentOptions' => [
+                    'class' => '',
+                    'style' => 'width: 1px'
                 ],
             ],
             [

@@ -28,6 +28,11 @@ $this->params['breadcrumbs'][] = Yii::t('i18ncontent', 'Update');
 
     <?php echo GridView::widget([
         'dataProvider' => $carouselItemsProvider,
+        'rowOptions' => function(){
+            return [
+                'data-toggle-action' => '/i18ncontent/widget-carousel-item/toggle-status'
+            ];
+        },
         'columns' => [
             [
                 'attribute' => 'order',
@@ -55,9 +60,19 @@ $this->params['breadcrumbs'][] = Yii::t('i18ncontent', 'Update');
                 'attribute' => 'activeTranslation.caption',
             ],
             [
+                'label' => Yii::t('i18ncontent', 'Status'),
                 'attribute' => 'status',
-                'format' => ['statusLabel'],
-                'contentOptions' => ['style' => 'width: 50px']
+                'content' => function($model){
+                    /** @var \common\models\User $model */
+                    return \centigen\i18ncontent\helpers\Html::asFab($model);
+                },
+                'headerOptions' => [
+                    'class' => 'text-center',
+                ],
+                'contentOptions' => [
+                    'class' => '',
+                    'style' => 'width: 1px'
+                ],
             ],
 
             [

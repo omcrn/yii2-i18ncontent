@@ -35,6 +35,16 @@ class WidgetMenuController extends Controller
         ];
     }
 
+    public function actions()
+    {
+        return [
+            'toggle-status' => [
+                'class' => 'centigen\i18ncontent\actions\ToggleStatusAction',
+                'model' => 'centigen\i18ncontent\models\WidgetMenu',
+            ]
+        ];
+    }
+
     /**
      * Lists all WidgetMenu models.
      * @return mixed

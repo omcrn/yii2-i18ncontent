@@ -51,6 +51,10 @@ class WidgetCarouselItemController extends Controller
                 'responseUrlParam'=> 'filelink',
                 'multiple' => false,
                 'disableCsrf' => true
+            ],
+            'toggle-status' => [
+                'class' => 'centigen\i18ncontent\actions\ToggleStatusAction',
+                'model' => 'centigen\i18ncontent\models\WidgetCarouselItem',
             ]
         ];
     }

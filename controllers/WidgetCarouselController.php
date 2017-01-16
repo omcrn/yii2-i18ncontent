@@ -28,6 +28,16 @@ class WidgetCarouselController extends Controller
         ];
     }
 
+    public function actions()
+    {
+        return [
+            'toggle-status' => [
+                'class' => 'centigen\i18ncontent\actions\ToggleStatusAction',
+                'model' => 'centigen\i18ncontent\models\WidgetCarousel',
+            ]
+        ];
+    }
+
     /**
      * Lists all WidgetCarousel models.
      * @return mixed

@@ -6,6 +6,7 @@
  */
 
 namespace centigen\i18ncontent\helpers;
+use centigen\base\i18n\Formatter;
 use centigen\i18ncontent\Module;
 use Yii;
 
@@ -18,6 +19,7 @@ use Yii;
  */
 class Html extends \yii\bootstrap\Html
 {
+
     /**
      * Replace $module's `mediaUrlPrefix` occurrence with $module's `mediaUrlReplacement` in given text
      *
@@ -52,6 +54,13 @@ class Html extends \yii\bootstrap\Html
         $module = Yii::$app->getModule('i18ncontent');
         return str_replace($module->mediaUrlReplacement, $module->mediaUrlPrefix, $text);
     }
+
+    public static function asFab($model, $disabled = false){
+        $formatter = new Formatter();
+        return $formatter->asToggle($model->status, $disabled);
+    }
+
+
 
 
 }
