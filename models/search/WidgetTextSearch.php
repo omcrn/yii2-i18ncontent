@@ -42,7 +42,7 @@ class WidgetTextSearch extends WidgetText
     {
         $query = WidgetText::find()
             ->from('{{%widget_text}} wt')
-            ->innerJoin('{{%widget_text_translations}} t', 't.widget_text_id = wt.id and t.locale = :locale', ['locale' => Yii::$app->language]);
+            ->innerJoin(\centigen\i18ncontent\models\WidgetTextTranslation::tableName() . ' t', 't.widget_text_id = wt.id and t.locale = :locale', ['locale' => Yii::$app->language]);
 
 
         $dataProvider = new ActiveDataProvider([
@@ -55,7 +55,7 @@ class WidgetTextSearch extends WidgetText
             'desc' => ['t.title' => SORT_DESC],
         ];
 
-        if (!( $this->load($params) && $this->validate() )) {
+        if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
 

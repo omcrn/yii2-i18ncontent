@@ -24,7 +24,7 @@ class WidgetTextTranslation extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%widget_text_translations}}';
+        return '{{%widget_text_translation}}';
     }
 
     /**

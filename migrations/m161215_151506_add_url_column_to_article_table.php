@@ -12,7 +12,7 @@ class m161215_151506_add_url_column_to_article_table extends Migration
      */
     public function up()
     {
-        $this->addColumn('{{%article}}', 'url', $this->string(2048));
+        $this->addColumn(\centigen\i18ncontent\models\Article::tableName(), 'url', $this->string(2048));
     }
 
     /**
@@ -20,6 +20,6 @@ class m161215_151506_add_url_column_to_article_table extends Migration
      */
     public function down()
     {
-        $this->dropColumn('{{%article}}', 'url');
+        $this->dropColumn(\centigen\i18ncontent\models\Article::tableName(), 'url');
     }
 }

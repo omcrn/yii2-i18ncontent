@@ -22,7 +22,7 @@ class m150817_114940_article_attachment extends Migration
             'fk_article_attachment_article',
             '{{%article_attachment}}',
             'article_id',
-            '{{%article}}',
+            \centigen\i18ncontent\models\Article::tableName(),
             'id',
             'cascade',
             'cascade'
