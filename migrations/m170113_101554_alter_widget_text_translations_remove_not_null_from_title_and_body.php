@@ -12,7 +12,7 @@ class m170113_101554_alter_widget_text_translation_remove_not_null_from_title_an
 
     public function down()
     {
-        return false;
+        return true;
     }
 
     /*

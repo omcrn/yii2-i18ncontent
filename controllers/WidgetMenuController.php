@@ -10,7 +10,7 @@ use centigen\i18ncontent\models\search\WidgetMenuSearch;
 use centigen\i18ncontent\models\WidgetMenu;
 use Yii;
 use yii\filters\VerbFilter;
-use yii\web\Controller;
+use centigen\i18ncontent\web\Controller;
 use yii\web\NotFoundHttpException;
 
 
@@ -31,6 +31,7 @@ class WidgetMenuController extends Controller
                     'delete' => ['post'],
                 ],
             ],
+            \centigen\base\behaviors\LayoutBehavior::className()
         ];
     }
 
@@ -40,6 +41,7 @@ class WidgetMenuController extends Controller
      */
     public function actionIndex()
     {
+
         $searchModel = new WidgetMenuSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -75,6 +77,7 @@ class WidgetMenuController extends Controller
      */
     public function actionUpdate($id)
     {
+
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
