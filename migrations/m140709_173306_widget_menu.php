@@ -12,7 +12,7 @@ class m140709_173306_widget_menu extends Migration
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
 
-        $this->createTable('{{%widget_menu}}', [
+        $this->createTable(\centigen\i18ncontent\models\WidgetMenu::tableName(), [
             'id' => $this->primaryKey(),
             'key' => $this->string(32)->notNull(),
             'title' => $this->string()->notNull(),
@@ -20,7 +20,7 @@ class m140709_173306_widget_menu extends Migration
             'status' => $this->smallInteger()->notNull()->defaultValue(0)
         ], $tableOptions);
 
-        $this->insert('{{%widget_menu}}', [
+        $this->insert(\centigen\i18ncontent\models\WidgetMenu::tableName(), [
             'key' => 'frontend-index',
             'title' => 'Frontend index menu',
             'items' => json_encode([
@@ -49,6 +49,6 @@ class m140709_173306_widget_menu extends Migration
 
     public function down()
     {
-        $this->dropTable('{{%widget_menu}}');
+        $this->dropTable(\centigen\i18ncontent\models\WidgetMenu::tableName());
     }
 }

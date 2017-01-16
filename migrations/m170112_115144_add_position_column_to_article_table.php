@@ -12,7 +12,7 @@ class m170112_115144_add_position_column_to_article_table extends Migration
      */
     public function up()
     {
-        $this->addColumn('{{%article}}', 'position', $this->integer(2));
+        $this->addColumn(\centigen\i18ncontent\models\Article::tableName(), 'position', $this->integer(2));
     }
 
     /**
@@ -20,6 +20,6 @@ class m170112_115144_add_position_column_to_article_table extends Migration
      */
     public function down()
     {
-        $this->dropColumn('{{%article}}', 'position');
+        $this->dropColumn(\centigen\i18ncontent\models\Article::tableName(), 'position');
     }
 }

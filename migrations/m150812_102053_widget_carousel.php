@@ -26,7 +26,7 @@ class m150812_102053_widget_carousel extends Migration
         ]);
 
 
-        $this->createTable('{{%widget_carousel_item}}', [
+        $this->createTable(\centigen\i18ncontent\models\WidgetCarouselItem::tableName(), [
             'id' => Schema::TYPE_PK,
             'carousel_id' => Schema::TYPE_INTEGER . ' NOT NULL',
             'base_url' => Schema::TYPE_STRING . '(1024)',
@@ -39,7 +39,7 @@ class m150812_102053_widget_carousel extends Migration
             'updated_at' => Schema::TYPE_INTEGER,
         ], $tableOptions);
 
-        $this->insert('{{%widget_carousel_item}}', [
+        $this->insert(\centigen\i18ncontent\models\WidgetCarouselItem::tableName(), [
             'carousel_id' => 1,
             'base_url' => '/',
             'path' => 'img/yii2-starter-kit.gif',
@@ -49,11 +49,11 @@ class m150812_102053_widget_carousel extends Migration
         ]);
 
         if ($this->db->driverName === 'mysql') {
-            $this->createIndex('idx_carousel_id', '{{%widget_carousel_item}}', 'carousel_id');
-            $this->addForeignKey('fk_item_carousel', '{{%widget_carousel_item}}', 'carousel_id', '{{%widget_carousel}}', 'id', 'cascade', 'cascade');
+            $this->createIndex('idx_carousel_id', \centigen\i18ncontent\models\WidgetCarouselItem::tableName(), 'carousel_id');
+            $this->addForeignKey('fk_item_carousel', \centigen\i18ncontent\models\WidgetCarouselItem::tableName(), 'carousel_id', '{{%widget_carousel}}', 'id', 'cascade', 'cascade');
         }
 
-        $this->createTable('{{%widget_carousel_item_translations}}', [
+        $this->createTable(\centigen\i18ncontent\models\WidgetCarouselItemTranslation::tableName(), [
             'id' => $this->primaryKey(11),
             'widget_carousel_item_id' => $this->integer(11)->notNull(),
             'locale' => $this->string(15)->notNull(),
@@ -61,18 +61,22 @@ class m150812_102053_widget_carousel extends Migration
         ], $tableOptions);
 
         if ($this->db->driverName === 'mysql') {
-            $this->createIndex('IDX_widget_carousel_item_translations_widget_carousel_item_id', '{{%widget_carousel_item_translations}}', 'widget_carousel_item_id');
-            $this->addForeignKey('FK_widget_carousel_item_translations_widget_carousel_item_id', '{{%widget_carousel_item_translations}}', 'widget_carousel_item_id', '{{%widget_carousel_item}}', 'id', 'cascade', 'cascade');
+            $this->createIndex('IDX_widget_carousel_item_translation_widget_carousel_item_id',
+                \centigen\i18ncontent\models\WidgetCarouselItemTranslation::tableName(), 'widget_carousel_item_id');
+            $this->addForeignKey('FK_widget_carousel_item_translation_widget_carousel_item_id',
+                \centigen\i18ncontent\models\WidgetCarouselItemTranslation::tableName(), 'widget_carousel_item_id',
+                \centigen\i18ncontent\models\WidgetCarouselItem::tableName(), 'id', 'cascade', 'cascade');
         }
     }
 
 
     public function safeDown()
     {
-        $this->dropForeignKey('FK_widget_carousel_item_translations_widget_carousel_item_id', '{{%widget_carousel_item_translations}}');
-        $this->dropTable('{{%widget_carousel_item_translations}}');
-        $this->dropForeignKey('fk_item_carousel', '{{%widget_carousel_item}}');
-        $this->dropTable('{{%widget_carousel_item}}');
+        $this->dropForeignKey('FK_widget_carousel_item_translation_widget_carousel_item_id',
+            \centigen\i18ncontent\models\WidgetCarouselItemTranslation::tableName());
+        $this->dropTable(\centigen\i18ncontent\models\WidgetCarouselItemTranslation::tableName());
+        $this->dropForeignKey('fk_item_carousel', \centigen\i18ncontent\models\WidgetCarouselItem::tableName());
+        $this->dropTable(\centigen\i18ncontent\models\WidgetCarouselItem::tableName());
         $this->dropTable('{{%widget_carousel}}');
     }
 }

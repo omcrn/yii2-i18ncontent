@@ -1,0 +1,46 @@
+.margin-variant(@margin) when (@margin > 0) {
+  .margin-right-@{margin} {
+    margin-right: ~"@{margin}px";
+  }
+  .margin-left-@{margin} {
+    margin-left: ~"@{margin}px";
+  }
+  .margin-top-@{margin} {
+    margin-top: ~"@{margin}px";
+  }
+  .margin-bottom-@{margin} {
+    margin-bottom: ~"@{margin}px";
+  }
+  .margin-@{margin} {
+    margin: ~"@{margin}px";
+  }
+
+  .margin-variant(@margin - 5);
+}
+
+.padding-variant(@padding) when (@padding > 0) {
+  .padding-right-@{padding} {
+    padding-right: ~"@{padding}px";
+  }
+  .padding-left-@{padding} {
+    padding-left: ~"@{padding}px";
+  }
+  .padding-top-@{padding} {
+    padding-top: ~"@{padding}px";
+  }
+  .padding-bottom-@{padding} {
+    padding-bottom: ~"@{padding}px";
+  }
+  .padding-@{padding} {
+    padding: ~"@{padding}px";
+  }
+
+  .padding-variant(@padding - 5);
+}
+
+.font-variant(@size) when (@size > 0) {
+  .font-size-@{size} {
+    font-size: ~"@{size}px";
+  }
+  .font-variant(@size - 1);
+}

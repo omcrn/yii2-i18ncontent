@@ -75,6 +75,10 @@ class WidgetCarouselController extends Controller
         $searchModel = new WidgetCarouselItemSearch();
         $carouselItemsProvider = $searchModel->search([]);
         $carouselItemsProvider->query->andWhere(['carousel_id' => $model->id]);
+        $carouselItemsProvider->sort->attributes['activeTranslation.caption'] = [
+            'asc' => ['widget_carousel_item_translations.caption' => SORT_ASC],
+            'desc' => ['widget_carousel_item_translations.caption' => SORT_DESC],
+        ];
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);

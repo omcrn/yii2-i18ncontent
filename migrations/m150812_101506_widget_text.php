@@ -12,7 +12,7 @@ class m150812_101506_widget_text extends Migration
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
 
-        $this->createTable('{{%widget_text}}', [
+        $this->createTable(\centigen\i18ncontent\models\WidgetText::tableName(), [
             'id' => Schema::TYPE_PK,
             'key' => Schema::TYPE_STRING . '(255) NOT NULL',
             'status' => Schema::TYPE_SMALLINT . ' NOT NULL DEFAULT 0',
@@ -20,9 +20,9 @@ class m150812_101506_widget_text extends Migration
             'updated_at' => Schema::TYPE_INTEGER,
         ], $tableOptions);
 
-        $this->createIndex('idx_widget_text_key', '{{%widget_text}}', 'key');
+        $this->createIndex('idx_widget_text_key', \centigen\i18ncontent\models\WidgetText::tableName(), 'key');
 
-        $this->createTable('{{%widget_text_translations}}', [
+        $this->createTable(\centigen\i18ncontent\models\WidgetTextTranslation::tableName(), [
             'id' => $this->primaryKey(11),
             'widget_text_id' => $this->integer(11)->notNull(),
             'title' => $this->string(512)->notNull(),
@@ -30,40 +30,40 @@ class m150812_101506_widget_text extends Migration
             'locale' => $this->string(15)->notNull()
         ], $tableOptions);
 
-        $this->insert('{{%widget_text}}', [
+        $this->insert(\centigen\i18ncontent\models\WidgetText::tableName(), [
             'key' => 'backend_welcome',
             'status' => 1,
             'created_at' => time(),
             'updated_at' => time(),
         ]);
-        $this->insert('{{%widget_text}}', [
+        $this->insert(\centigen\i18ncontent\models\WidgetText::tableName(), [
             'key' => 'frontend_welcome',
             'status' => 1,
             'created_at' => time(),
             'updated_at' => time(),
         ]);
 
-        $this->insert('{{%widget_text_translations}}', [
+        $this->insert(\centigen\i18ncontent\models\WidgetTextTranslation::tableName(), [
             'widget_text_id' => 1,
             'title' => 'English title',
             'body' => 'Welcome to "' . Yii::$app->name . '" backend',
             'locale' => 'en-US'
         ]);
-        $this->insert('{{%widget_text_translations}}', [
+        $this->insert(\centigen\i18ncontent\models\WidgetTextTranslation::tableName(), [
             'widget_text_id' => 1,
             'title' => 'Russian title',
             'body' => 'добро пожаловать в админку "' . Yii::$app->name . '"',
             'locale' => 'ru-RU'
         ]);
 
-        $this->insert('{{%widget_text_translations}}', [
+        $this->insert(\centigen\i18ncontent\models\WidgetTextTranslation::tableName(), [
             'widget_text_id' => 2,
             'title' => 'English title',
             'body' => 'Welcome to "' . Yii::$app->name . '"',
             'locale' => 'en-US'
         ]);
 
-        $this->insert('{{%widget_text_translations}}', [
+        $this->insert(\centigen\i18ncontent\models\WidgetTextTranslation::tableName(), [
             'widget_text_id' => 2,
             'title' => 'Russian title',
             'body' => 'добро пожаловать в "' . Yii::$app->name . '"',
@@ -71,15 +71,15 @@ class m150812_101506_widget_text extends Migration
         ]);
 
         if ($this->db->driverName === 'mysql') {
-            $this->createIndex('IDX_widget_text_translations_widget_text_id', '{{%widget_text_translations}}', 'widget_text_id');
-            $this->addForeignKey('FK_widget_text_translations_widget_text_id', '{{%widget_text_translations}}', 'widget_text_id', '{{%widget_text}}', 'id', 'cascade', 'cascade');
+            $this->createIndex('IDX_widget_text_translation_widget_text_id', \centigen\i18ncontent\models\WidgetTextTranslation::tableName(), 'widget_text_id');
+            $this->addForeignKey('FK_widget_text_translation_widget_text_id', \centigen\i18ncontent\models\WidgetTextTranslation::tableName(), 'widget_text_id', \centigen\i18ncontent\models\WidgetText::tableName(), 'id', 'cascade', 'cascade');
         }
     }
 
     public function safeDown()
     {
-        $this->dropForeignKey('FK_widget_text_translations_widget_text_id', '{{%widget_text_translations}}');
-        $this->dropTable('{{%widget_text_translations}}');
-        $this->dropTable('{{%widget_text}}');
+        $this->dropForeignKey('FK_widget_text_translation_widget_text_id', \centigen\i18ncontent\models\WidgetTextTranslation::tableName());
+        $this->dropTable(\centigen\i18ncontent\models\WidgetTextTranslation::tableName());
+        $this->dropTable(\centigen\i18ncontent\models\WidgetText::tableName());
     }
 }

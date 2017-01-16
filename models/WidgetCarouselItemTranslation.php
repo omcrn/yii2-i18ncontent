@@ -19,13 +19,12 @@ use Yii;
 class WidgetCarouselItemTranslation extends \yii\db\ActiveRecord
 {
 
-
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return '{{%widget_carousel_item_translations}}';
+        return '{{%widget_carousel_item_translation}}';
     }
 
     /**
