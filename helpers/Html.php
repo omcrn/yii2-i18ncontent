@@ -55,6 +55,11 @@ class Html extends \yii\bootstrap\Html
         return str_replace($module->mediaUrlReplacement, $module->mediaUrlPrefix, $text);
     }
 
+    /**
+     * @param $model
+     * @param bool $disabled
+     * @return string
+     */
     public static function asFab($model, $disabled = false){
         $formatter = new Formatter();
         return $formatter->asToggle($model->status, $disabled);

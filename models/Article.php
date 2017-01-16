@@ -129,12 +129,11 @@ class Article extends TranslatableModel
             [['category_id'], 'required'],
             [['slug'], 'unique'],
             [['published_at'], 'default', 'value' => time()],
-            [['published_at'], 'filter', 'filter' => 'strtotime'],
             [['category_id'], 'exist', 'targetClass' => ArticleCategory::className(), 'targetAttribute' => 'id'],
             [['author_id', 'updater_id', 'position', 'status'], 'integer'],
             [['slug', 'thumbnail_base_url', 'thumbnail_path', 'url'], 'string', 'max' => 2024],
             [['view'], 'string', 'max' => 255],
-            [['attachments', 'thumbnail'], 'safe']
+            [['attachments', 'thumbnail', 'published_at'], 'safe']
         ];
     }
 
