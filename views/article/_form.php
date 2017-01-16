@@ -96,7 +96,7 @@ use yii\bootstrap\ActiveForm;
         ]
     ) ?>
 
-    <div class="form-group">
+    <div class="form-group pull-left margin-right-5">
         <?php echo Html::submitButton(
             $model->isNewRecord ? Yii::t('i18ncontent', 'Create') : Yii::t('i18ncontent', 'Update'),
             ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
@@ -104,4 +104,15 @@ use yii\bootstrap\ActiveForm;
 
     <?php ActiveForm::end(); ?>
 
+    <?php if(!$model->isNewRecord): ?>
+        <div class="form-group">
+            <?php echo Html::a(Yii::t('i18ncontent', 'Delete', []), ['delete', 'id' => $model->id],
+                [
+                    'class' => 'btn btn-danger',
+                    'data-confirm' => "Are you sure you want to delete this item?",
+                    'data-method'=>"post",
+                    'data-pjax' => "0"
+                ]) ?>
+        </div>
+    <?php endif?>
 </div>
