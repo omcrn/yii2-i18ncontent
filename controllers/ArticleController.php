@@ -22,7 +22,8 @@ class ArticleController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['post']
+                    'delete' => ['post'],
+                    'ToggleStatus' => ['post']
                 ]
             ],
             \centigen\base\behaviors\LayoutBehavior::className()
@@ -45,6 +46,10 @@ class ArticleController extends Controller
                 'responseUrlParam'=> 'filelink',
                 'multiple' => false,
                 'disableCsrf' => true
+            ],
+            'toggle-status' => [
+                'class' => 'centigen\i18ncontent\actions\ToggleStatusAction',
+                'model' => 'centigen\i18ncontent\models\Article',
             ]
         ];
     }
@@ -122,6 +127,7 @@ class ArticleController extends Controller
 
         return $this->redirect(['index']);
     }
+
 
     /**
      * Finds the Article model based on its primary key value.

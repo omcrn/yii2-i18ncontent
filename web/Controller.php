@@ -15,5 +15,15 @@ class Controller extends \yii\web\Controller
     {
         parent::init();
         AssetBundle::register($this->getView());
+
+    }
+
+
+    public function beforeAction($action)
+    {
+        if(isset(\Yii::$app->assetManager->bundles['yii\bootstrap\BootstrapPluginAsset'])){
+             \Yii::$app->assetManager->bundles['yii\bootstrap\BootstrapPluginAsset']->depends[] = 'yii\jui\JuiAsset';
+        }
+        return parent::beforeAction($action);
     }
 } 

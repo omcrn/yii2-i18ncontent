@@ -28,6 +28,16 @@ class ArticleCategoryController extends Controller
         ];
     }
 
+    public function actions()
+    {
+        return [
+            'toggle-status' => [
+                'class' => 'centigen\i18ncontent\actions\ToggleStatusAction',
+                'model' => 'centigen\i18ncontent\models\ArticleCategory',
+            ]
+        ];
+    }
+
     /**
      * Lists all ArticleCategory models.
      * @return mixed

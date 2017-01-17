@@ -17,8 +17,13 @@ class AssetBundle extends \yii\web\AssetBundle
         'css/main.css'
     ];
 
+    public $js = [
+      'js/i18nContent.js'
+    ];
+
     public $depends = [
-        'yii\bootstrap\BootstrapAsset'
+        'yii\bootstrap\BootstrapAsset',
+        'yii\bootstrap\BootstrapPluginAsset'
     ];
 
     public function init()
