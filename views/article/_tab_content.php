@@ -15,7 +15,26 @@ $className = \yii\helpers\StringHelper::basename(\centigen\i18ncontent\models\Ar
         'name' => "{$className}[$language][title]"
     ]
 ])->textInput(['maxlength' => true]) ?>
-
+<?php echo $form->field($model, 'short_description')->widget(
+    \yii\imperavi\Widget::className(),
+    [
+        'plugins' => ['fullscreen', 'fontcolor', 'video'],
+        'htmlOptions' => [
+            'name' => "{$className}[$language][short_description]",
+//            'name' => $namePrefix . '[body]' . $nameSuffix,
+            'value' => $model->getShortDescription()
+        ],
+        'options' => [
+            'minHeight' => 400,
+            'maxHeight' => 300,
+            'buttonSource' => true,
+            'convertDivs' => false,
+            'removeEmptyTags' => false,
+            'replaceDivs' => false,
+            'imageUpload' => Url::to(['upload-imperavi'])
+        ]
+    ]
+) ?>
 <?php echo $form->field($model, 'body')->widget(
     \yii\imperavi\Widget::className(),
     [

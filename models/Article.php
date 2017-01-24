@@ -250,14 +250,28 @@ class Article extends TranslatableModel
             ])->one();
     }
 
+    /**
+     * @return string
+     */
     public function getTitle()
     {
         return $this->activeTranslation ? $this->activeTranslation->title : '';
     }
 
+    /**
+     * @return mixed|string
+     */
     public function getBody()
     {
         return $this->activeTranslation ? $this->activeTranslation->getBody() : '';
+    }
+
+    /**
+     * @return mixed|string
+     */
+    public function getShortDescription()
+    {
+        return $this->activeTranslation ? $this->activeTranslation->getShortDescription() : '';
     }
 
 	public function getThumbnailUrl()
