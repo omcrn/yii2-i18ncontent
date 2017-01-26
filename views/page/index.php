@@ -10,7 +10,7 @@ use yii\grid\GridView;
 $this->title = Yii::t('i18ncontent', 'Pages');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="page-index table-wrapper">
+<div class="page-index i18ncontent-table-wrapper">
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 

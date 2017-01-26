@@ -13,7 +13,7 @@ use yii\bootstrap\ActiveForm;
 /* @var $form yii\bootstrap\ActiveForm */
 ?>
 
-<div class="widget-menu-form">
+<div class="i18ncontent-form widget-menu-form">
 
     <?php $form = ActiveForm::begin(); ?>
 

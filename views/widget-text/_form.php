@@ -11,7 +11,7 @@ use yii\bootstrap\ActiveForm;
 ?>
 
 
-<div class="text-block-form">
+<div class="i18ncontent-form text-block-form">
 
 
     <?php $form = ActiveForm::begin(); ?>

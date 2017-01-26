@@ -11,7 +11,7 @@ use yii\bootstrap\ActiveForm;
 /* @var $locales array */
 ?>
 
-<div class="article-form">
+<div class="i18ncontent-form article-form">
 
     <?php $form = ActiveForm::begin(); ?>
 

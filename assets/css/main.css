@@ -1,281 +1,11 @@
-.padding-right-30 {
-  padding-right: 30px;
-}
-.padding-left-30 {
-  padding-left: 30px;
-}
-.padding-top-30 {
-  padding-top: 30px;
-}
-.padding-bottom-30 {
-  padding-bottom: 30px;
-}
-.padding-30 {
-  padding: 30px;
-}
-.padding-right-25 {
-  padding-right: 25px;
-}
-.padding-left-25 {
-  padding-left: 25px;
-}
-.padding-top-25 {
-  padding-top: 25px;
-}
-.padding-bottom-25 {
-  padding-bottom: 25px;
-}
-.padding-25 {
-  padding: 25px;
-}
-.padding-right-20 {
-  padding-right: 20px;
-}
-.padding-left-20 {
-  padding-left: 20px;
-}
-.padding-top-20 {
-  padding-top: 20px;
-}
-.padding-bottom-20 {
-  padding-bottom: 20px;
-}
-.padding-20 {
-  padding: 20px;
-}
-.padding-right-15 {
-  padding-right: 15px;
-}
-.padding-left-15 {
-  padding-left: 15px;
-}
-.padding-top-15 {
-  padding-top: 15px;
-}
-.padding-bottom-15 {
-  padding-bottom: 15px;
-}
-.padding-15 {
-  padding: 15px;
-}
-.padding-right-10 {
-  padding-right: 10px;
-}
-.padding-left-10 {
-  padding-left: 10px;
-}
-.padding-top-10 {
-  padding-top: 10px;
-}
-.padding-bottom-10 {
-  padding-bottom: 10px;
-}
-.padding-10 {
-  padding: 10px;
-}
-.padding-right-5 {
-  padding-right: 5px;
-}
-.padding-left-5 {
-  padding-left: 5px;
-}
-.padding-top-5 {
-  padding-top: 5px;
-}
-.padding-bottom-5 {
-  padding-bottom: 5px;
-}
-.padding-5 {
-  padding: 5px;
-}
-.margin-right-30 {
-  margin-right: 30px;
-}
-.margin-left-30 {
-  margin-left: 30px;
-}
-.margin-top-30 {
-  margin-top: 30px;
-}
-.margin-bottom-30 {
-  margin-bottom: 30px;
-}
-.margin-30 {
-  margin: 30px;
-}
-.margin-right-25 {
-  margin-right: 25px;
-}
-.margin-left-25 {
-  margin-left: 25px;
-}
-.margin-top-25 {
-  margin-top: 25px;
-}
-.margin-bottom-25 {
-  margin-bottom: 25px;
-}
-.margin-25 {
-  margin: 25px;
-}
-.margin-right-20 {
-  margin-right: 20px;
-}
-.margin-left-20 {
-  margin-left: 20px;
-}
-.margin-top-20 {
-  margin-top: 20px;
-}
-.margin-bottom-20 {
-  margin-bottom: 20px;
-}
-.margin-20 {
-  margin: 20px;
-}
-.margin-right-15 {
-  margin-right: 15px;
-}
-.margin-left-15 {
-  margin-left: 15px;
-}
-.margin-top-15 {
-  margin-top: 15px;
-}
-.margin-bottom-15 {
-  margin-bottom: 15px;
-}
-.margin-15 {
-  margin: 15px;
-}
-.margin-right-10 {
-  margin-right: 10px;
-}
-.margin-left-10 {
-  margin-left: 10px;
-}
-.margin-top-10 {
-  margin-top: 10px;
-}
-.margin-bottom-10 {
-  margin-bottom: 10px;
-}
-.margin-10 {
-  margin: 10px;
-}
-.margin-right-5 {
-  margin-right: 5px;
-}
-.margin-left-5 {
-  margin-left: 5px;
-}
-.margin-top-5 {
-  margin-top: 5px;
-}
-.margin-bottom-5 {
-  margin-bottom: 5px;
-}
-.margin-5 {
-  margin: 5px;
-}
-.font-size-30 {
-  font-size: 30px;
-}
-.font-size-29 {
-  font-size: 29px;
-}
-.font-size-28 {
-  font-size: 28px;
-}
-.font-size-27 {
-  font-size: 27px;
-}
-.font-size-26 {
-  font-size: 26px;
-}
-.font-size-25 {
-  font-size: 25px;
-}
-.font-size-24 {
-  font-size: 24px;
-}
-.font-size-23 {
-  font-size: 23px;
-}
-.font-size-22 {
-  font-size: 22px;
-}
-.font-size-21 {
-  font-size: 21px;
-}
-.font-size-20 {
-  font-size: 20px;
-}
-.font-size-19 {
-  font-size: 19px;
-}
-.font-size-18 {
-  font-size: 18px;
-}
-.font-size-17 {
-  font-size: 17px;
-}
-.font-size-16 {
-  font-size: 16px;
-}
-.font-size-15 {
-  font-size: 15px;
-}
-.font-size-14 {
-  font-size: 14px;
-}
-.font-size-13 {
-  font-size: 13px;
-}
-.font-size-12 {
-  font-size: 12px;
-}
-.font-size-11 {
-  font-size: 11px;
-}
-.font-size-10 {
-  font-size: 10px;
-}
-.font-size-9 {
-  font-size: 9px;
-}
-.font-size-8 {
-  font-size: 8px;
-}
-.font-size-7 {
-  font-size: 7px;
-}
-.font-size-6 {
-  font-size: 6px;
-}
-.font-size-5 {
-  font-size: 5px;
-}
-.font-size-4 {
-  font-size: 4px;
-}
-.font-size-3 {
-  font-size: 3px;
-}
-.font-size-2 {
-  font-size: 2px;
-}
-.font-size-1 {
-  font-size: 1px;
-}
-.nav-tabs {
+.i18ncontent-form .nav-tabs {
   border-bottom: 2px solid #DDD;
 }
-.nav-tabs > li > a {
+.i18ncontent-form .nav-tabs > li > a {
   border: none;
   color: #666;
 }
-.nav-tabs > li > a:after {
+.i18ncontent-form .nav-tabs > li > a:after {
   content: "";
   background: #3c8dbc;
   height: 2px;
@@ -286,40 +16,40 @@
   transition: all 250ms ease 0s;
   transform: scale(0);
 }
-.nav-tabs > li.active a,
-.nav-tabs > li > a:hover {
+.i18ncontent-form .nav-tabs > li.active a,
+.i18ncontent-form .nav-tabs > li > a:hover {
   border: none;
   color: #3c8dbc !important;
   background: transparent;
 }
-.nav-tabs > li.active > a:after,
-.nav-tabs > li:hover > a:after {
+.i18ncontent-form .nav-tabs > li.active > a:after,
+.i18ncontent-form .nav-tabs > li:hover > a:after {
   transform: scale(1);
 }
-.nav-tabs > li.active > a,
-.nav-tabs > li.active > a:hover,
-.nav-tabs > li.active > a:focus {
+.i18ncontent-form .nav-tabs > li.active > a,
+.i18ncontent-form .nav-tabs > li.active > a:hover,
+.i18ncontent-form .nav-tabs > li.active > a:focus {
   border-width: 0;
 }
-.nav-tabs > li.has-error > a:after {
+.i18ncontent-form .nav-tabs > li.has-error > a:after {
   background: #b74e35 !important;
 }
-.nav-tabs > li.has-error > a,
-.nav-tabs > li.has-error > a:focus,
-.nav-tabs > li.has-error > a:hover {
+.i18ncontent-form .nav-tabs > li.has-error > a,
+.i18ncontent-form .nav-tabs > li.has-error > a:focus,
+.i18ncontent-form .nav-tabs > li.has-error > a:hover {
   color: #b74e35 !important;
 }
-.tab-nav > li > a::after {
+.i18ncontent-form .tab-nav > li > a::after {
   background: #21527d none repeat scroll 0 0;
   color: #fff;
 }
-.tab-pane {
+.i18ncontent-form .tab-pane {
   padding: 15px 0;
 }
-.tab-content {
+.i18ncontent-form .tab-content {
   padding: 15px;
 }
-.tab-wrapper {
+.i18ncontent-form .tab-wrapper {
   background: #FFF none repeat scroll 0 0;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   margin-bottom: 30px;
@@ -344,6 +74,7 @@
   opacity: 0;
   width: 0;
   height: 0;
+  display: none;
 }
 .togglebutton label .toggle {
   text-align: left;
@@ -393,9 +124,9 @@
 .togglebutton label input[type=checkbox]:checked + .toggle:active:after {
   box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.4), 0 0 0 15px rgba(60, 141, 188, 0.1);
 }
-.table-wrapper table > thead > tr > th {
+.i18ncontent-table-wrapper table > thead > tr > th {
   white-space: nowrap;
 }
-.table-wrapper.article-index table > tbody > tr > td {
+.i18ncontent-table-wrapper.article-index table > tbody > tr > td {
   width: 160px;
 }

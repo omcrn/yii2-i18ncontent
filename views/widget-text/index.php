@@ -10,7 +10,7 @@ use yii\grid\GridView;
 $this->title = Yii::t('i18ncontent', 'Text Blocks');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="text-block-index table-wrapper">
+<div class="widget-text-index i18ncontent-table-wrapper">
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 

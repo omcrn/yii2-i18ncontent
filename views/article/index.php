@@ -10,7 +10,7 @@ use yii\grid\GridView;
 $this->title = Yii::t('i18ncontent', 'Articles');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="article-index table-wrapper">
+<div class="article-index i18ncontent-table-wrapper">
 
     <p>
         <?php

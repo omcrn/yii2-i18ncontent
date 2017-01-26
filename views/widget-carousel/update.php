@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('i18ncontent', 'Widget Carou
 $this->params['breadcrumbs'][] = ['label' => $model->key, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('i18ncontent', 'Update');
 ?>
-<div class="widget-carousel-update table-wrapper">
+<div class="widget-carousel-update i18ncontent-table-wrapper">
 
     <?php echo $this->render('_form', [
         'model' => $model,

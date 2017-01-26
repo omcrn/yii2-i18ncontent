@@ -11,7 +11,7 @@ use yii\helpers\Html;
 /* @var $translations array */
 ?>
 
-<div class="widget-carousel-item-form">
+<div class="i18ncontent-form widget-carousel-item-form">
 
     <?php $form = ActiveForm::begin(); ?>
 

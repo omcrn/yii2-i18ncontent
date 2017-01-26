@@ -10,7 +10,7 @@ use yii\bootstrap\ActiveForm;
 /* @var $translations array */
 ?>
 
-<div class="page-form">
+<div class="i18ncontent-form page-form">
 
     <?php $form = ActiveForm::begin(); ?>
 

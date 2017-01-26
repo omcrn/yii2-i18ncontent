@@ -10,7 +10,7 @@ use yii\grid\GridView;
 $this->title = Yii::t('i18ncontent', 'Widget Carousels');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="widget-carousel-index table-wrapper">
+<div class="widget-carousel-index i18ncontent-table-wrapper">
 
     <p>
         <?php echo Html::a(Yii::t('i18ncontent', 'Create {modelClass}', [

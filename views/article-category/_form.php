@@ -12,7 +12,7 @@ use yii\bootstrap\ActiveForm;
 /* @var $translations array */
 ?>
 
-<div class="article-category-form">
+<div class="i18ncontent-form article-category-form">
 
     <?php $form = ActiveForm::begin(); ?>
 

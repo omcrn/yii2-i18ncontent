@@ -8,7 +8,7 @@ use yii\bootstrap\ActiveForm;
 /* @var $form yii\bootstrap\ActiveForm */
 ?>
 
-<div class="widget-carousel-form">
+<div class="i18ncontent-form widget-carousel-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
