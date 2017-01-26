@@ -50,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'parent.activeTranslation.title',
-                'label' => Yii::t('backend', 'Parent category')
+                'label' => Yii::t('i18ncontent', 'Parent category')
             ],
             [
                 'class' => 'yii\grid\ActionColumn',

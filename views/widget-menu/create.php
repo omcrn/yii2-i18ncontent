@@ -6,10 +6,10 @@
  */
 /* @var $this yii\web\View */
 /* @var $model \centigen\i18ncontent\models\WidgetMenu */
-$this->title = Yii::t('backend', 'Create {modelClass}', [
+$this->title = Yii::t('i18ncontent', 'Create {modelClass}', [
     'modelClass' => 'Widget Menu',
 ]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Widget Menus'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('i18ncontent', 'Widget Menus'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="widget-menu-create">
