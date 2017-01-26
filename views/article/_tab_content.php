@@ -18,7 +18,7 @@ $className = \yii\helpers\StringHelper::basename(\centigen\i18ncontent\models\Ar
 <?php echo $form->field($model, 'short_description')->widget(
     \yii\imperavi\Widget::className(),
     [
-        'plugins' => ['fullscreen', 'fontcolor', 'video'],
+        'plugins' => ['table', 'fullscreen', 'fontcolor', 'video'],
         'htmlOptions' => [
             'name' => "{$className}[$language][short_description]",
 //            'name' => $namePrefix . '[body]' . $nameSuffix,
@@ -38,7 +38,7 @@ $className = \yii\helpers\StringHelper::basename(\centigen\i18ncontent\models\Ar
 <?php echo $form->field($model, 'body')->widget(
     \yii\imperavi\Widget::className(),
     [
-        'plugins' => ['fullscreen', 'fontcolor', 'video'],
+        'plugins' => ['table', 'fullscreen', 'fontcolor', 'video'],
         'htmlOptions' => [
             'name' => "{$className}[$language][body]",
 //            'name' => $namePrefix . '[body]' . $nameSuffix,

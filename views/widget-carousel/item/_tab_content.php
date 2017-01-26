@@ -13,7 +13,7 @@ $className = \yii\helpers\StringHelper::basename(\centigen\i18ncontent\models\Wi
 
 <?php echo $form->field($model, 'caption')->widget(
     \yii\imperavi\Widget::className(), [
-        'plugins' => ['fullscreen', 'fontcolor', 'video'],
+        'plugins' => ['table', 'fullscreen', 'fontcolor', 'video'],
         'htmlOptions' => [
             'name' => "{$className}[$language][caption]"
         ],

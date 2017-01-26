@@ -19,7 +19,7 @@ $className = \yii\helpers\StringHelper::basename(\centigen\i18ncontent\models\Pa
 
 <?php echo $form->field($model, 'body')->widget(\yii\imperavi\Widget::className(), [
     // More options, see http://imperavi.com/redactor/docs/
-    'plugins' => ['fullscreen', 'fontcolor', 'video', 'table'],
+    'plugins' => ['table', 'fullscreen', 'fontcolor', 'video'],
     'htmlOptions' => [
         'name' => "{$className}[$language][body]",
         'value' => $model->getBody()
