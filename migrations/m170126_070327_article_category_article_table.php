@@ -24,8 +24,8 @@ class m170126_070327_article_category_article_table extends Migration
         $this->createIndex('idx_article_category_article_article_id', \centigen\i18ncontent\models\ArticleCategoryArticle::tableName(), 'article_id');
         $this->addForeignKey('fk_article_category_article_article', \centigen\i18ncontent\models\ArticleCategoryArticle::tableName(), 'article_id',
             \centigen\i18ncontent\models\Article::tableName(), 'id', 'cascade', 'cascade');
-        $this->createIndex('idx_article_category_article_article_category_id', \centigen\i18ncontent\models\ArticleCategoryArticle::tableName(), 'article_category_id');
-        $this->addForeignKey('fk_article_category_article_article_category', \centigen\i18ncontent\models\ArticleCategoryArticle::tableName(), 'article_category_id',
+        $this->createIndex('idx_article_category_article_article_category_id', \centigen\i18ncontent\models\ArticleCategoryArticle::tableName(), 'category_id');
+        $this->addForeignKey('fk_article_category_article_article_category', \centigen\i18ncontent\models\ArticleCategoryArticle::tableName(), 'category_id',
             \centigen\i18ncontent\models\ArticleCategory::tableName(), 'id', 'cascade', 'cascade');
 
 

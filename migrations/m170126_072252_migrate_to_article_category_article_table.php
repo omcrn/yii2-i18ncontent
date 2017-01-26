@@ -11,7 +11,7 @@ class m170126_072252_migrate_to_article_category_article_table extends Migration
         $trans = Yii::$app->db->beginTransaction();
         foreach ($articles as $article){
             $articleCategoryArticle = new \centigen\i18ncontent\models\ArticleCategoryArticle();
-            $articleCategoryArticle->article_category_id = $article->category_id;
+            $articleCategoryArticle->category_id = $article->category_id;
             $articleCategoryArticle->article_id = $article->id;
             if (!$articleCategoryArticle->save()){
                 $trans->rollBack();
