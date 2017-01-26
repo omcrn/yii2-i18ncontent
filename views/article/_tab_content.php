@@ -15,6 +15,13 @@ $className = \yii\helpers\StringHelper::basename(\centigen\i18ncontent\models\Ar
         'name' => "{$className}[$language][title]"
     ]
 ])->textInput(['maxlength' => true]) ?>
+
+<?php echo $form->field($model, 'keywords', [
+    'inputOptions' => [
+        'name' => "{$className}[$language][keywords]"
+    ]
+])->textInput(['maxlength' => true]) ?>
+
 <?php echo $form->field($model, 'short_description')->widget(
     \yii\imperavi\Widget::className(),
     [

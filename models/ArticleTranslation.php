@@ -17,6 +17,7 @@ use Yii;
  * @property string $meta_title
  * @property string $meta_description
  * @property string $meta_keywords
+ * @property string $keywords
  *
  * @property Article $article
  */
@@ -41,7 +42,7 @@ class ArticleTranslation extends \yii\db\ActiveRecord
             [['article_id'], 'integer'],
             [['body','short_description'], 'string'],
             [['locale'], 'string', 'max' => 15],
-            [['title', 'meta_title', 'meta_description', 'meta_keywords'], 'string', 'max' => 512]
+            [['title', 'keywords', 'meta_title', 'meta_description', 'meta_keywords'], 'string', 'max' => 512]
         ];
     }
 
@@ -60,6 +61,7 @@ class ArticleTranslation extends \yii\db\ActiveRecord
             'meta_title' => Yii::t('i18ncontent', 'Meta Title'),
             'meta_description' => Yii::t('i18ncontent', 'Meta Description'),
             'meta_keywords' => Yii::t('i18ncontent', 'Meta Keywords'),
+            'keywords' => Yii::t('i18ncontent', 'Keywords'),
         ];
     }
 
