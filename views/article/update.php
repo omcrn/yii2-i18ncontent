@@ -7,7 +7,7 @@
 
 $this->title = Yii::t('i18ncontent', 'Update {modelClass}: ', [
     'modelClass' => 'Article',
-]) . ' ' . $model->slug;
+]) . ' ' . $model->getTitle();
 $this->params['breadcrumbs'][] = ['label' => Yii::t('i18ncontent', 'Articles'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->slug, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('i18ncontent', 'Update');

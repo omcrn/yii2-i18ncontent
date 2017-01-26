@@ -220,7 +220,7 @@ class Article extends TranslatableModel
         if (empty($categoryIds)){
             return true;
         }
-        ArticleCategoryArticle::deleteAll(['category_id' => $categoryIds]);
+        ArticleCategoryArticle::deleteAll(['article_id' => $this->id, 'category_id' => $categoryIds]);
         return true;
     }
 
@@ -324,5 +324,21 @@ class Article extends TranslatableModel
             return Yii::getAlias('@storageUrl') . '/source/' . ltrim($this->thumbnail_path, '/');
         }
         return null;
+    }
+
+    /**
+     * Get slugs of this article categories
+     *
+     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
+     * @return array
+     */
+    public function getArticleCategorySlugs()
+    {
+        $slugs = [];
+        foreach ($this->articleCategoryArticles as $articleCategoryArticle) {
+            $slugs[] = $articleCategoryArticle->articleCategory->slug;
+        }
+
+        return $slugs;
     }
 }

@@ -155,19 +155,28 @@ class ArticleCategory extends TranslatableModel
      * Get article categories as map where key is `ArticleCategory::id` and value `activeTranslation->title`
      *
      * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
+     * @param bool $withParentCategory
      * @return array
      */
-    public static function getCategories()
+    public static function getCategories($withParentCategory = false)
     {
         $categories = self::find()
-            ->active()
-            ->all();
+            ->active();
+
+        if ($withParentCategory){
+            $categories->with('parent');
+        }
+        $categories = $categories->all();
 
         $return = [];
 
         foreach ($categories as $category) {
             if ($category->activeTranslation) {
-                $return[$category->id] = $category->activeTranslation->title;
+                $text = $category->getTitle();
+                if ($withParentCategory && $category->parent){
+                    $text = $category->parent->getTitle() . ' - ' . $text;
+                }
+                $return[$category->id] = $text;
             }
         }
 

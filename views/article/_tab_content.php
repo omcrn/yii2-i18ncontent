@@ -1,5 +1,6 @@
 <?php
 
+use wbraganca\tagsinput\TagsinputWidget;
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */
@@ -19,6 +20,11 @@ $className = \yii\helpers\StringHelper::basename(\centigen\i18ncontent\models\Ar
 <?php echo $form->field($model, 'keywords', [
     'inputOptions' => [
         'name' => "{$className}[$language][keywords]"
+    ]
+])->widget(TagsinputWidget::classname(), [
+    'clientOptions' => [
+        'trimValue' => true,
+        'allowDuplicates' => false
     ]
 ])->textInput(['maxlength' => true]) ?>
 

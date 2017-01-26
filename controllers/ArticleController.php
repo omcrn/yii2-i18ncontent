@@ -79,7 +79,7 @@ class ArticleController extends Controller
     public function actionCreate()
     {
         $model = new Article();
-        $articleCategories = ArticleCategory::getCategories();
+        $articleCategories = ArticleCategory::getCategories(true);
         $locales = BaseHelper::getAvailableLocales();
 
         if ($model->load(Yii::$app->request->post(), null) && $model->save()) {
@@ -103,7 +103,7 @@ class ArticleController extends Controller
         $model = $this->findModel($id);
         $model->category_ids = ArrayHelper::getColumn($model->articleCategoryArticles, 'category_id');
 
-        $articleCategories = ArticleCategory::getCategories();
+        $articleCategories = ArticleCategory::getCategories(true);
         $locales = BaseHelper::getAvailableLocales();
 
         if ($model->load(Yii::$app->request->post(), null) && $model->save()) {
