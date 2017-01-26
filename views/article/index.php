@@ -6,6 +6,7 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $searchModel centigen\i18ncontent\models\search\ArticleSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $articleCategories \centigen\i18ncontent\models\ArticleCategory[] */
 
 $this->title = Yii::t('i18ncontent', 'Articles');
 $this->params['breadcrumbs'][] = $this->title;
@@ -26,13 +27,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-
-            [
-                'attribute' => 'id',
-                'contentOptions' => [
-                    'style' => 'width: 100px'
-                ]
-            ],
             [
                 'attribute' => 'slug',
                 'contentOptions' => [
@@ -49,6 +43,24 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]
             ],
             [
+                'label' => Yii::t('i18ncontent', 'Categories'),
+                'attribute' => 'category_ids',
+                'filter' => $articleCategories,
+                'format' => ['html'],
+                'value' => function ($model) {
+                    /** @var $model \centigen\i18ncontent\models\Article */
+//                    \centigen\base\helpers\UtilHelper::vardump($model->toArray());
+                    $content = '';
+                    foreach ($model->articleCategoryArticles as $articleCategoryArticle){
+                        $content .= \yii\bootstrap\Html::tag('span', $articleCategoryArticle->articleCategory->getTitle(), ['class' => 'label label-default']);
+                    }
+                    return $content;
+                },
+                'contentOptions' => [
+                    'style' => 'width: auto'
+                ]
+            ],
+            [
                 'attribute' => 'author',
                 'value' => function ($model) {
                     return $model->author->username;
@@ -57,9 +69,9 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => Yii::t('i18ncontent', 'Status'),
                 'attribute' => 'status',
-                'content' => function($model){
+                'content' => function ($model) {
                     /** @var \common\models\User $model */
-                   return \centigen\i18ncontent\helpers\Html::asFab($model);
+                    return \centigen\i18ncontent\helpers\Html::asFab($model);
                 },
                 'headerOptions' => [
                     'class' => 'text-center',

@@ -20,13 +20,14 @@ class ArticleSearch extends Article
      * @var array
      */
     public $catIds;
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'status', 'published_at', 'created_at', 'position'], 'integer'],
+            [['id', 'status', 'category_ids', 'published_at', 'created_at', 'position'], 'integer'],
             [['author', 'slug', 'title', 'catIds'], 'safe'],
         ];
     }
@@ -48,9 +49,9 @@ class ArticleSearch extends Article
     {
 //        \ChromePhp::log($params);
         $query = Article::find();
-        $query->from('{{%article}} a');
-        $query->innerJoin(ArticleTranslation::tableName().'at', 'at.article_id = a.id AND at.locale = :locale', ['locale' => Yii::$app->language]);
-        $query->innerJoin('{{%user}} u', 'u.id = a.author_id');
+        $a = Article::tableName();
+        $query->innerJoin(ArticleTranslation::tableName() . 'at', "at.article_id = $a.id AND at.locale = :locale", ['locale' => Yii::$app->language]);
+        $query->innerJoin('{{%user}} u', "u.id = $a.author_id");
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -64,7 +65,7 @@ class ArticleSearch extends Article
             'asc' => ['u.username' => SORT_ASC],
             'desc' => ['u.username' => SORT_DESC]
         ];
-       $this->load($params);
+        $this->load($params);
         if (!$this->validate()) {
             return $dataProvider;
         }
@@ -72,15 +73,22 @@ class ArticleSearch extends Article
         //$this->slug = $params['ArticleSearch']['slug'];
 
         $query->andFilterWhere([
-            'a.id' => $this->id,
-            'a.status' => $this->status,
-            'a.position' => $this->position,
-            'a.published_at' => $this->published_at,
-            'a.created_at' => $this->created_at
+            "$a.id" => $this->id,
+            "$a.status" => $this->status,
+            "$a.position" => $this->position,
+            "$a.published_at" => $this->published_at,
+            "$a.created_at" => $this->created_at
         ]);
+        if (!is_array($this->category_ids) && $this->category_ids) {
+            $this->category_ids = [$this->category_ids];
+        }
 
-        $query->andFilterWhere(['like', 'a.slug', $this->slug])
-            ->andFilterWhere(['like', 'at.title', $this->title]);
+        if (!empty($this->category_ids)) {
+            $query->byCategoryId($this->category_ids);
+        }
+
+        $query->andFilterWhere(['like', "$a.slug", $this->slug])
+            ->andFilterWhere(['like', "at.title", $this->title]);
 
         if ($this->author) {
             $query->andFilterWhere([
@@ -88,7 +96,9 @@ class ArticleSearch extends Article
             ]);
         }
 
-//        \ChromePhp::log(QueryHelper::getRawSql($query));
+        $query->with([
+            'articleAttachments', 'articleCategoryArticles', 'articleCategoryArticles.articleCategory', 'author'
+        ]);
 
         return $dataProvider;
     }
@@ -103,7 +113,7 @@ class ArticleSearch extends Article
         $query = Article::find();
         $query->from('{{%article}} a');
 //        $query->innerJoin('article_category', 'article_category.id = a.category_id');
-        $query->innerJoin(ArticleTranslation::tableName().' at', 'at.article_id = a.id AND at.locale = :locale', ['locale' => Yii::$app->language]);
+        $query->innerJoin(ArticleTranslation::tableName() . ' at', 'at.article_id = a.id AND at.locale = :locale', ['locale' => Yii::$app->language]);
         $query->innerJoin('{{%user}} u', 'u.id = a.author_id');
 
         $dataProvider = new ActiveDataProvider([
