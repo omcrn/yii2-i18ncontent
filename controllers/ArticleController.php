@@ -8,6 +8,7 @@ use centigen\i18ncontent\models\search\ArticleSearch;
 use centigen\i18ncontent\models\ArticleCategory;
 use centigen\i18ncontent\web\Controller;
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -99,6 +100,7 @@ class ArticleController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model->category_ids = ArrayHelper::getColumn($model->articleCategoryArticles, 'category_id');
 
         $articleCategories = ArticleCategory::getCategories();
         $locales = BaseHelper::getAvailableLocales();

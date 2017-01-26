@@ -15,7 +15,7 @@ use yii\behaviors\TimestampBehavior;
  * @property string $view
  * @property integer $status
  *
- * @property Article[] $articles
+ * @property ArticleCategoryArticle[] $articlesCategoryArticles
  * @property ArticleCategory $parent
  * @property ArticleCategoryTranslation $activeTranslation
  * @property ArticleCategoryTranslation[] $translations
@@ -52,42 +52,6 @@ class ArticleCategory extends TranslatableModel
     {
         return (new ArticleCategoryQuery(get_called_class()))->with('activeTranslation');
     }
-
-    /**
-     * Get ArticleCategory id by its slug
-     *
-     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
-     * @param $slug
-     * @return int|mixed
-     */
-    public static function getIdBySlug($slug)
-    {
-        $self = self::find()->where(['slug' => $slug])->one();
-        return $self ? $self->id : -1;
-    }
-
-    /**
-     * Get all ids of ArticleCategory which are direct children of given category plus id of given category
-     *
-     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
-     * @param $slug
-     * @return array
-     */
-    public static function getIdsBySlug($slug)
-    {
-        $ids = [];
-        $id = self::getIdBySlug($slug);
-        array_push($ids, $id);
-        $self = self::find()->select('id')->where(['parent_id' => $id])->asArray()->all();
-
-        if (!empty($self)) {
-            foreach ($self as $val) {
-                $ids[] = $val['id'];
-            }
-        }
-        return $ids;
-    }
-
 
     public function behaviors()
     {
@@ -131,9 +95,9 @@ class ArticleCategory extends TranslatableModel
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getArticles()
+    public function getArticleCategoryArticles()
     {
-        return $this->hasMany(Article::className(), ['category_id' => 'id']);
+        return $this->hasMany(ArticleCategoryArticle::className(), ['category_id' => 'id']);
     }
 
     /**
@@ -150,6 +114,41 @@ class ArticleCategory extends TranslatableModel
     public function getChildCategories()
     {
         return $this->hasMany(ArticleCategory::className(), ['parent_id' => 'id']);
+    }
+
+    /**
+     * Get ArticleCategory id by its slug
+     *
+     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
+     * @param $slug
+     * @return int|mixed
+     */
+    public static function getIdBySlug($slug)
+    {
+        $self = self::find()->where(['slug' => $slug])->one();
+        return $self ? $self->id : -1;
+    }
+
+    /**
+     * Get all ids of ArticleCategory which are direct children of given category plus id of given category
+     *
+     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
+     * @param $slug
+     * @return array
+     */
+    public static function getIdsBySlug($slug)
+    {
+        $ids = [];
+        $id = self::getIdBySlug($slug);
+        array_push($ids, $id);
+        $self = self::find()->select('id')->where(['parent_id' => $id])->asArray()->all();
+
+        if (!empty($self)) {
+            foreach ($self as $val) {
+                $ids[] = $val['id'];
+            }
+        }
+        return $ids;
     }
 
     /**

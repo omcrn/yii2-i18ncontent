@@ -2,6 +2,7 @@
 
 namespace centigen\i18ncontent\models;
 
+use centigen\base\helpers\UtilHelper;
 use centigen\i18ncontent\models\query\ArticleQuery;
 use trntv\filekit\behaviors\UploadBehavior;
 use Yii;
@@ -9,6 +10,7 @@ use yii\behaviors\BlameableBehavior;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "article".
@@ -22,7 +24,6 @@ use yii\db\ActiveQuery;
  * @property array $attachments
  * @property integer $author_id
  * @property integer $updater_id
- * @property integer $category_id
  * @property integer $status
  * @property integer $published_at
  * @property integer $position
@@ -31,7 +32,7 @@ use yii\db\ActiveQuery;
  *
  * @property string $title
  * @property string $body
- * @property ArticleCategory $category
+ * @property ArticleCategoryArticle[] $articleCategoryArticles
  * @property ArticleAttachment[] $articleAttachments
  * @property ArticleTranslation[] $translations
  * @property ArticleTranslation $activeTranslation
@@ -55,6 +56,8 @@ class Article extends TranslatableModel
 
 
     public $articleCount = null;
+
+    public $category_ids = [];
 
     /**
      * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
@@ -126,17 +129,16 @@ class Article extends TranslatableModel
     public function rules()
     {
         return [
-            [['category_id'], 'required'],
             [['slug'], 'unique'],
             [['published_at'], 'default', 'value' => time()],
-            [['published_at'], 'filter', 'filter' => 'strtotime', 'when' => function($model) {
+            [['published_at'], 'filter', 'filter' => 'strtotime', 'when' => function ($model) {
                 return is_string($model->published_at);
             }],
-            [['category_id'], 'exist', 'targetClass' => ArticleCategory::className(), 'targetAttribute' => 'id'],
             [['author_id', 'updater_id', 'position', 'status'], 'integer'],
             [['slug', 'thumbnail_base_url', 'thumbnail_path', 'url'], 'string', 'max' => 2024],
             [['view'], 'string', 'max' => 255],
-            [['attachments', 'thumbnail', 'published_at'], 'safe']
+            [['attachments', 'thumbnail', 'published_at'], 'safe'],
+            ['category_ids', 'each', 'rule' => ['integer']],
         ];
     }
 
@@ -149,12 +151,12 @@ class Article extends TranslatableModel
             'id' => Yii::t('i18ncontent', 'ID'),
             'slug' => Yii::t('i18ncontent', 'Slug'),
             'view' => Yii::t('i18ncontent', 'Article View'),
+            'category_ids' => Yii::t('i18ncontent', 'Article Categories'),
             'thumbnail' => Yii::t('i18ncontent', 'Thumbnail'),
             'position' => Yii::t('i18ncontent', 'Position'),
             'url' => Yii::t('i18ncontent', 'Url'),
             'author_id' => Yii::t('i18ncontent', 'Author'),
             'updater_id' => Yii::t('i18ncontent', 'Updater'),
-            'category_id' => Yii::t('i18ncontent', 'Category'),
             'status' => Yii::t('i18ncontent', 'Published'),
             'published_at' => Yii::t('i18ncontent', 'Published At'),
             'created_at' => Yii::t('i18ncontent', 'Created At'),
@@ -181,9 +183,9 @@ class Article extends TranslatableModel
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCategory()
+    public function getArticleCategoryArticles()
     {
-        return $this->hasOne(ArticleCategory::className(), ['id' => 'category_id']);
+        return $this->hasMany(ArticleCategoryArticle::className(), ['article_id' => 'id']);
     }
 
     /**
@@ -192,6 +194,55 @@ class Article extends TranslatableModel
     public function getArticleAttachments()
     {
         return $this->hasMany(ArticleAttachment::className(), ['article_id' => 'id']);
+    }
+
+    public function save($runValidation = true, $attributeNames = null)
+    {
+        $transaction = Yii::$app->db->beginTransaction();
+        if (parent::save()){
+
+            $existingCategoryIds = ArrayHelper::getColumn($this->articleCategoryArticles, 'category_id');
+            $toDeleteCategoryIds = array_diff($existingCategoryIds, $this->category_ids);
+            $toAddCategoryIds = array_diff($this->category_ids, $existingCategoryIds);
+//            \centigen\base\helpers\UtilHelper::vardump($toDeleteCategoryIds, $toAddCategoryIds);
+//            exit;
+            if ($this->removeCategories($toDeleteCategoryIds) && $this->addCategories($toAddCategoryIds)){
+                $transaction->commit();
+                return true;
+            }
+        }
+        $transaction->rollBack();
+        return false;
+    }
+
+    protected function removeCategories($categoryIds)
+    {
+        if (empty($categoryIds)){
+            return true;
+        }
+        ArticleCategoryArticle::deleteAll(['category_id' => $categoryIds]);
+        return true;
+    }
+
+    protected function addCategories($categoryIds)
+    {
+        if (empty($categoryIds)){
+            return true;
+        }
+        $data = [];
+        foreach ($categoryIds as $category_id){
+            $data[] = [
+                'article_id' => $this->id,
+                'category_id' => $category_id,
+                'updated_at' => time(),
+                'created_at' => time()
+            ];
+        }
+
+        Yii::$app->db->createCommand()->batchInsert(ArticleCategoryArticle::tableName(),
+            ['article_id', 'category_id', 'updated_at', 'created_at'], $data)->execute();
+
+        return true;
     }
 
     /**
@@ -206,10 +257,8 @@ class Article extends TranslatableModel
     {
         $query = Article::find()
             ->with('activeTranslation')
-            ->where([
-                'category_id' => $cat->id,
-                'status' => self::STATUS_PUBLISHED
-            ]);
+            ->byCategoryId($cat->id)
+            ->published();
         return $getQuery ? $query : $query->all();
     }
 
@@ -222,15 +271,11 @@ class Article extends TranslatableModel
      */
     public static function getByCategorySlug($slug)
     {
-        return Article::find()
-            ->from(self::tableName().' a')
-            ->innerJoin('{{%article_category}} ac', 'ac.id = a.category_id')
+        return Article::find()->byCategorySlug($slug)
+            ->categoryActive()
+            ->published()
             ->with('activeTranslation')
-            ->where([
-                'ac.slug' => $slug,
-                'a.status' => self::STATUS_PUBLISHED,
-                'ac.status' => self::STATUS_PUBLISHED
-            ])->all();
+            ->all();
     }
 
     /**
@@ -244,10 +289,9 @@ class Article extends TranslatableModel
     {
         return Article::find()
             ->with('activeTranslation')
-            ->where([
-                'slug' => $slug,
-                'status' => self::STATUS_PUBLISHED
-            ])->one();
+            ->bySlug($slug)
+            ->published()
+            ->one();
     }
 
     /**
@@ -274,10 +318,10 @@ class Article extends TranslatableModel
         return $this->activeTranslation ? $this->activeTranslation->getShortDescription() : '';
     }
 
-	public function getThumbnailUrl()
+    public function getThumbnailUrl()
     {
-        if ($this->thumbnail_path){
-            return Yii::getAlias('@storageUrl') . '/source/'.ltrim($this->thumbnail_path, '/');
+        if ($this->thumbnail_path) {
+            return Yii::getAlias('@storageUrl') . '/source/' . ltrim($this->thumbnail_path, '/');
         }
         return null;
     }

@@ -49,13 +49,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]
             ],
             [
-                'attribute' => 'category_id',
-                'value' => function ($model) {
-                    return $model->category ? $model->category->activeTranslation->title : null;
-                },
-                'filter' => \centigen\i18ncontent\models\ArticleCategory::getCategories(),
-            ],
-            [
                 'attribute' => 'author',
                 'value' => function ($model) {
                     return $model->author->username;

@@ -19,7 +19,11 @@ use yii\bootstrap\ActiveForm;
         ->hint(Yii::t('i18ncontent', 'If you\'ll leave this field empty, slug will be generated automatically'))
         ->textInput(['maxlength' => true]) ?>
 
-    <?php echo $form->field($model, 'category_id')->dropDownList($categories, ['prompt' => '']) ?>
+    <?php echo $form->field($model, 'category_ids', [
+        'inputOptions' => [
+            'multiple' => 'multiple'
+        ]
+    ])->dropDownList($categories) ?>
 
     <?php
 
@@ -104,15 +108,15 @@ use yii\bootstrap\ActiveForm;
 
     <?php ActiveForm::end(); ?>
 
-    <?php if(!$model->isNewRecord): ?>
+    <?php if (!$model->isNewRecord): ?>
         <div class="form-group">
             <?php echo Html::a(Yii::t('i18ncontent', 'Delete', []), ['delete', 'id' => $model->id],
                 [
                     'class' => 'btn btn-danger',
                     'data-confirm' => "Are you sure you want to delete this item?",
-                    'data-method'=>"post",
+                    'data-method' => "post",
                     'data-pjax' => "0"
                 ]) ?>
         </div>
-    <?php endif?>
+    <?php endif ?>
 </div>

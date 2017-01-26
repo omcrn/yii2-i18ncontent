@@ -4,27 +4,14 @@ namespace centigen\i18ncontent\models\query;
 
 use centigen\i18ncontent\models\Article;
 use centigen\i18ncontent\models\ArticleCategory;
+use centigen\i18ncontent\models\ArticleCategoryArticle;
 use yii\db\ActiveQuery;
 use yii\db\Connection;
 
 class ArticleQuery extends ActiveQuery
 {
     private $joinedOnCategory = false;
-
-    public function published()
-    {
-        $this->andWhere(['{{%article}}.status' => Article::STATUS_PUBLISHED]);
-        $this->andWhere(['<', '{{%article}}.published_at', time()]);
-        return $this;
-    }
-
-    /**
-     * @param $categoryId
-     * @return $this
-     */
-    public function byCategoryId($categoryId){
-        return $this->andWhere(['{{%article}}.category_id' => $categoryId]);
-    }
+    private $joinedOnArticleCategoryArticle = false;
 
     /**
      * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
@@ -56,6 +43,22 @@ class ArticleQuery extends ActiveQuery
         return $this->andWhere(['{{%article}}.slug' => $slug]);
     }
 
+    public function published()
+    {
+        $this->andWhere(['{{%article}}.status' => Article::STATUS_PUBLISHED]);
+        $this->andWhere(['<', '{{%article}}.published_at', time()]);
+        return $this;
+    }
+
+    /**
+     * @param $categoryId
+     * @return $this
+     */
+    public function byCategoryId($categoryId){
+        $this->joinOnArticleCategoryArticle();
+        return $this->andWhere([ArticleCategoryArticle::tableName().'.category_id' => $categoryId]);
+    }
+
     /**
      * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
      * @param $categorySlug
@@ -64,9 +67,37 @@ class ArticleQuery extends ActiveQuery
     public function byCategorySlug($categorySlug)
     {
         if (!$this->joinedOnCategory){
-            $this->innerJoin(ArticleCategory::tableName().' ac', 'ac.id = {{%article}}.category_id');
+            $this->joinOnCategory();
         }
-        return $this->andWhere(['ac.slug' => $categorySlug]);
+        return $this->andWhere([ArticleCategory::tableName().'.slug' => $categorySlug]);
+    }
+
+    /**
+     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
+     * @return self
+     */
+    public function joinOnArticleCategoryArticle()
+    {
+        if (!$this->joinedOnArticleCategoryArticle){
+            $this->joinedOnArticleCategoryArticle = true;
+            $this->innerJoin(ArticleCategoryArticle::tableName(),
+                ArticleCategoryArticle::tableName().'.article_id = '.Article::tableName().'.id');
+        }
+        return $this;
+    }
+
+    /**
+     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
+     * @return self
+     */
+    public function joinOnCategory()
+    {
+        $this->joinOnArticleCategoryArticle();
+        if (!$this->joinedOnCategory){
+            $this->joinedOnCategory = true;
+            $this->innerJoin(ArticleCategory::tableName(), ArticleCategory::tableName().'.id = '.ArticleCategoryArticle::tableName().'.category_id');
+        }
+        return $this;
     }
 
     /**
@@ -76,5 +107,15 @@ class ArticleQuery extends ActiveQuery
     public function orderByPosition()
     {
         return $this->orderBy(['{{%article}}.position' => SORT_ASC]);
+    }
+
+    /**
+     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
+     * @return self
+     */
+    public function categoryActive()
+    {
+        $this->joinOnCategory();
+        return $this->andWhere([ArticleCategory::tableName().'.status' => ArticleCategory::STATUS_ACTIVE]);
     }
 }
