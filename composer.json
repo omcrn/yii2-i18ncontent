@@ -25,7 +25,7 @@
     "trntv/yii2-file-kit": "^1.0.0",
     "trntv/yii2-aceeditor": "^2.0",
     "omcrn/yii2-base": "^0.1.1",
-    "bower-asset/bootstrap-tagsinput": "^0.5.0"
+    "bower-asset/bootstrap-tagsinput": "*"
   },
   "autoload": {
     "psr-4": {
