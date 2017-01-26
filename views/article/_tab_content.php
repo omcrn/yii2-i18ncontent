@@ -25,8 +25,8 @@ $className = \yii\helpers\StringHelper::basename(\centigen\i18ncontent\models\Ar
             'value' => $model->getShortDescription()
         ],
         'options' => [
-            'minHeight' => 400,
-            'maxHeight' => 300,
+            'minHeight' => 100,
+            'maxHeight' => 200,
             'buttonSource' => true,
             'convertDivs' => false,
             'removeEmptyTags' => false,
