@@ -152,7 +152,9 @@ class ArticleCategory extends TranslatableModel
     }
 
     /**
-     * Get article categories as map where key is `ArticleCategory::id` and value `activeTranslation->title`
+     * Get all article categories as map where key is `ArticleCategory::id`
+     * and value is ArticleCategory::title. If $withParentCategory
+     * is true, array item value will also contain parent `ArticleCategory::title`
      *
      * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
      * @param bool $withParentCategory
@@ -160,20 +162,52 @@ class ArticleCategory extends TranslatableModel
      */
     public static function getCategories($withParentCategory = false)
     {
-        $categories = self::find()
-            ->active();
+        $query = self::find();
 
-        if ($withParentCategory){
-            $categories->with('parent');
+        if ($withParentCategory) {
+            $query->with('parent');
         }
-        $categories = $categories->all();
 
+        return self::convertToMap($query->all(), $withParentCategory);
+    }
+
+    /**
+     * Get article categories as map where key is `ArticleCategory::id`
+     * and value is ArticleCategory::title. If $withParentCategory
+     * is true, array item value will also contain parent `ArticleCategory::title`
+     *
+     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
+     * @param bool $withParentCategory
+     * @return array
+     */
+    public static function getActiveCategories($withParentCategory = false)
+    {
+        $query = self::find()
+            ->active();
+        if ($withParentCategory) {
+            $query->with('parent');
+        }
+
+        return self::convertToMap($query->all(), $withParentCategory);
+    }
+
+    /**
+     * Convert given ArticleCategory array into map, where key is `ArticleCategory::id`
+     * and value is ArticleCategory::title. If $withParentCategory
+     * is true, array item value will also contain parent `ArticleCategory::title`
+     *
+     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
+     * @param ArticleCategory[] $categories
+     * @param bool $withParentCategory
+     * @return array
+     */
+    protected static function convertToMap($categories, $withParentCategory = false)
+    {
         $return = [];
-
         foreach ($categories as $category) {
             if ($category->activeTranslation) {
                 $text = $category->getTitle();
-                if ($withParentCategory && $category->parent){
+                if ($withParentCategory && $category->parent) {
                     $text = $category->parent->getTitle() . ' - ' . $text;
                 }
                 $return[$category->id] = $text;
