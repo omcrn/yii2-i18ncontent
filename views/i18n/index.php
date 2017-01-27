@@ -1,12 +1,12 @@
 <?php
 
-use backend\modules\i18n\models\search\I18nMessageSearch;
+use centigen\i18ncontent\models\search\I18nSearch;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
 /**
  * @var $this yii\web\View
- * @var $searchModel I18nMessageSearch
+ * @var $searchModel I18nSearch
  * @var $languages array
  * @var $categories array
  * @var $dataProvider yii\data\ActiveDataProvider

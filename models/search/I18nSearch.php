@@ -8,7 +8,7 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 /**
- * I18nMessageSearch represents the model behind the search form about `backend\modules\i18n\models\I18nMessage`.
+ * I18nSearch represents the model behind the search form about `centigen\i18ncontent\models\I18nMessage`.
  *
  * @property string $translations
  */
