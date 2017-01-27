@@ -49,4 +49,9 @@ class Module extends \yii\base\Module
             $this->mediaUrlPrefix = Url::base(true);
         }
     }
+
+    public function missingTranslation()
+    {
+        // @todo
+    }
 }
