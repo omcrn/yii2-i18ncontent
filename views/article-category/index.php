@@ -44,9 +44,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     'class' => 'text-center',
                 ],
                 'contentOptions' => [
-                    'class' => '',
-                    'style' => 'width: 1px'
+                    'style' => 'width: 120px'
                 ],
+                'filter' => \centigen\i18ncontent\helpers\BaseHelper::getStatusOptionsArray()
             ],
             [
                 'attribute' => 'parent.activeTranslation.title',

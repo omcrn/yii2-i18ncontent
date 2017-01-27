@@ -1,6 +1,7 @@
 <?php
 
 namespace centigen\i18ncontent\helpers;
+
 use Yii;
 
 /**
@@ -9,7 +10,7 @@ use Yii;
  * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
  * @package centigen\i18ncontent\helpers
  */
-class BaseHelper 
+class BaseHelper
 {
     /**
      * Returns availableLocales from `Yii::$app->params` if it is set. If not it will return Yii::$app->language
@@ -30,5 +31,13 @@ class BaseHelper
         }
 
         return $locales;
+    }
+
+    public static function getStatusOptionsArray()
+    {
+        return [
+            '1' => Yii::t('i18ncontent', 'Active'),
+            '0' => Yii::t('i18ncontent', 'Disabled')
+        ];
     }
 } 

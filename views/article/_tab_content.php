@@ -26,7 +26,7 @@ $className = \yii\helpers\StringHelper::basename(\centigen\i18ncontent\models\Ar
         'trimValue' => true,
         'allowDuplicates' => false
     ]
-])->textInput(['maxlength' => true]) ?>
+])->textInput(['maxlength' => true])->hint(Yii::t('i18ncontent', 'Type keyword and press enter or comma to add keyword')) ?>
 
 <?php echo $form->field($model, 'short_description')->widget(
     \yii\imperavi\Widget::className(),

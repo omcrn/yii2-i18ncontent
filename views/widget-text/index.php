@@ -26,7 +26,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'key',
-
             [
                 'attribute' => 'title',
                 'value' => function($model) {
@@ -44,9 +43,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     'class' => 'text-center',
                 ],
                 'contentOptions' => [
-                    'class' => '',
-                    'style' => 'width: 1px'
+                    'style' => 'width: 120px'
                 ],
+                'filter' => \centigen\i18ncontent\helpers\BaseHelper::getStatusOptionsArray()
             ],
             'created_at:datetime',
             [
