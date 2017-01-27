@@ -6,6 +6,7 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $searchModel centigen\i18ncontent\models\search\ArticleCategorySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $categories \centigen\i18ncontent\models\ArticleCategory[] */
 
 $this->title = Yii::t('i18ncontent', 'Article Categories');
 $this->params['breadcrumbs'][] = $this->title;
@@ -49,8 +50,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter' => \centigen\i18ncontent\helpers\BaseHelper::getStatusOptionsArray()
             ],
             [
-                'attribute' => 'parent.activeTranslation.title',
-                'label' => Yii::t('i18ncontent', 'Parent category')
+                'attribute' => 'parentCategory',
+                'value' => function($model){
+                    /** @var $model \centigen\i18ncontent\models\ArticleCategory */
+                    return $model->parent ? $model->parent->getTitle() : null;
+                },
+                'label' => Yii::t('i18ncontent', 'Parent category'),
+                'filter' => $categories
             ],
             [
                 'class' => 'yii\grid\ActionColumn',

@@ -9,6 +9,8 @@ use centigen\i18ncontent\models\ArticleCategory;
 
 /**
  * ArticleCategorySearch represents the model behind the search form about `centigen\i18ncontent\models\ArticleCategory`.
+ *
+ * @property string $parentCategory
  */
 class ArticleCategorySearch extends ArticleCategory
 {
@@ -19,8 +21,13 @@ class ArticleCategorySearch extends ArticleCategory
     {
         return [
             [['id', 'status'], 'integer'],
-            [['slug', 'title'], 'safe'],
+            [['slug', 'title', 'parentCategory'], 'safe'],
         ];
+    }
+
+    public function attributes()
+    {
+        return array_merge(parent::attributes(), ['parentCategory']);
     }
 
     /**
@@ -38,7 +45,6 @@ class ArticleCategorySearch extends ArticleCategory
      */
     public function search($params)
     {
-//        \ChromePhp::log($params);
         $query = ArticleCategory::find()
             ->select('ac.*')
             ->from('{{%article_category}} ac')
@@ -46,9 +52,6 @@ class ArticleCategorySearch extends ArticleCategory
                 . ' t', 't.article_category_id = ac.id and t.locale = :locale', ['locale' => Yii::$app->language])
             ->with(['parent', 'parent.activeTranslation'])
 
-//        ->where([
-//            't.locale' => Yii::$app->language
-//        ])
         ;
 
         $dataProvider = new ActiveDataProvider([
@@ -59,6 +62,10 @@ class ArticleCategorySearch extends ArticleCategory
         ]);
 
         $dataProvider->sort->attributes['title'] = [
+            'asc' => ['t.title' => SORT_ASC],
+            'desc' => ['t.title' => SORT_DESC]
+        ];
+        $dataProvider->sort->attributes['parentCategory'] = [
             'asc' => ['t.title' => SORT_ASC],
             'desc' => ['t.title' => SORT_DESC]
         ];
@@ -74,7 +81,14 @@ class ArticleCategorySearch extends ArticleCategory
             'ac.status' => $this->status,
         ]);
 
-        $query->andFilterWhere(['like', 'ac.slug', $this->slug])
+        if ($this->parentCategory){
+            $query->leftJoin(ArticleCategory::tableName().' p', 'p.id = '.ArticleCategory::tableName().'.parent_id')
+                ->andFilterWhere(['like', 'p.title', $this->parentCategory]);
+
+        }
+
+        $query
+            ->andFilterWhere(['like', 'ac.slug', $this->slug])
             ->andFilterWhere(['like', 't.title', $this->title]);
 
         return $dataProvider;
