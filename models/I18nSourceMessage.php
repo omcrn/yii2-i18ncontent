@@ -19,13 +19,18 @@ use yii\helpers\StringHelper;
  */
 class I18nSourceMessage extends ActiveRecord
 {
+    /**
+     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
+     * @var I18nMessage[]
+     */
     public $newTranslations = [];
+
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return '{{%source_message}}';
+        return '{{%i18n_source_message}}';
     }
 
     /**
@@ -34,6 +39,7 @@ class I18nSourceMessage extends ActiveRecord
     public function rules()
     {
         return [
+            [['category', 'message'], 'required'],
             [['message'], 'string'],
             [['category'], 'string', 'max' => 32]
         ];
@@ -101,9 +107,11 @@ class I18nSourceMessage extends ActiveRecord
      */
     public function findTranslationByLocale($locale)
     {
+        /** @var I18nMessage[] $translations */
         $translations = array_merge($this->newTranslations, $this->i18nMessages);
+
         foreach ($translations as $translation) {
-            if ($translation->locale === $locale) {
+            if ($translation->language === $locale) {
                 return $translation;
             }
         }

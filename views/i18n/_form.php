@@ -15,10 +15,9 @@ use yii\bootstrap\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?php echo $form->field($model, 'category')->textInput(['maxlength' => 32]) ?>
+    <?php echo $form->field($model, 'category')->dropDownList($categories) ?>
 
-    <?php echo $form->field($model, 'message')->textarea(['rows' => 6]) ?>
-
+    <?php echo $form->field($model, 'message')->textarea(['rows' => 2]) ?>
 
     <?php
 

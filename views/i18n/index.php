@@ -33,14 +33,20 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
         'columns' => [
             [
-                'attribute' => 'language',
-                'filter' => $languages
-            ],
-            [
                 'attribute' => 'category',
                 'filter' => $categories
             ],
-            'sourceMessage',
+            'message',
+            [
+                'attribute' => 'language',
+                'value' => function ($model) {
+                    /** @var $model \centigen\i18ncontent\models\I18nMessage */
+//                    \centigen\base\helpers\UtilHelper::vardump($model->language, \centigen\base\helpers\BaseHelper::getAvailableLocales());
+
+                    return \centigen\base\helpers\LocaleHelper::getByKey($model['language']);
+                },
+                'filter' => $languages
+            ],
             'translation:ntext',
             ['class' => 'yii\grid\ActionColumn', 'template' => '{update} {delete}'],
         ],

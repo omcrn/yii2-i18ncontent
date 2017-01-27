@@ -9,6 +9,7 @@
 namespace centigen\i18ncontent\controllers;
 
 
+use centigen\base\helpers\LocaleHelper;
 use centigen\i18ncontent\helpers\BaseHelper;
 use centigen\i18ncontent\models\I18nMessage;
 use centigen\i18ncontent\models\I18nSourceMessage;
@@ -45,11 +46,6 @@ class I18nController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         Url::remember(Yii::$app->request->getUrl(), 'i18n-messages-filter');
 
-        $languages = ArrayHelper::map(
-            I18nMessage::find()->select('language')->distinct()->all(),
-            'language',
-            'language'
-        );
         $categories = ArrayHelper::map(
             I18nSourceMessage::find()->select('category')->distinct()->all(),
             'category',
@@ -59,7 +55,7 @@ class I18nController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'languages' => $languages,
+            'languages' => LocaleHelper::getAvailableLocales(),
             'categories' => $categories
         ]);
     }
@@ -78,9 +74,15 @@ class I18nController extends Controller
         if ($model->load(Yii::$app->request->post(), null) && $model->save()) {
             return $this->redirect(['index']);
         }
+        $categories = ArrayHelper::map(
+            I18nSourceMessage::find()->select('category')->distinct()->all(),
+            'category',
+            'category'
+        );
         return $this->render('create', [
             'model' => $model,
-            'locales' => $locales
+            'locales' => $locales,
+            'categories' => $categories
         ]);
     }
 

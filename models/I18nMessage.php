@@ -25,7 +25,7 @@ class I18nMessage extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%message}}';
+        return '{{%i18n_message}}';
     }
 
     /**

@@ -2,6 +2,7 @@
 /* @var $this yii\web\View */
 /* @var $model centigen\i18ncontent\models\I18nSourceMessage */
 /* @var $locales array */
+/* @var $categories array */
 
 $this->title = Yii::t('i18ncontent', 'Create {modelClass}', [
     'modelClass' => 'i18n',
@@ -13,7 +14,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php echo $this->render('_form', [
         'model' => $model,
-        'locales' => $locales
+        'locales' => $locales,
+        'categories' => $categories
     ]) ?>
 
 </div>
