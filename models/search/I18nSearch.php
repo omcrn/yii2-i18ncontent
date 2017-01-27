@@ -2,12 +2,15 @@
 
 namespace centigen\i18ncontent\models\search;
 
+use centigen\i18ncontent\models\I18nMessage;
 use centigen\i18ncontent\models\I18nSourceMessage;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 /**
  * I18nMessageSearch represents the model behind the search form about `backend\modules\i18n\models\I18nMessage`.
+ *
+ * @property string $translations
  */
 class I18nSearch extends I18nSourceMessage
 {
@@ -45,28 +48,23 @@ class I18nSearch extends I18nSourceMessage
      */
     public function search($params)
     {
-        $m = \centigen\i18ncontent\models\I18nMessage::tableName();
         $sm = \centigen\i18ncontent\models\I18nSourceMessage::tableName();
         $query = I18nSourceMessage::find()
-            ->select([
-                "$sm.*, $m.*"
-            ])
-            ->asArray()
-            ->leftJoin($m, "$m.id = $sm.id")
+//
 //            ->with('sourceMessageModel')
 //            ->joinWith('sourceMessageModel')
         ;
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort' => [
-                'attributes' => [
-                    'category',
-                    'message',
-                    'language',
-                    'translation'
-                ]
-            ]
+//            'sort' => [
+//                'attributes' => [
+//                    'category',
+//                    'message',
+//                    'language',
+//                    'translation'
+//                ]
+//            ]
         ]);
 //        $dataProvider->sort->attributes[] = 'category';
 
@@ -75,12 +73,17 @@ class I18nSearch extends I18nSourceMessage
         }
 
         $query->andFilterWhere([
-            '{{%i18n_source_message}}.id' => $this->id
+            "$sm.id" => $this->id
         ]);
 
-        $query->andFilterWhere(['like', "$m.language", $this->language])
-            ->andFilterWhere(['like', "$m.translation", $this->translation])
-            ->andFilterWhere(['like', "$sm.message", $this->sourceMessage])
+        if ($this->translation){
+            $m = I18nMessage::tableName();
+            $query->leftJoin($m, "$m.id = $sm.id")
+                ->andWhere(['like', "$m.translation", $this->translation]);
+        }
+
+        $query
+            ->andFilterWhere(['like', "$sm.message", $this->message])
             ->andFilterWhere(['like', "$sm.category", $this->category]);
 
 

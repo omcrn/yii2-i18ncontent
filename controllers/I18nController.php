@@ -19,6 +19,7 @@ use Yii;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
+use yii\web\NotFoundHttpException;
 
 class I18nController extends Controller
 {
@@ -61,8 +62,8 @@ class I18nController extends Controller
     }
 
     /**
-     * Creates a new Article model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
+     * Creates a new I18n model.
+     *
      * @return mixed
      */
     public function actionCreate()
@@ -79,11 +80,54 @@ class I18nController extends Controller
             'category',
             'category'
         );
-        return $this->render('create', [
+        return $this->render('update', [
             'model' => $model,
             'locales' => $locales,
             'categories' => $categories
         ]);
+    }
+
+
+    /**
+     * Creates a new Article model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionUpdate($id)
+    {
+        $model = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post(), null) && $model->save()) {
+            return $this->redirect(['index']);
+        }
+        $categories = ArrayHelper::map(
+            I18nSourceMessage::find()->select('category')->distinct()->all(),
+            'category',
+            'category'
+        );
+        $locales = BaseHelper::getAvailableLocales();
+
+        return $this->render('update', [
+            'model' => $model,
+            'locales' => $locales,
+            'categories' => $categories
+        ]);
+    }
+
+    /**
+     * Finds the I18nSourceMessage model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return I18nSourceMessage the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id)
+    {
+        if (($model = I18nSourceMessage::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }
 
 }

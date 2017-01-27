@@ -2,6 +2,7 @@
 
 namespace centigen\i18ncontent\models;
 
+use centigen\base\helpers\LocaleHelper;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
@@ -15,7 +16,6 @@ use yii\helpers\StringHelper;
  * @property string $message
  *
  * @property I18nMessage[] $i18nMessages
- * @property ActiveRecord[]|array $translations
  */
 class I18nSourceMessage extends ActiveRecord
 {
@@ -98,6 +98,35 @@ class I18nSourceMessage extends ActiveRecord
         return $allValid;
     }
 
+
+    /**
+     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
+     * @inheritdoc
+     */
+    public function save($runValidation = true, $attributeNames = null)
+    {
+        $transaction = Yii::$app->db->beginTransaction();
+        if (!$this->validate() || !parent::save($runValidation, $attributeNames)) {
+            return false;
+        }
+
+        $allSaved = true;
+        foreach ($this->newTranslations as $translation) {
+            $translation->id = $this->id;
+            if (!$translation->save()) {
+                $allSaved = false;
+            }
+        }
+
+        if ($allSaved) {
+            $transaction->commit();
+        } else {
+            $transaction->rollBack();
+        }
+
+        return $allSaved;
+    }
+
     /**
      * Find PageTranslation object from `translations` array by locale
      *
@@ -111,7 +140,7 @@ class I18nSourceMessage extends ActiveRecord
         $translations = array_merge($this->newTranslations, $this->i18nMessages);
 
         foreach ($translations as $translation) {
-            if ($translation->language === $locale) {
+            if (LocaleHelper::isEqual($translation->language, $locale)) {
                 return $translation;
             }
         }

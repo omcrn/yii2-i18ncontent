@@ -15,7 +15,7 @@ use yii\grid\GridView;
 $this->title = Yii::t('i18ncontent', 'I18n Messages');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="i18n-message-index">
+<div class="i18n-message-index i18ncontent-table-wrapper">
 
     <?php //echo $this->render('_search', ['model' => $searchModel]); ?>
 
@@ -38,16 +38,31 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'message',
             [
-                'attribute' => 'language',
+                'attribute' => 'translation',
+                'label' => Yii::t('i18ncontent', 'Translations'),
+                'format' => ['html'],
                 'value' => function ($model) {
-                    /** @var $model \centigen\i18ncontent\models\I18nMessage */
-//                    \centigen\base\helpers\UtilHelper::vardump($model->language, \centigen\base\helpers\BaseHelper::getAvailableLocales());
-
-                    return \centigen\base\helpers\LocaleHelper::getByKey($model['language']);
+                    /** @var $model \centigen\i18ncontent\models\I18nSourceMessage */
+                    $content = '';
+                    foreach (\centigen\base\helpers\LocaleHelper::getAvailableLocales() as $key => $locale) {
+                        $found = false;
+                        foreach ($model->i18nMessages as $translation) {
+                            if (\centigen\base\helpers\LocaleHelper::isEqual($translation->language, $key)) {
+                                $found = true;
+                                $content .= \yii\bootstrap\Html::tag('span', $locale, ['class' => 'label label-success']);
+                                break;
+                            }
+                        }
+                        if (!$found) {
+                            $content .= \yii\bootstrap\Html::tag('span', $locale, ['class' => 'label label-default']);
+                        }
+                    }
+                    return $content;
                 },
-                'filter' => $languages
+                'contentOptions' => [
+                    'class' => 'i18n-language-translations'
+                ]
             ],
-            'translation:ntext',
             ['class' => 'yii\grid\ActionColumn', 'template' => '{update} {delete}'],
         ],
     ]); ?>

@@ -1,24 +1,5 @@
 @import "mixins";
 @import "helpers";
 @import "tabs";
+@import "table";
 @import "_togglebutton";
-
-.i18ncontent-table-wrapper {
-  table > thead > tr > th {
-    white-space: nowrap;
-  }
-  &.article-index {
-    table {
-      > tbody > tr > td {
-        width: 160px;
-      }
-    }
-  }
-
-  td {
-    >.label{
-      font-weight: 400;
-      margin-right: 6px;
-    }
-  }
-}

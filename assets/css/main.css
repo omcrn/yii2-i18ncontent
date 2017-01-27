@@ -1,3 +1,6 @@
+.margin-right-5 {
+  margin-right: 5px;
+}
 .i18ncontent-form .nav-tabs {
   border-bottom: 2px solid #DDD;
 }
@@ -53,6 +56,19 @@
 }
 .i18ncontent-form .bootstrap-tagsinput {
   display: block;
+}
+.i18ncontent-table-wrapper table > thead > tr > th {
+  white-space: nowrap;
+}
+.i18ncontent-table-wrapper.article-index table > tbody > tr > td {
+  width: 160px;
+}
+.i18ncontent-table-wrapper td > .label {
+  font-weight: 400;
+  margin-right: 6px;
+}
+.i18ncontent-table-wrapper td.i18n-language-translations .label {
+  margin-right: 5px;
 }
 .togglebutton {
   vertical-align: middle;
@@ -123,14 +139,4 @@
 }
 .togglebutton label input[type=checkbox]:checked + .toggle:active:after {
   box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.4), 0 0 0 15px rgba(60, 141, 188, 0.1);
-}
-.i18ncontent-table-wrapper table > thead > tr > th {
-  white-space: nowrap;
-}
-.i18ncontent-table-wrapper.article-index table > tbody > tr > td {
-  width: 160px;
-}
-.i18ncontent-table-wrapper td > .label {
-  font-weight: 400;
-  margin-right: 6px;
 }
