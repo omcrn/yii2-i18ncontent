@@ -2,7 +2,7 @@
 
 namespace centigen\i18ncontent\controllers;
 
-use centigen\i18ncontent\helpers\BaseHelper;
+use centigen\base\helpers\LocaleHelper;
 use centigen\i18ncontent\models\Article;
 use centigen\i18ncontent\models\search\ArticleSearch;
 use centigen\i18ncontent\models\ArticleCategory;
@@ -80,7 +80,7 @@ class ArticleController extends Controller
     {
         $model = new Article();
         $articleCategories = ArticleCategory::getCategories(true);
-        $locales = BaseHelper::getAvailableLocales();
+        $locales = LocaleHelper::getAvailableLocales();
 
         if ($model->load(Yii::$app->request->post(), null) && $model->save()) {
             return $this->redirect(['index']);
@@ -104,7 +104,7 @@ class ArticleController extends Controller
         $model->category_ids = ArrayHelper::getColumn($model->articleCategoryArticles, 'category_id');
 
         $articleCategories = ArticleCategory::getCategories(true);
-        $locales = BaseHelper::getAvailableLocales();
+        $locales = LocaleHelper::getAvailableLocales();
 
         if ($model->load(Yii::$app->request->post(), null) && $model->save()) {
             return $this->redirect(['index']);

@@ -2,7 +2,7 @@
 
 namespace centigen\i18ncontent\controllers;
 
-use centigen\i18ncontent\helpers\BaseHelper;
+use centigen\base\helpers\LocaleHelper;
 use centigen\i18ncontent\models\WidgetCarousel;
 use centigen\i18ncontent\models\WidgetCarouselItem;
 use centigen\i18ncontent\web\Controller;
@@ -77,7 +77,7 @@ class WidgetCarouselItemController extends Controller
         }
 
         $model = new WidgetCarouselItem();
-        $locales = BaseHelper::getAvailableLocales();
+        $locales = LocaleHelper::getAvailableLocales();
 
         if ($model->load(Yii::$app->request->post(), null) && $model->save()) {
             return $this->redirect(['widget-carousel/update', 'id' => $carousel_id]);
@@ -101,7 +101,7 @@ class WidgetCarouselItemController extends Controller
         $model = $this->findModel($id);
         $carousel = $model->carousel;
 
-        $locales = BaseHelper::getAvailableLocales();
+        $locales = LocaleHelper::getAvailableLocales();
 
         if ($model->load(Yii::$app->request->post(), null) && $model->save()) {
             return $this->redirect(['widget-carousel/update', 'id' => $model->carousel_id]);

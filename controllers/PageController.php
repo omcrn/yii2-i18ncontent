@@ -2,7 +2,7 @@
 
 namespace centigen\i18ncontent\controllers;
 
-use centigen\i18ncontent\helpers\BaseHelper;
+use centigen\base\helpers\LocaleHelper;
 use centigen\i18ncontent\models\Page;
 use centigen\i18ncontent\models\search\PageSearch;
 use centigen\i18ncontent\web\Controller;
@@ -77,7 +77,7 @@ class PageController extends Controller
     public function actionCreate()
     {
         $model = new Page();
-        $locales = BaseHelper::getAvailableLocales();
+        $locales = LocaleHelper::getAvailableLocales();
 
         if ($model->load(Yii::$app->request->post(), null) && $model->save()) {
             return $this->redirect(['index']);
@@ -99,7 +99,7 @@ class PageController extends Controller
     {
         $model = $this->findModel($id);
 
-        $locales = BaseHelper::getAvailableLocales();
+        $locales = LocaleHelper::getAvailableLocales();
 
         if ($model->load(Yii::$app->request->post(), null) && $model->save()) {
             return $this->redirect(['index']);

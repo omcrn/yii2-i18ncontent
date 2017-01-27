@@ -10,8 +10,6 @@ namespace centigen\i18ncontent\controllers;
 
 
 use centigen\base\helpers\LocaleHelper;
-use centigen\i18ncontent\helpers\BaseHelper;
-use centigen\i18ncontent\models\I18nMessage;
 use centigen\i18ncontent\models\I18nSourceMessage;
 use centigen\i18ncontent\models\search\I18nSearch;
 use centigen\i18ncontent\web\Controller;
@@ -70,7 +68,7 @@ class I18nController extends Controller
     {
         $model = new I18nSourceMessage();
 
-        $locales = BaseHelper::getAvailableLocales();
+        $locales = LocaleHelper::getAvailableLocales();
 
         if ($model->load(Yii::$app->request->post(), null) && $model->save()) {
             return $this->redirect(['index']);
@@ -105,7 +103,7 @@ class I18nController extends Controller
             'category',
             'category'
         );
-        $locales = BaseHelper::getAvailableLocales();
+        $locales = LocaleHelper::getAvailableLocales();
 
         return $this->render('update', [
             'model' => $model,

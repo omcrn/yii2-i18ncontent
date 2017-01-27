@@ -16,7 +16,7 @@ class BaseHelper
      *
      * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
      * @return array
-     * @deprecated Will be removed on v2.0.0. Use LocaleHelper::getAvailableLocales instead
+     * @deprecated Will be removed on v2.0.0. Use \centigen\base\helpers\LocaleHelper::getAvailableLocales instead
      */
     public static function getAvailableLocales()
     {

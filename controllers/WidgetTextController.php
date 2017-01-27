@@ -2,8 +2,8 @@
 
 namespace centigen\i18ncontent\controllers;
 
+use centigen\base\helpers\LocaleHelper;
 use centigen\i18ncontent\models\search\WidgetTextSearch;
-use centigen\i18ncontent\helpers\BaseHelper;
 use centigen\i18ncontent\models\WidgetText;
 use centigen\i18ncontent\web\Controller;
 use Yii;
@@ -76,7 +76,7 @@ class WidgetTextController extends Controller
     public function actionCreate()
     {
         $model = new WidgetText();
-        $locales = BaseHelper::getAvailableLocales();
+        $locales = LocaleHelper::getAvailableLocales();
 
         if ($model->load(Yii::$app->request->post(), null) && $model->save()) {
             return $this->redirect(['index']);
@@ -97,7 +97,7 @@ class WidgetTextController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $locales = BaseHelper::getAvailableLocales();
+        $locales = LocaleHelper::getAvailableLocales();
 
         if ($model->load(Yii::$app->request->post(), null) && $model->save()) {
             return $this->redirect(['index']);
