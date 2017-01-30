@@ -15,7 +15,7 @@ use yii\behaviors\TimestampBehavior;
  * @property string $view
  * @property integer $status
  *
- * @property ArticleCategoryArticle[] $articlesCategoryArticles
+ * @property ArticleCategoryArticle[] $articleCategoryArticles
  * @property ArticleCategory $parent
  * @property ArticleCategoryTranslation $activeTranslation
  * @property ArticleCategoryTranslation[] $translations
