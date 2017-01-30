@@ -38,7 +38,7 @@ class WidgetCarouselItemSearch extends WidgetCarouselItem
      */
     public function search($params = null)
     {
-        $query = WidgetCarouselItem::find()->joinWith('activeTranslation');
+        $query = WidgetCarouselItem::find()->with('activeTranslation');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

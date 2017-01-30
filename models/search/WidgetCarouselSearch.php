@@ -3,7 +3,6 @@
 namespace centigen\i18ncontent\models\search;
 
 use centigen\i18ncontent\models\WidgetCarousel;
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
@@ -38,7 +37,7 @@ class WidgetCarouselSearch extends WidgetCarousel
      */
     public function search($params)
     {
-        $query = WidgetCarousel::find();
+        $query = WidgetCarousel::find()->with('items');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

@@ -76,7 +76,7 @@ class WidgetCarouselItem extends TranslatableModel
                 'baseUrlAttribute' => null,
                 'typeAttribute' => 'type'
             ],
-            'cacheInvalidate'=>[
+            'cacheInvalidate' => [
                 'class' => CacheInvalidateBehavior::className(),
                 'keys' => [
                     function ($model) {
@@ -138,11 +138,14 @@ class WidgetCarouselItem extends TranslatableModel
         return $this->hasMany(WidgetCarouselItemTranslation::className(), ['widget_carousel_item_id' => 'id']);
     }
 
+    /**
+     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
+     * @return \yii\db\ActiveQuery
+     */
     public function getActiveTranslation()
     {
-        return $this->hasOne(WidgetCarouselItemTranslation::className(), ['widget_carousel_item_id' => 'id'])->where([
-            'locale' => Yii::$app->language
-        ]);
+        return $this->hasOne(WidgetCarouselItemTranslation::className(), ['widget_carousel_item_id' => 'id'])
+            ->where(['locale' => Yii::$app->language]);
     }
 
     /**

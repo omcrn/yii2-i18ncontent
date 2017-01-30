@@ -39,6 +39,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter' => \centigen\i18ncontent\helpers\BaseHelper::getStatusOptionsArray()
             ],
             [
+                'label' => Yii::t('i18ncontent', 'Items'),
+                'format' => ['html'],
+                'value' => function($model){
+                    /** @var \centigen\i18ncontent\models\WidgetCarousel $model */
+                    return \yii\bootstrap\Html::tag('span', count($model->items), ['class' => 'badge']);
+                },
+            ],
+            [
                 'class' => 'yii\grid\ActionColumn',
                 'template'=>'{update} {delete}'
             ],

@@ -5,6 +5,7 @@ namespace centigen\i18ncontent\controllers;
 use centigen\i18ncontent\models\search\WidgetCarouselItemSearch;
 use centigen\i18ncontent\models\WidgetCarousel;
 use centigen\i18ncontent\models\search\WidgetCarouselSearch;
+use centigen\i18ncontent\models\WidgetCarouselItemTranslation;
 use centigen\i18ncontent\web\Controller;
 use Yii;
 use yii\web\NotFoundHttpException;
@@ -86,8 +87,8 @@ class WidgetCarouselController extends Controller
         $carouselItemsProvider = $searchModel->search([]);
         $carouselItemsProvider->query->andWhere(['carousel_id' => $model->id]);
         $carouselItemsProvider->sort->attributes['activeTranslation.caption'] = [
-            'asc' => ['widget_carousel_item_translations.caption' => SORT_ASC],
-            'desc' => ['widget_carousel_item_translations.caption' => SORT_DESC],
+            'asc' => [WidgetCarouselItemTranslation::tableName().'.caption' => SORT_ASC],
+            'desc' => [WidgetCarouselItemTranslation::tableName().'.caption' => SORT_DESC],
         ];
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
