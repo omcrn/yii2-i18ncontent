@@ -2,7 +2,7 @@
 
 namespace centigen\i18ncontent\models;
 
-use centigen\base\helpers\UtilHelper;
+use centigen\base\helpers\DateHelper;
 use centigen\i18ncontent\models\query\ArticleQuery;
 use trntv\filekit\behaviors\UploadBehavior;
 use Yii;
@@ -194,6 +194,19 @@ class Article extends TranslatableModel
     public function getArticleAttachments()
     {
         return $this->hasMany(ArticleAttachment::className(), ['article_id' => 'id']);
+    }
+
+    public function beforeValidate()
+    {
+        try{
+            if ($this->published_at) {
+                $this->published_at = DateHelper::fromFormatIntoMysql(Yii::$app->formatter->getPhpDatetimeFormat(), $this->published_at);
+            }
+        }catch(\InvalidArgumentException $e){
+
+        }
+
+        return parent::beforeValidate();
     }
 
     public function save($runValidation = true, $attributeNames = null)

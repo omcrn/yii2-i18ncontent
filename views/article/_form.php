@@ -96,7 +96,7 @@ use yii\bootstrap\ActiveForm;
     <?php echo $form->field($model, 'published_at')->widget(
         'trntv\yii\datetime\DateTimeWidget',
         [
-            'phpDatetimeFormat' => 'yyyy-MM-dd\'T\'HH:mm:ssZZZZZ'
+            'momentDatetimeFormat' => Yii::$app->formatter->getMomentDatetimeFormat() ?: 'yyyy-MM-dd\'T\'HH:mm:ssZZZZZ',
         ]
     ) ?>
 

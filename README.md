@@ -12,7 +12,7 @@ It support creating the following contents:
 
 ### Installation
 
-  1. Run `composer require omcrn/yii2-i18ncontent` or add `"omcrn/yii2-i18ncontent": "~v0.3"` in your projects `composer.json`.
+  1. Run `composer require omcrn/yii2-i18ncontent` or add `"omcrn/yii2-i18ncontent": "^1.0.0"` in your projects `composer.json`.
   2. Make sure you have `user` table in your database with primary key `id`.
   3. Run migrations to create tables by `php console/yii migrate --migrationPath=@yii/i18n/migrations` from projects root directory
   4. Run migrations to create tables by `php console/yii migrate --migrationPath=@vendor/omcrn/yii2-i18ncontent/migrations` from projects root directory
@@ -45,6 +45,9 @@ Add the following code in project's configuration file under `components` sectio
         ],
     ]
 ]
+'formatter' => [
+    'class' => 'centigen\base\i18n\Formatter'
+],
 ```
 
 Add `availableLocales` array to application configuration `params` array.
