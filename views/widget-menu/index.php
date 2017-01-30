@@ -28,7 +28,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'class' => 'grid-view table-responsive'
         ],
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
             'title',
             'key',
             [
