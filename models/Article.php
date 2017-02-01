@@ -214,6 +214,9 @@ class Article extends TranslatableModel
         $transaction = Yii::$app->db->beginTransaction();
         if (parent::save()){
 
+            if (!is_array($this->category_ids)){
+                $this->category_ids = [];
+            }
             $existingCategoryIds = ArrayHelper::getColumn($this->articleCategoryArticles, 'category_id');
             $toDeleteCategoryIds = array_diff($existingCategoryIds, $this->category_ids);
             $toAddCategoryIds = array_diff($this->category_ids, $existingCategoryIds);
