@@ -18,12 +18,32 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php echo Html::a(Yii::t('i18ncontent', 'Create {modelClass}', [
     'modelClass' => 'Page',
 ]), ['create'], ['class' => 'btn btn-success']) ?>
+        <?php
+        echo Html::a(
+            Yii::t('i18ncontent', 'Delete checked {modelClass}s', ['modelClass' => 'Pages']),
+            [null],
+            ['class' => 'btn btn-danger delete-multiple'])
+        ?>
     </p>
 
     <?php echo GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
+            [
+                'class' => \centigen\base\grid\CheckboxColumn::className(),
+                'prefix' => '<div class="checkbox"><label>',
+                'suffix' => '<span class="checkbox-material"><span class="check"></span></span></label></div>',
+                'headerPrefix' => '<div class="checkbox"><label>',
+                'headerSuffix' => '</label></div>',
+                'options' => [
+                    'style' => 'width: 1px;',
+                    'class' => 'text-center',
+                ],
+                'contentOptions' => [
+                    'style' => 'vertical-align: middle;'
+                ]
+            ],
             [
                 'attribute' => 'title',
                 'value' => function ($model) {

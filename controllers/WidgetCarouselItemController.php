@@ -117,16 +117,16 @@ class WidgetCarouselItemController extends Controller
     /**
      * Deletes an existing WidgetCarouselItem model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
+     * @param integer|null $id
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionDelete($id = null)
     {
-        $model = $this->findModel($id);
-        if ($model->delete()) {
-            return $this->redirect(['widget-carousel/update', 'id' => $model->carousel_id]);
-        };
-        return "";
+        $id = $id ?: Yii::$app->request->post('id');
+        $model = is_array($id) ? $this->findModel($id[0]) : $this->findModel($id);
+        WidgetCarouselItem::deleteAll(['id' => $id]);
+
+        return $this->redirect(['widget-carousel/update', 'id' => $model->carousel_id]);
     }
 
     /**

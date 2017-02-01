@@ -18,7 +18,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a(Yii::t('i18ncontent', 'Create {modelClass}', [
             'modelClass' => 'Widget Menu',
-        ]), ['create'], ['class' => 'btn btn-success']) ?>
+        ]), ['create'], ['class' => 'btn btn-success']);
+        echo ' '. Html::a(
+            Yii::t('i18ncontent', 'Delete checked {modelClass}s', ['modelClass' => 'Widget Menu']),
+            [null],
+            ['class' => 'btn btn-danger delete-multiple'])
+        ?>
     </p>
 
     <?= GridView::widget([
@@ -28,6 +33,20 @@ $this->params['breadcrumbs'][] = $this->title;
             'class' => 'grid-view table-responsive'
         ],
         'columns' => [
+            [
+                'class' => \centigen\base\grid\CheckboxColumn::className(),
+                'prefix' => '<div class="checkbox"><label>',
+                'suffix' => '<span class="checkbox-material"><span class="check"></span></span></label></div>',
+                'headerPrefix' => '<div class="checkbox"><label>',
+                'headerSuffix' => '</label></div>',
+                'options' => [
+                    'style' => 'width: 1px;',
+                    'class' => 'text-center',
+                ],
+                'contentOptions' => [
+                    'style' => 'vertical-align: middle;'
+                ]
+            ],
             'title',
             'key',
             [

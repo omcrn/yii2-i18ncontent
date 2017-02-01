@@ -4,7 +4,8 @@
 (function ($) {
   var I18nContent = function () {
     this.$toggleBtn = $('.togglebutton > label > input');
-
+    this.$greedView = $('.grid-view');
+    this.$multipleDeleteButton = $('.delete-multiple');
     this.init();
   };
 
@@ -13,6 +14,7 @@
 
     init: function () {
       this.toggleStatus();
+      this.onDeleteCheckedItems();
     },
 
 
@@ -33,6 +35,29 @@
     },
 
 
+    onDeleteCheckedItems: function () {
+      var me = this;
+          me.$multipleDeleteButton.on('click', function (e) {
+            e.preventDefault();
+            var $itemIds, conf, deleteUrl;
+               $itemIds = me.$greedView.yiiGridView('getSelectedRows');
+                if($itemIds.length < 1){
+                  return;
+                }
+               conf = confirm('Are you sure you want to delete this/these item(s)?');
+                if(conf !== true) return;
+
+                deleteUrl = $(this).data('url') || 'delete';
+                me._post(deleteUrl, {id: $itemIds}).done(function (res) {
+                  if(res.errorMsg){
+                    alert(res.errorMsg);
+                  }
+                  //console.log(res);
+                });
+          });
+    },
+
+
     _get: function (url, data) {
       return $.ajax({
         url: url,
@@ -41,6 +66,7 @@
         dataType: 'json'
       });
     },
+
 
     _post: function (url, data) {
       return $.ajax({
