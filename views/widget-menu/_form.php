@@ -30,7 +30,9 @@ use yii\bootstrap\ActiveForm;
         ]
     ) ?>
 
-    <?php echo $form->field($model, 'status')->checkbox() ?>
+    <?php echo $form->field($model, 'status')->checkbox([
+        'template' => '<div class="checkbox"><label style="padding-left: 0;">'.$model->getAttributeLabel('status').' {input}<span class="checkbox-material"><span class="check"></span></span></label></div>{hint}{error}'
+    ]) ?>
 
     <div class="form-group pull-left margin-right-5">
         <?php echo Html::submitButton($model->isNewRecord ? Yii::t('i18ncontent', 'Create') : Yii::t('i18ncontent', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

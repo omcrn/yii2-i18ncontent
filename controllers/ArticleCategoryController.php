@@ -7,6 +7,7 @@ use centigen\i18ncontent\models\ArticleCategory;
 use centigen\i18ncontent\models\search\ArticleCategorySearch;
 use centigen\i18ncontent\web\Controller;
 use Yii;
+use yii\helpers\Json;
 use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -118,17 +119,35 @@ class ArticleCategoryController extends Controller
     /**
      * Deletes an existing ArticleCategory model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
+     * @param integer|null $id
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionDelete($id = null)
     {
-        $model = $this->findModel($id);
-        if(count($model->articleCategoryArticles) > 0){
-            $msg = Yii::t('i18ncontent', 'This category has articles. In order to delete this category, first you must delete all articles in this category {link}', ['link' => '<a href="'.Url::to(['article/index', 'ArticleSearch' => ['category_ids' => $model->id]]).'">'.Yii::t('i18ncontent', 'View them').'</a>']);
-            return $this->renderContent($msg);
+        $id = $id ?: Yii::$app->request->post('id');
+        if (is_array($id)) {
+            $categoryWithChildren = [];
+            foreach ($id as $item) {
+                $model = $this->findModel($item);
+                if (count($model->articleCategoryArticles) > 0) {
+                    $categoryWithChildren[] = $model->activeTranslation->title;
+                    continue;
+                }
+                $model->delete();
+            }
+            if(count($categoryWithChildren)){
+                $msg = Yii::t('i18ncontent', 'This categories has articles. In order to delete this categories, first you must delete all articles in this categories').': '. join(', ', $categoryWithChildren);
+                return Json::encode(['errorMsg' => $msg, 'success' => false]);
+            }
+            return $this->redirect(['index']);
+        } else {
+            $model = $this->findModel($id);
+            if (count($model->articleCategoryArticles) > 0) {
+                $msg = Yii::t('i18ncontent', 'This category has articles. In order to delete this category, first you must delete all articles in this category {link}', ['link' => '<a href="' . Url::to(['article/index', 'ArticleSearch' => ['category_ids' => $model->id]]) . '">' . Yii::t('i18ncontent', 'View them') . '</a>']);
+                return $this->renderContent($msg);
+            }
+            $model->delete();
         }
-        $model->delete();
 
         return $this->redirect(['index']);
     }
