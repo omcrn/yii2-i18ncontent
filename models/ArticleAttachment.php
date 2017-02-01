@@ -80,6 +80,6 @@ class ArticleAttachment extends \yii\db\ActiveRecord
 
     public function getUrl()
     {
-        return $this->base_url .'/'. $this->path;
+        return Yii::getAlias('@storageUrl') . '/source/' . $this->path;
     }
 }
