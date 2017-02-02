@@ -29,9 +29,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             [
                 'class' => \centigen\base\grid\CheckboxColumn::className(),
-                'prefix' => '<div class="checkbox"><label>',
-                'suffix' => '<span class="checkbox-material"><span class="check"></span></span></label></div>',
-                'headerPrefix' => '<div class="checkbox"><label>',
+                'prefix' => '<div class="om-checkbox"><label>',
+                'suffix' => '<span class="om-checkbox-material"><span class="check"></span></span></label></div>',
+                'headerPrefix' => '<div class="om-checkbox"><label>',
                 'headerSuffix' => '</label></div>',
                 'options' => [
                     'style' => 'width: 1px;',

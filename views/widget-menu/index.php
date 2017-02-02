@@ -12,7 +12,7 @@ use yii\grid\GridView;
 $this->title = Yii::t('i18ncontent', 'Widget Menus');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="widget-menu-index">
+<div class="widget-menu-index i18ncontent-table-wrapper">
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
@@ -35,9 +35,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             [
                 'class' => \centigen\base\grid\CheckboxColumn::className(),
-                'prefix' => '<div class="checkbox"><label>',
-                'suffix' => '<span class="checkbox-material"><span class="check"></span></span></label></div>',
-                'headerPrefix' => '<div class="checkbox"><label>',
+                'prefix' => '<div class="om-checkbox"><label>',
+                'suffix' => '<span class="om-checkbox-material"><span class="check"></span></span></label></div>',
+                'headerPrefix' => '<div class="om-checkbox"><label>',
                 'headerSuffix' => '</label></div>',
                 'options' => [
                     'style' => 'width: 1px;',

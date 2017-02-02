@@ -75,7 +75,7 @@ use yii\helpers\Html;
     ?>
 
     <?php echo $form->field($model, 'status')->checkbox([
-        'template' => '<div class="checkbox"><label style="padding-left: 0;">'.$model->getAttributeLabel('status').' {input}<span class="checkbox-material"><span class="check"></span></span></label></div>{hint}{error}'
+        'template' => '<div class="om-checkbox"><label style="padding-left: 0;">'.$model->getAttributeLabel('status').' {input}<span class="om-checkbox-material"><span class="check"></span></span></label></div>{hint}{error}'
     ]) ?>
 
     <div class="form-group pull-left margin-right-5">
