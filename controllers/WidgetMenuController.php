@@ -11,6 +11,7 @@ use centigen\i18ncontent\models\WidgetMenu;
 use Yii;
 use yii\filters\VerbFilter;
 use centigen\i18ncontent\web\Controller;
+use yii\helpers\Json;
 use yii\web\NotFoundHttpException;
 
 
@@ -87,16 +88,25 @@ class WidgetMenuController extends Controller
      */
     public function actionUpdate($id)
     {
-
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
-        } else {
+        if(Yii::$app->request->isPost) {
+            $postData = Yii::$app->request->post();
+            $model->load($postData);
+            $model->items = Json::encode($model->items);
+            if ($model->save()) {
+                return $this->redirect(['index']);
+            } else {
+                return $this->render('update', [
+                    'model' => $model,
+                ]);
+            }
+        }else {
             return $this->render('update', [
                 'model' => $model,
             ]);
         }
+
     }
 
     /**

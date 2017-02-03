@@ -11,6 +11,8 @@ use yii\bootstrap\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model \centigen\i18ncontent\models\WidgetMenu */
 /* @var $form yii\bootstrap\ActiveForm */
+
+$menuItems = \yii\helpers\Json::decode($model->items);
 ?>
 
 <div class="i18ncontent-form widget-menu-form">
@@ -23,12 +25,9 @@ use yii\bootstrap\ActiveForm;
 
     <?php echo $form->field($model, 'title')->textInput(['maxlength' => 512]) ?>
 
-    <?php echo $form->field($model, 'items')->widget(
-        AceEditor::className(),
-        [
-            'mode' => 'json'
-        ]
-    ) ?>
+    <h3><?php echo Yii::t('i18ncontent', 'Menu items')?></h3>
+
+    <?php echo $this->render('_items', ['items' => $menuItems, 'form' => $form, 'model' =>  $model])?>
 
     <?php echo $form->field($model, 'status')->checkbox([
         'template' => '<div class="om-checkbox"><label style="padding-left: 0;">'.$model->getAttributeLabel('status').' {input}<span class="om-checkbox-material"><span class="check"></span></span></label></div>{hint}{error}'
