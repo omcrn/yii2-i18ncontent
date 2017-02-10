@@ -83,7 +83,13 @@ class Article extends TranslatableModel
     public static function find()
     {
         return (new ArticleQuery(get_called_class()))
-            ->with(['translations', 'activeTranslation', 'articleAttachments', 'articleCategoryArticles']);
+            ->with([
+                'translations',
+                'activeTranslation',
+                'articleAttachments',
+                'articleCategoryArticles',
+                'articleCategory'
+            ]);
     }
 
     /**
