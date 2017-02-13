@@ -91,7 +91,9 @@ use yii\bootstrap\ActiveForm;
 
     <?php echo $form->field($model, 'view')->textInput(['maxlength' => true]) ?>
 
-    <?php echo $form->field($model, 'status')->checkbox() ?>
+    <?php echo $form->field($model, 'status')->checkbox([
+        'template' => '<div class="om-checkbox"><label style="padding-left: 0;">'.$model->getAttributeLabel('status').' {input}<span class="om-om-checkbox-material"><span class="check"></span></span></label></div>{hint}{error}'
+    ]) ?>
 
     <?php echo $form->field($model, 'published_at')->widget(
         'trntv\yii\datetime\DateTimeWidget',

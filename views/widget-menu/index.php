@@ -12,13 +12,18 @@ use yii\grid\GridView;
 $this->title = Yii::t('i18ncontent', 'Widget Menus');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="widget-menu-index">
+<div class="widget-menu-index i18ncontent-table-wrapper">
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
         <?= Html::a(Yii::t('i18ncontent', 'Create {modelClass}', [
             'modelClass' => 'Widget Menu',
-        ]), ['create'], ['class' => 'btn btn-success']) ?>
+        ]), ['create'], ['class' => 'btn btn-success']);
+        echo ' '. Html::a(
+            Yii::t('i18ncontent', 'Delete checked {modelClass}s', ['modelClass' => 'Widget Menu']),
+            [null],
+            ['class' => 'btn btn-danger delete-multiple'])
+        ?>
     </p>
 
     <?= GridView::widget([
@@ -28,6 +33,20 @@ $this->params['breadcrumbs'][] = $this->title;
             'class' => 'grid-view table-responsive'
         ],
         'columns' => [
+            [
+                'class' => \centigen\base\grid\CheckboxColumn::className(),
+                'prefix' => '<div class="om-checkbox"><label>',
+                'suffix' => '<span class="om-checkbox-material"><span class="check"></span></span></label></div>',
+                'headerPrefix' => '<div class="om-checkbox"><label>',
+                'headerSuffix' => '</label></div>',
+                'options' => [
+                    'style' => 'width: 1px;',
+                    'class' => 'text-center',
+                ],
+                'contentOptions' => [
+                    'style' => 'vertical-align: middle;'
+                ]
+            ],
             'title',
             'key',
             [
