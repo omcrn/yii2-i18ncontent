@@ -87,8 +87,7 @@ class Article extends TranslatableModel
                 'translations',
                 'activeTranslation',
                 'articleAttachments',
-                'articleCategoryArticles',
-                'articleCategory'
+                'articleCategoryArticles'
             ]);
     }
 
