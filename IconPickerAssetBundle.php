@@ -9,25 +9,26 @@ namespace centigen\i18ncontent;
  * @author zura
  * @package centigen\i18ncontent
  */
-class AssetBundle extends \yii\web\AssetBundle
+class IconPickerAssetBundle extends \yii\web\AssetBundle
 {
     public $baseUrl = '@web';
 
     public $css = [
-        'css/main.css'
+        'css/fontawesome-iconpicker.min.css'
     ];
 
     public $js = [
-      'js/i18nContent.js'
+      'js/fontawesome-iconpicker.min.js'
     ];
 
     public $depends = [
-        'centigen\i18ncontent\IconPickerAssetBundle',
+        'yii\bootstrap\BootstrapAsset',
+        'yii\bootstrap\BootstrapPluginAsset'
     ];
 
     public function init()
     {
-        $this->sourcePath = __DIR__ . '/assets';
+        $this->sourcePath = '@bower/itsjavi/fontawesome-iconpicker/dist/';
         parent::init();
     }
 } 

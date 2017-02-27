@@ -12,7 +12,11 @@ use yii\bootstrap\ActiveForm;
 /* @var $model \centigen\i18ncontent\models\WidgetMenu */
 /* @var $form yii\bootstrap\ActiveForm */
 
+\centigen\i18ncontent\IconPickerAssetBundle::register($this);
 $menuItems = \yii\helpers\Json::decode($model->items);
+$base_options = \yii\helpers\Json::decode($model->base_options);
+//var_dump($base_options);exit;
+//$this->registerJs("");
 ?>
 
 <div class="i18ncontent-form widget-menu-form">
@@ -28,6 +32,7 @@ $menuItems = \yii\helpers\Json::decode($model->items);
     <h3><?php echo Yii::t('i18ncontent', 'Menu items')?></h3>
 
     <?php echo $this->render('_items', ['items' => $menuItems, 'form' => $form, 'model' =>  $model])?>
+    <?php echo $this->render('_options_modal', ['base_options' => $base_options, 'form' => $form, 'model' =>  $model])?>
 
     <?php echo $form->field($model, 'status')->checkbox([
         'template' => '<div class="om-checkbox"><label style="padding-left: 0;">'.$model->getAttributeLabel('status').' {input}<span class="om-checkbox-material"><span class="check"></span></span></label></div>{hint}{error}'

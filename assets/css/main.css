@@ -1,5 +1,18 @@
-.margin-right-5 {
+.i18ncontent-form .margin-right-5,
+.i18ncontent-table-wrapper .margin-right-5 {
   margin-right: 5px;
+}
+.i18ncontent-form .table-cell,
+.i18ncontent-table-wrapper .table-cell {
+  display: table-cell;
+}
+.i18ncontent-form .om-icon-picker-preview {
+  display: table-cell;
+  vertical-align: middle;
+  padding-right: 5px;
+}
+.i18ncontent-form .om-menu-widget-actions-wrapper {
+  padding-top: 25px;
 }
 .i18ncontent-form .nav-tabs {
   border-bottom: 2px solid #DDD;

@@ -6,6 +6,7 @@
  */
 
 namespace centigen\i18ncontent\controllers;
+use centigen\i18ncontent\helpers\MenuHelper;
 use centigen\i18ncontent\models\search\WidgetMenuSearch;
 use centigen\i18ncontent\models\WidgetMenu;
 use Yii;
@@ -71,9 +72,23 @@ class WidgetMenuController extends Controller
     {
         $model = new WidgetMenu();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
-        } else {
+        if(Yii::$app->request->isPost) {
+            $postData = Yii::$app->request->post();
+
+            $model->load($postData);
+
+            $model->items = Json::encode($model->items);
+            $model->base_options = Json::encode($postData['WidgetMenu']['base_options']);
+
+//             print_r($model->base_options);exit;
+            if ($model->save()) {
+                return $this->redirect(['index']);
+            } else {
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
+            }
+        }else {
             return $this->render('create', [
                 'model' => $model,
             ]);
@@ -92,8 +107,13 @@ class WidgetMenuController extends Controller
 
         if(Yii::$app->request->isPost) {
             $postData = Yii::$app->request->post();
+
             $model->load($postData);
             $model->items = Json::encode($model->items);
+            MenuHelper::encodeOptions($postData['WidgetMenu']['base_options']);
+            $model->base_options = Json::encode($postData['WidgetMenu']['base_options']);
+
+//            print_r($postData['WidgetMenu']['base_options']);exit;
             if ($model->save()) {
                 return $this->redirect(['index']);
             } else {

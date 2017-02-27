@@ -25,7 +25,8 @@
     "trntv/yii2-file-kit": "^1.0.0",
     "trntv/yii2-aceeditor": "^2.0",
     "omcrn/yii2-base": "^0.2",
-    "wbraganca/yii2-tagsinput": "^1.0"
+    "wbraganca/yii2-tagsinput": "^1.0",
+    "bower-asset/itsjavi/fontawesome-iconpicker": "^1.3.0"
   },
   "autoload": {
     "psr-4": {

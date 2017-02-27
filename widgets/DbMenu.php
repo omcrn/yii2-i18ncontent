@@ -38,7 +38,11 @@ class DbMenu extends Menu
             if (!($model = WidgetMenu::findOne(['key'=>$this->key, 'status' => WidgetMenu::STATUS_ACTIVE]))) {
                 throw new InvalidConfigException;
             }
-            $this->items =json_decode($model->items, true);
+            $this->items = json_decode($model->items, true);
+            $baseOptions = json_decode($model->base_options, true);
+            foreach ($baseOptions as $name => $value) {
+                $this->$name = $value;
+            }
             Yii::$app->cache->set($cacheKey, $this->items, 60*60*24);
         }
     }

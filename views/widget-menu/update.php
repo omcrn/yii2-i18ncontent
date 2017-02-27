@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('i18ncontent', 'Widget Menus
 $this->params['breadcrumbs'][] = Yii::t('i18ncontent', 'Update');
 ?>
 <div class="widget-menu-update">
-    <a class="pull-right" href="#"><i class="fa fa-cogs"></i> Menu options</a>
+    <a class="pull-right" data-target="#options-modal" data-toggle="modal"><i class="fa fa-cogs"></i><?php echo Yii::t('i18ncontent', 'Menu options')?></a>
     <?php echo $this->render('_form', [
         'model' => $model,
     ]) ?>

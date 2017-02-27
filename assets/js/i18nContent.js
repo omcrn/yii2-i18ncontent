@@ -15,6 +15,7 @@
     init: function () {
       this.toggleStatus();
       this.onDeleteCheckedItems();
+      this.iconPicker();
     },
 
 
@@ -55,6 +56,12 @@
                   //console.log(res);
                 });
           });
+    },
+
+    iconPicker: function () {
+      $('.icon-picker').iconpicker({}).on('iconpickerUpdated ', function (e) {
+       $('.field-'+$(e.target).attr('id')).find('.om-icon-picker-preview .icon-preview i')[0].className = 'fa '+e.iconpickerInstance.iconpickerValue;
+      })
     },
 
 

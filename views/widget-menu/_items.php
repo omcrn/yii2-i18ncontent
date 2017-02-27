@@ -11,6 +11,6 @@
 
 use centigen\i18ncontent\helpers\MenuHelper;
 
-$menu = new MenuHelper();
-echo $menu->getItems($items, $form, $model);
+echo MenuHelper::getForm($items, $form, $model);
+
 ?>
