@@ -57,7 +57,7 @@ class Article extends TranslatableModel
 
     public $articleCount = null;
 
-    public $category_ids = [];
+    public $category_ids = null;
 
     /**
      * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
@@ -220,6 +220,10 @@ class Article extends TranslatableModel
         $transaction = Yii::$app->db->beginTransaction();
         if (parent::save()){
 
+            if ($this->category_ids === null){
+                $transaction->commit();
+                return true;
+            }
             if (!is_array($this->category_ids)){
                 $this->category_ids = [];
             }
