@@ -39,12 +39,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'suffix' => '<span class="om-checkbox-material"><span class="check"></span></span></label></div>',
                 'headerPrefix' => '<div class="om-checkbox"><label>',
                 'headerSuffix' => '</label></div>',
-                'options' => [
-                    'style' => 'width: 1px;',
-                    'class' => 'text-center',
-                ],
                 'contentOptions' => [
-                    'style' => 'vertical-align: middle;'
+                    'style' => 'width: 40px; vertical-align: middle;'
                 ]
             ],
             'title',
@@ -64,7 +60,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 'filter' => \centigen\i18ncontent\helpers\BaseHelper::getStatusOptionsArray()
             ],
-            ['class' => 'yii\grid\ActionColumn', 'template'=>'{update} {delete}'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{update} {delete}',
+                'buttonOptions' => [
+                    'class' => 'btn btn-sm btn-default'
+                ],
+                'contentOptions' => [
+                    'class' => 'actions-column'
+                ]
+            ]
         ],
     ]); ?>
 

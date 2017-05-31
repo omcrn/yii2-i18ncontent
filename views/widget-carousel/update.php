@@ -46,12 +46,8 @@ $this->params['breadcrumbs'][] = Yii::t('i18ncontent', 'Update');
                 'suffix' => '<span class="om-checkbox-material"><span class="check"></span></span></label></div>',
                 'headerPrefix' => '<div class="om-checkbox"><label>',
                 'headerSuffix' => '</label></div>',
-                'options' => [
-                    'style' => 'width: 1px;',
-                    'class' => 'text-center',
-                ],
                 'contentOptions' => [
-                    'style' => 'vertical-align: middle;'
+                    'style' => 'width: 40px; vertical-align: middle;'
                 ]
             ],
             [
@@ -94,15 +90,16 @@ $this->params['breadcrumbs'][] = Yii::t('i18ncontent', 'Update');
                     'style' => 'width: 1px'
                 ],
             ],
-
             [
                 'class' => 'yii\grid\ActionColumn',
-                'controller' => 'widget-carousel-item',
                 'template' => '{update} {delete}',
+                'buttonOptions' => [
+                    'class' => 'btn btn-sm btn-default'
+                ],
                 'contentOptions' => [
-                    'style' => 'width: 50px'
+                    'class' => 'actions-column'
                 ]
-            ],
+            ]
         ],
     ]); ?>
 

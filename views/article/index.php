@@ -32,6 +32,9 @@ $this->params['breadcrumbs'][] = $this->title;
     echo GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'tableOptions' => [
+            'class' => 'table table-striped table-bordered table-hover'
+        ],
         'columns' => [
             [
                 'class' => \centigen\base\grid\CheckboxColumn::className(),
@@ -39,18 +42,21 @@ $this->params['breadcrumbs'][] = $this->title;
                 'suffix' => '<span class="om-checkbox-material"><span class="check"></span></span></label></div>',
                 'headerPrefix' => '<div class="om-checkbox"><label>',
                 'headerSuffix' => '</label></div>',
-                'options' => [
-                    'style' => 'width: 1px;',
-                    'class' => 'text-center',
-                ],
                 'contentOptions' => [
-                    'style' => 'vertical-align: middle;'
+                    'style' => 'width: 40px; vertical-align: middle;'
                 ]
             ],
             [
-                'attribute' => 'slug',
+                'attribute' => 'thumbnail',
+                'format' => 'html',
+                'value' => function ($model) {
+                    if (!$model->thumbnail_path){
+                        return "";
+                    }
+                    return Html::img(Yii::getAlias('@storageUrl/source/' . $model->thumbnail_path), ['class' => 'img-responsive']);
+                },
                 'contentOptions' => [
-                    'style' => 'width: auto'
+                    'style' => 'width: 100px'
                 ]
             ],
             [
@@ -71,7 +77,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     /** @var $model \centigen\i18ncontent\models\Article */
 //                    \centigen\base\helpers\UtilHelper::vardump($model->toArray());
                     $content = '';
-                    foreach ($model->articleCategoryArticles as $articleCategoryArticle){
+                    foreach ($model->articleCategoryArticles as $articleCategoryArticle) {
                         $content .= \yii\bootstrap\Html::tag('span', $articleCategoryArticle->articleCategory->getTitle(), ['class' => 'label label-default']);
                     }
                     return $content;
@@ -79,12 +85,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'contentOptions' => [
                     'style' => 'width: auto'
                 ]
-            ],
-            [
-                'attribute' => 'author',
-                'value' => function ($model) {
-                    return $model->author->username;
-                }
             ],
             [
                 'label' => Yii::t('i18ncontent', 'Status'),
@@ -116,8 +116,11 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{update} {delete}',
+                'buttonOptions' => [
+                    'class' => 'btn btn-sm btn-default'
+                ],
                 'contentOptions' => [
-                    'style' => 'width: 80px'
+                    'class' => 'actions-column'
                 ]
             ]
         ]

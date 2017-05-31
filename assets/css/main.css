@@ -60,8 +60,12 @@
 .i18ncontent-table-wrapper table > thead > tr > th {
   white-space: nowrap;
 }
-.i18ncontent-table-wrapper.article-index table > tbody > tr > td {
-  width: 160px;
+.i18ncontent-table-wrapper table > tbody > tr > td {
+  vertical-align: middle;
+}
+.i18ncontent-table-wrapper table > tbody > tr > td.actions-column {
+  width: auto;
+  white-space: nowrap;
 }
 .i18ncontent-table-wrapper td > .label {
   font-weight: 400;

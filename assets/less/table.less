@@ -2,10 +2,24 @@
   table > thead > tr > th {
     white-space: nowrap;
   }
+  table{
+    >tbody{
+      >tr{
+        >td{
+          vertical-align: middle;
+          &.actions-column{
+            width: auto;
+            white-space: nowrap;
+          }
+        }
+      }
+    }
+  }
   &.article-index {
     table {
       > tbody > tr > td {
-        width: 160px;
+        //width: 160px;
+
       }
     }
   }
