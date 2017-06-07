@@ -4,16 +4,14 @@
  * User: koco
  * Date: 2/2/2017
  * Time: 3:22 PM
- * @var $items array
- * @var $form yii\bootstrap\ActiveForm
- * @var $model \centigen\i18ncontent\models\WidgetMenu
- *
  */
 
 namespace centigen\i18ncontent\helpers;
 
 
+use centigen\i18ncontent\models\WidgetMenu;
 use yii\helpers\ArrayHelper;
+use yii\widgets\ActiveForm;
 
 class MenuHelper
 {
@@ -27,7 +25,18 @@ class MenuHelper
         return $this->generateItems($items, $form, $model, $depth);
     }
 
-    public function generateItems($items, $form, $model, $depth, $ttt = '[items]')
+    /**
+     * Renders menu item inputs
+     *
+     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
+     * @param $items
+     * @param ActiveForm $form
+     * @param WidgetMenu $model
+     * @param $depth
+     * @param string $ttt
+     * @return string
+     */
+    public function generateItems($items, ActiveForm $form, WidgetMenu $model, $depth, $ttt = '[items]')
     {
         $html = '';
         $index = 0;
