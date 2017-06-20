@@ -3,9 +3,9 @@
 namespace centigen\i18ncontent\models;
 
 use centigen\base\behaviors\CacheInvalidateBehavior;
+use centigen\i18ncontent\models\query\WidgetTextQuery;
 use Yii;
 use yii\behaviors\TimestampBehavior;
-use yii\db\ActiveQuery;
 
 /**
  * This is the model class for table "text_block".
@@ -45,12 +45,11 @@ class WidgetText extends TranslatableModel
     }
 
     /**
-     * @inheritdoc
-     * @return ActiveQuery the newly created [[ActiveQuery]] instance.
+     * @return WidgetTextQuery
      */
     public static function find()
     {
-        return parent::find()->with('activeTranslation');
+        return (new WidgetTextQuery(get_called_class()))->with('activeTranslation');
     }
 
     /**

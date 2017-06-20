@@ -37,22 +37,28 @@ class DbText extends Widget
 
     public function getTitle()
     {
-        return $this->getModel()->title;
+        return $this->getModel() ? $this->getModel()->title : "";
     }
 
     public function getBody()
     {
-        return $this->getModel()->body;
+        return $this->getModel() ? $this->getModel()->body : "";
     }
 
     public function getModel()
     {
         if (!$this->model) {
-            $this->model = WidgetText::find()->joinWith('activeTranslation')
-                ->where(['key' => $this->key, 'status' => WidgetText::STATUS_ACTIVE])->one();
-        }
-        if(!$this->model){
-            throw new \InvalidArgumentException("No text widget found for key: \"".$this->key."\"");
+            $this->model = WidgetText::find()->where(['key' => $this->key, 'status' => WidgetText::STATUS_ACTIVE])->one();
+            if (!$this->model) {
+                Yii::error("No text widget found for key: \"" . $this->key . "\"");
+                return null;
+//                throw new \InvalidArgumentException("No text widget found for key: \"".$this->key."\"");
+            }
+            if (!$this->model->activeTranslation) {
+                Yii::error("Text widget \"{$this->key}\" does not have translation for \"" . Yii::$app->language . "\" language");
+                return null;
+//                throw new \InvalidArgumentException("Text widget \"{$this->key}\" does not have translation for \"".Yii::$app->language."\" language");
+            }
         }
         return $this->model->activeTranslation;
     }
