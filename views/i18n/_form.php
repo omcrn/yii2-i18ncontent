@@ -6,7 +6,6 @@ use yii\bootstrap\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model centigen\i18ncontent\models\I18nSourceMessage */
-/* @var $categories array */
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $locales array */
 ?>
@@ -15,7 +14,7 @@ use yii\bootstrap\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?php echo $form->field($model, 'category')->dropDownList($categories) ?>
+    <?php echo $form->field($model, 'category') ?>
 
     <?php echo $form->field($model, 'message')->textarea(['rows' => 2]) ?>
 

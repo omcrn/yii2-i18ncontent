@@ -73,15 +73,9 @@ class I18nController extends Controller
         if ($model->load(Yii::$app->request->post(), null) && $model->save()) {
             return $this->redirect(['index']);
         }
-        $categories = ArrayHelper::map(
-            I18nSourceMessage::find()->select('category')->distinct()->all(),
-            'category',
-            'category'
-        );
         return $this->render('update', [
             'model' => $model,
-            'locales' => $locales,
-            'categories' => $categories
+            'locales' => $locales
         ]);
     }
 
