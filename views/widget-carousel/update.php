@@ -26,9 +26,9 @@ $this->params['breadcrumbs'][] = Yii::t('i18ncontent', 'Update');
         ]), ['widget-carousel-item/create', 'carousel_id' => $model->id], ['class' => 'btn btn-success']);
 
         echo ' '. Html::a(
-            Yii::t('i18ncontent', 'Delete checked {modelClass}s', ['modelClass' => 'Widget Carousel Item']),
-            [null],
-            ['class' => 'btn btn-danger delete-multiple', 'data-url' => '/i18ncontent/widget-carousel-item/delete']);
+                Yii::t('i18ncontent', 'Delete checked {modelClass}s', ['modelClass' => 'Widget Carousel Item']),
+                [null],
+                ['class' => 'btn btn-danger delete-multiple', 'data-url' => '/i18ncontent/widget-carousel-item/delete']);
         ?>
     </p>
 
@@ -93,6 +93,9 @@ $this->params['breadcrumbs'][] = Yii::t('i18ncontent', 'Update');
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{update} {delete}',
+                'urlCreator' => function($action, $model){
+                    return ['widget-carousel-item/'.$action, 'id' => $model->id];
+                },
                 'buttonOptions' => [
                     'class' => 'btn btn-sm btn-default'
                 ],
