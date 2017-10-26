@@ -8,7 +8,6 @@
 /* @var $this yii\web\View */
 /* @var $model centigen\i18ncontent\models\I18nSourceMessage */
 /* @var $locales array */
-/* @var $categories array */
 
 $this->title = Yii::t('i18ncontent', 'Update {modelClass}: ', [
     'modelClass' => 'I18n message',
@@ -20,8 +19,7 @@ $this->params['breadcrumbs'][] = Yii::t('i18ncontent', 'Update');
 
     <?php echo $this->render('_form', [
         'model' => $model,
-        'locales' => $locales,
-        'categories' => $categories
+        'locales' => $locales
     ]) ?>
 
 </div>

@@ -73,7 +73,7 @@ class I18nController extends Controller
         if ($model->load(Yii::$app->request->post(), null) && $model->save()) {
             return $this->redirect(['index']);
         }
-        return $this->render('update', [
+        return $this->render('create', [
             'model' => $model,
             'locales' => $locales
         ]);
@@ -92,17 +92,11 @@ class I18nController extends Controller
         if ($model->load(Yii::$app->request->post(), null) && $model->save()) {
             return $this->redirect(['index']);
         }
-        $categories = ArrayHelper::map(
-            I18nSourceMessage::find()->select('category')->distinct()->all(),
-            'category',
-            'category'
-        );
         $locales = LocaleHelper::getAvailableLocales();
 
         return $this->render('update', [
             'model' => $model,
-            'locales' => $locales,
-            'categories' => $categories
+            'locales' => $locales
         ]);
     }
 
