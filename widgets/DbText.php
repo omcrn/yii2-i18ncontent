@@ -2,6 +2,7 @@
 
 namespace centigen\i18ncontent\widgets;
 
+use centigen\i18ncontent\helpers\Html;
 use centigen\i18ncontent\models\WidgetText;
 use yii\base\Widget;
 use Yii;
@@ -32,7 +33,7 @@ class DbText extends Widget
      */
     public function run()
     {
-        return $this->getModel() ? $this->getModel()->{$this->attribute} : "";
+        return $this->getModel() ? Html::decodeMediaItemUrls($this->getModel()->{$this->attribute}) : "";
     }
 
     public function getTitle()
