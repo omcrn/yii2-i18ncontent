@@ -69,6 +69,26 @@ $className = \yii\helpers\StringHelper::basename(\centigen\i18ncontent\models\Ar
     ]
 ) ?>
 
+<?php echo $form->field($model, 'extra_description')->widget(
+    \yii\imperavi\Widget::className(),
+    [
+        'plugins' => ['table', 'fullscreen', 'fontcolor', 'video'],
+        'htmlOptions' => [
+            'name' => "{$className}[$language][extra_description]",
+            'value' => $model->getExtraDescription()
+        ],
+        'options' => [
+            'minHeight' => 100,
+            'maxHeight' => 200,
+            'buttonSource' => true,
+            'convertDivs' => false,
+            'removeEmptyTags' => false,
+            'replaceDivs' => false,
+            'imageUpload' => Url::to(['upload-imperavi'])
+        ]
+    ]
+) ?>
+
 <?php echo $form->field($model, 'meta_title', [
     'inputOptions' => [
         'name' => "{$className}[$language][meta_title]"
