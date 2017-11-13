@@ -14,6 +14,7 @@ use Yii;
  * @property string $title
  * @property string $body
  * @property string $short_description
+ * @property string $extra_description
  * @property string $meta_title
  * @property string $meta_description
  * @property string $meta_keywords
@@ -40,7 +41,7 @@ class ArticleTranslation extends \yii\db\ActiveRecord
         return [
             [['article_id', 'locale', 'title', 'body'], 'required'],
             [['article_id'], 'integer'],
-            [['body','short_description'], 'string'],
+            [['body','short_description','extra_description'], 'string'],
             [['locale'], 'string', 'max' => 15],
             [['title', 'keywords', 'meta_title', 'meta_description', 'meta_keywords'], 'string', 'max' => 512]
         ];
@@ -58,6 +59,7 @@ class ArticleTranslation extends \yii\db\ActiveRecord
             'title' => Yii::t('i18ncontent', 'Title'),
             'body' => Yii::t('i18ncontent', 'Body'),
             'short_description' => Yii::t('i18ncontent', 'Short Description'),
+            'extra_description' => Yii::t('i18ncontent', 'Extra Description'),
             'meta_title' => Yii::t('i18ncontent', 'Meta Title'),
             'meta_description' => Yii::t('i18ncontent', 'Meta Description'),
             'meta_keywords' => Yii::t('i18ncontent', 'Meta Keywords'),
@@ -76,6 +78,11 @@ class ArticleTranslation extends \yii\db\ActiveRecord
     public function getBody()
     {
         return Html::decodeMediaItemUrls($this->body);
+    }
+
+    public function getExtraDescription()
+    {
+        return Html::decodeMediaItemUrls($this->extra_description);
     }
 
     public function getShortDescription()
