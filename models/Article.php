@@ -344,6 +344,11 @@ class Article extends TranslatableModel
         return $this->activeTranslation ? $this->activeTranslation->getShortDescription() : '';
     }
 
+    public function getExtraDescription()
+    {
+        return $this->activeTranslation ? $this->activeTranslation->getExtraDescription() : '';
+    }
+
     public function getThumbnailUrl()
     {
         if ($this->thumbnail_path) {

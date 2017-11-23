@@ -24,6 +24,7 @@ use yii\db\ActiveQuery;
  * @property string $body
  * @property PageTranslation[] $translations
  * @property PageTranslation $activeTranslation
+ * @property PageTranslation $defaultTranslation
  */
 class Page extends TranslatableModel
 {
@@ -175,11 +176,22 @@ class Page extends TranslatableModel
 
     public function getTitle()
     {
-        return $this->activeTranslation ? $this->activeTranslation->title : '';
+        return $this->getTranslation() ? $this->getTranslation()->title : '';
     }
 
     public function getBody()
     {
-        return $this->activeTranslation ? $this->activeTranslation->getBody() : '';
+        return $this->getTranslation() ? $this->getTranslation()->getBody() : '';
+    }
+    public function getTranslation()
+    {
+        return $this->activeTranslation ?: $this->defaultTranslation;
+    }
+
+    public function getDefaultTranslation()
+    {
+        return $this->hasOne(PageTranslation::className(), ['page_id' => 'id'])->where([
+            'locale' => Yii::$app->sourceLanguage
+        ]);
     }
 }

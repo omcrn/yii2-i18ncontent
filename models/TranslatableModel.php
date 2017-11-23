@@ -70,6 +70,9 @@ class TranslatableModel extends ActiveRecord
                 if (isset($modelData['body'])) {
                     $modelData['body'] = Html::encodeMediaItemUrls($modelData['body']);
                 }
+                if (isset($modelData['extra_description'])) {
+                    $modelData['extra_description'] = Html::encodeMediaItemUrls($modelData['extra_description']);
+                }
                 if (isset($modelData['short_description']) &&
                     ($this->hasAttribute('short_description') || $this->hasProperty('short_description'))) {
                     $this ->short_description = Html::encodeMediaItemUrls($modelData['short_description']);
