@@ -60,16 +60,16 @@ class DbCarousel extends Carousel
            // var_dump($query->all());
             foreach ($query->all() as $k => $item) {
                 /** @var $item \centigen\i18ncontent\models\WidgetCarouselItem */
-                if ($item->path) {
-                    $items[$k]['content'] = Html::img($item->getImageUrl() , $this->imgOptions);
-                }
+                $carouselItem = [];
+                $carouselItem['content'] = Html::img($item->getImageUrl() , $this->imgOptions);
 
                 if ($item->url) {
-                    $items[$k]['content'] = Html::a($items[$k]['content'], $item->url, ['target' => '_blank']);
+                    $carouselItem['content'] = Html::a($carouselItem['content'], $item->url, ['target' => '_blank']);
                 }
                 if ($item->activeTranslation && $item->activeTranslation->caption) {
-                    $items[$k]['caption'] = $item->activeTranslation->caption;
+                    $carouselItem['caption'] = $item->activeTranslation->caption;
                 }
+                $items[] = $carouselItem;
             }
             //Yii::$app->cache->set($cacheKey, $items, 60 * 60 * 24 * 365);
         }

@@ -97,6 +97,7 @@ class WidgetCarouselItem extends TranslatableModel
     {
         return [
             [['carousel_id'], 'required'],
+            [['image'], 'required'],
             [['carousel_id', 'status', 'order'], 'integer'],
             [['url', 'base_url', 'path'], 'string', 'max' => 1024],
             [['type'], 'string', 'max' => 45],
