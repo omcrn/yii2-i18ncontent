@@ -179,10 +179,16 @@ class Page extends TranslatableModel
         return $this->getTranslation() ? $this->getTranslation()->title : '';
     }
 
+    public function getShortDescription()
+    {
+        return $this->getTranslation() ? $this->getTranslation()->getShortDescription() : '';
+    }
+
     public function getBody()
     {
         return $this->getTranslation() ? $this->getTranslation()->getBody() : '';
     }
+
     public function getTranslation()
     {
         return $this->activeTranslation ?: $this->defaultTranslation;
