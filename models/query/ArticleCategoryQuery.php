@@ -50,16 +50,40 @@ class ArticleCategoryQuery extends ActiveQuery
     }
 
     /**
+     * Search article category by slug
+     *
      * @param $slug
-     * @return $this
+     * @return self
      */
     public function bySlug($slug)
     {
         return $this->andWhere(['{{%article_category}}.slug' => $slug]);
     }
 
+    /**
+     * Search article categories by parent category id
+     *
+     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
+     * @param $id
+     * @return self
+     */
     public function byParentId($id)
     {
         return $this->andWhere(['{{%article_category}}.parent_id'=>$id]);
+    }
+
+    /**
+     * Search article categories by parent category slug
+     *
+     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
+     * @param $slug
+     * @return self
+     */
+    public function byParentSlug($slug)
+    {
+        return $this
+            ->leftJoin(ArticleCategory::tableName().' p', 'p.id = '.ArticleCategory::tableName().'.parent_id')
+            ->andWhere(['p.slug' => $slug])
+            ;
     }
 }
