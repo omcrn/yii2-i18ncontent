@@ -17,6 +17,25 @@ $className = \yii\helpers\StringHelper::basename(\centigen\i18ncontent\models\Pa
     ]
 ])->textInput(['maxlength' => 512]) ?>
 
+<?php echo $form->field($model, 'short_description')->widget(\yii\imperavi\Widget::className(), [
+    // More options, see http://imperavi.com/redactor/docs/
+    'plugins' => ['table', 'fullscreen', 'fontcolor', 'video'],
+    'htmlOptions' => [
+        'name' => "{$className}[$language][short_description]",
+        'value' => $model->getShortDescription()
+    ],
+    'options' => [
+        'minHeight' => 100,
+        'maxHeight' => 400,
+        'buttonSource' => true,
+        'convertDivs' => false,
+        'removeEmptyTags' => false,
+        'replaceDivs' => false,
+        'imageUpload' => Url::to(['upload-imperavi'])
+
+    ]
+]) ?>
+
 <?php echo $form->field($model, 'body')->widget(\yii\imperavi\Widget::className(), [
     // More options, see http://imperavi.com/redactor/docs/
     'plugins' => ['table', 'fullscreen', 'fontcolor', 'video'],

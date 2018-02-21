@@ -12,6 +12,7 @@ use Yii;
  * @property integer $page_id
  * @property string $locale
  * @property string $title
+ * @property string $short_description
  * @property string $body
  * @property string $meta_title
  * @property string $meta_keywords
@@ -38,7 +39,7 @@ class PageTranslation extends \yii\db\ActiveRecord
         return [
             [['page_id', 'locale', 'title', 'body'], 'required'],
             [['page_id'], 'integer'],
-            [['body'], 'string'],
+            [['body', 'short_description'], 'string'],
             [['locale'], 'string', 'max' => 15],
             [['title', 'meta_title', 'meta_keywords', 'meta_description'], 'string', 'max' => 512]
         ];
@@ -54,6 +55,7 @@ class PageTranslation extends \yii\db\ActiveRecord
             'page_id' => Yii::t('i18ncontent', 'Page ID'),
             'locale' => Yii::t('i18ncontent', 'Locale'),
             'title' => Yii::t('i18ncontent', 'Title'),
+            'short_description' => Yii::t('i18ncontent', 'Short Description'),
             'body' => Yii::t('i18ncontent', 'Body'),
             'meta_title' => Yii::t('i18ncontent', 'Meta Title'),
             'meta_keywords' => Yii::t('i18ncontent', 'Meta Keywords'),
@@ -67,6 +69,11 @@ class PageTranslation extends \yii\db\ActiveRecord
     public function getPage()
     {
         return $this->hasOne(Page::className(), ['id' => 'page_id']);
+    }
+
+    public function getShortDescription()
+    {
+        return Html::decodeMediaItemUrls($this->short_description);
     }
 
     public function getBody()

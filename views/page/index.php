@@ -48,6 +48,13 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'slug',
             [
+                'attribute' => 'short_description',
+                'format' => ['html'],
+                'value' => function ($model) {
+                    return $model->activeTranslation ? $model->activeTranslation->short_description : "";
+                }
+            ],
+            [
                 'label' => Yii::t('i18ncontent', 'Status'),
                 'attribute' => 'status',
                 'content' => function($model){

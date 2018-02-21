@@ -14,6 +14,7 @@ use yii\data\ActiveDataProvider;
 class PageSearch extends Page
 {
     public $title = null;
+    public $short_description = null;
     public $body     = null;
 
     /**
@@ -23,7 +24,7 @@ class PageSearch extends Page
     {
         return [
             [['id', 'status'], 'integer'],
-            [['slug', 'title', 'body'], 'safe'],
+            [['slug', 'title', 'short_description', 'body'], 'safe'],
         ];
     }
 
@@ -53,6 +54,10 @@ class PageSearch extends Page
         $dataProvider->sort->attributes['title'] = [
             'asc' => ['t.title' => SORT_ASC],
             'desc' => ['t.title' => SORT_DESC],
+        ];
+        $dataProvider->sort->attributes['short_description'] = [
+            'asc' => ['t.short_description' => SORT_ASC],
+            'desc' => ['t.short_description' => SORT_DESC],
         ];
 
         if (!($this->load($params) && $this->validate())) {
