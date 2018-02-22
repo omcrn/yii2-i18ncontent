@@ -7,6 +7,7 @@
 
 namespace centigen\i18ncontent\models;
 
+use centigen\base\helpers\DateHelper;
 use centigen\i18ncontent\helpers\Html;
 use Yii;
 use yii\db\ActiveRecord;
@@ -55,6 +56,14 @@ class TranslatableModel extends ActiveRecord
      */
     public function load($postData, $formName = null)
     {
+        $scope = $formName === null ? $this->formName() : $formName;
+        $myData = ArrayHelper::getValue($postData, $scope);
+
+        if (isset($myData['published_at']) && $myData['published_at']) {
+            $myData['published_at'] = DateHelper::fromFormatIntoMysql(DateHelper::$yiiFormatToPhpMapping[\Yii::$app->formatter->datetimeFormat], $myData['published_at']);
+            $myData['published_at'] = DateHelper::fromMySqlIntoTimestamp($myData['published_at']);
+            $postData[$scope] = $myData;
+        }
         if (!parent::load($postData, $formName)) {
             return false;
         }
