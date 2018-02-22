@@ -24,7 +24,7 @@
     "trntv/yii2-datetime-widget": "^1.0.0",
     "trntv/yii2-file-kit": "^1.0.0",
     "trntv/yii2-aceeditor": "^2.0",
-    "omcrn/yii2-base": "^0.2",
+    "omcrn/yii2-base": "~0.2",
     "wbraganca/yii2-tagsinput": "^1.0"
   },
   "autoload": {
