@@ -32,8 +32,8 @@ class Html extends \yii\bootstrap\Html
         if (!$text){
             return $text;
         }
-        $module = Yii::$app->getModule('i18ncontent');
-        return str_replace($module->mediaUrlPrefix, $module->mediaUrlReplacement, $text);
+        $component = Yii::$app->i18ncontent;
+        return str_replace($component->mediaUrlPrefix, $component->mediaUrlReplacement, $text);
     }
 
     /**
@@ -48,11 +48,8 @@ class Html extends \yii\bootstrap\Html
         if (!$text){
             return $text;
         }
-        /**
-         * @var $module Module
-         */
-        $module = Yii::$app->getModule('i18ncontent');
-        return str_replace($module->mediaUrlReplacement, $module->mediaUrlPrefix, $text);
+        $component = Yii::$app->i18ncontent;
+        return str_replace($component->mediaUrlReplacement, $component->mediaUrlPrefix, $text);
     }
 
     /**

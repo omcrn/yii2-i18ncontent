@@ -175,7 +175,7 @@ class Article extends TranslatableModel
      */
     public function getAuthor()
     {
-        return $this->hasOne(Yii::$app->getModule('i18ncontent')->userClass, ['id' => 'author_id']);
+        return $this->hasOne(Yii::$app->i18ncontent->userClass, ['id' => 'author_id']);
     }
 
     /**
@@ -183,7 +183,7 @@ class Article extends TranslatableModel
      */
     public function getUpdater()
     {
-        return $this->hasOne(Yii::$app->getModule('i18ncontent')->userClass, ['id' => 'updater_id']);
+        return $this->hasOne(Yii::$app->i18ncontent->userClass, ['id' => 'updater_id']);
     }
 
     /**
