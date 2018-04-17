@@ -332,3 +332,21 @@
       0px 0 0 0 inset;
   }
 }
+
+@media (max-width: 768px) {
+  img.carouselImgMobile {
+    display: block;
+  }
+  img.carouselImgDesktop {
+    display: none;
+  }
+}
+
+@media (min-width: 769px) {
+  img.carouselImgMobile {
+    display: none;
+  }
+  img.carouselImgDesktop {
+    display: block;
+  }
+}
