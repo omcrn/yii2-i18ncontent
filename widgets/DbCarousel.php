@@ -61,7 +61,33 @@ class DbCarousel extends Carousel
             foreach ($query->all() as $k => $item) {
                 /** @var $item \centigen\i18ncontent\models\WidgetCarouselItem */
                 $carouselItem = [];
-                $carouselItem['content'] = Html::img($item->getImageUrl() , $this->imgOptions);
+                if ($item->getImageUrl() && $item->getImageMobileUrl()) {
+                    $tmpOptionsDesktop = $this->imgOptions;
+                    $class = " carouselImgDesktop";
+                    if (!isset($tmpOptionsDesktop['class'])) {
+                        $tmpOptionsDesktop['class'] = $class;
+                    } else {
+                        $tmpOptionsDesktop['class'] .= $class;
+                    }
+
+                    $imgDesktop = Html::img($item->getImageUrl(), $tmpOptionsDesktop);
+
+
+                    $tmpOptionsMobile = $this->imgOptions;
+                    $class = " carouselImgMobile";
+                    if (!isset($tmpOptionsMobile['class'])) {
+                        $tmpOptionsMobile['class'] = $class;
+                    } else {
+                        $tmpOptionsMobile['class'] .= $class;
+                    }
+                    $imgMobile = Html::img($item->getImageMobileUrl(), $tmpOptionsMobile);
+
+                    $carouselItem['content'] = $imgDesktop . $imgMobile;
+                } else {
+                    $carouselItem['content'] = Html::img($item->getImageUrl(), $this->imgOptions);
+
+                }
+
 
                 if ($item->url) {
                     $carouselItem['content'] = Html::a($carouselItem['content'], $item->url, ['target' => '_blank']);
