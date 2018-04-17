@@ -28,6 +28,13 @@ use yii\helpers\Html;
         ]
     ) ?>
 
+    <?php echo $form->field($model, 'imageMobile')->widget(
+        \trntv\filekit\widget\Upload::className(),
+        [
+            'url' => ['upload'],
+        ]
+    ) ?>
+
     <?php echo $form->field($model, 'order')->textInput() ?>
 
     <?php echo $form->field($model, 'url')->textInput(['maxlength' => 1024]) ?>
