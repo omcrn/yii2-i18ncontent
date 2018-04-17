@@ -15,9 +15,11 @@ use yii\db\ActiveQuery;
  * @property integer $carousel_id
  * @property string $base_url
  * @property string $path
+ * @property string $path_mobile
  * @property string $type
  * @property string $image
  * @property string $imageUrl
+ * @property string $imageMobile
  * @property string $url
  * @property integer $status
  * @property integer $order
@@ -35,6 +37,7 @@ class WidgetCarouselItem extends TranslatableModel
      * @var array|null
      */
     public $image;
+    public $imageMobile;
 
     public static $translateModelForeignKey = 'widget_carousel_item_id';
 
@@ -76,6 +79,13 @@ class WidgetCarouselItem extends TranslatableModel
                 'baseUrlAttribute' => null,
                 'typeAttribute' => 'type'
             ],
+            [
+                'class' => UploadBehavior::className(),
+                'attribute' => 'imageMobile',
+                'pathAttribute' => 'path_mobile',
+                'baseUrlAttribute' => null,
+                'typeAttribute' => 'type'
+            ],
             'cacheInvalidate' => [
                 'class' => CacheInvalidateBehavior::className(),
                 'keys' => [
@@ -97,11 +107,11 @@ class WidgetCarouselItem extends TranslatableModel
     {
         return [
             [['carousel_id'], 'required'],
-            [['image'], 'required'],
+            [['image',], 'required'],
             [['carousel_id', 'status', 'order'], 'integer'],
-            [['url', 'base_url', 'path'], 'string', 'max' => 1024],
+            [['url', 'base_url', 'path','path_mobile'], 'string', 'max' => 1024],
             [['type'], 'string', 'max' => 45],
-            ['image', 'safe']
+            [['image','imageMobile'], 'safe']
         ];
     }
 
@@ -114,12 +124,15 @@ class WidgetCarouselItem extends TranslatableModel
             'id' => Yii::t('i18ncontent', 'ID'),
             'carousel_id' => Yii::t('i18ncontent', 'Carousel ID'),
             'image' => Yii::t('i18ncontent', 'Image'),
+            'imageMobile' => Yii::t('i18ncontent', 'Mobile Image'),
             'base_url' => Yii::t('i18ncontent', 'Base URL'),
             'path' => Yii::t('i18ncontent', 'Path'),
+            'path_mobile' => Yii::t('i18ncontent', 'path_mobile'),
             'type' => Yii::t('i18ncontent', 'File Type'),
             'url' => Yii::t('i18ncontent', 'Url'),
             'status' => Yii::t('i18ncontent', 'Status'),
             'order' => Yii::t('i18ncontent', 'Order')
+
         ];
     }
 
@@ -155,6 +168,17 @@ class WidgetCarouselItem extends TranslatableModel
     public function getImageUrl()
     {
         return Yii::getAlias('@storageUrl') . '/source/' . ltrim($this->path, '/');
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getImageMobileUrl()
+    {
+        if($this->path_mobile && strlen($this->path_mobile) > 0) {
+            return Yii::getAlias('@storageUrl') . '/source/' . ltrim($this->path_mobile, '/');
+        }
+        return null;
     }
 
 }
