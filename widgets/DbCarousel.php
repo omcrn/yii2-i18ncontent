@@ -11,6 +11,7 @@ use Yii;
 use yii\base\InvalidConfigException;
 use yii\bootstrap\Carousel;
 use yii\helpers\Html;
+use centigen\i18ncontent\AssetBundle;
 
 /**
  * Class DbCarousel
@@ -63,7 +64,7 @@ class DbCarousel extends Carousel
                 $carouselItem = [];
                 if ($item->getImageUrl() && $item->getImageMobileUrl()) {
                     $tmpOptionsDesktop = $this->imgOptions;
-                    $class = " carouselImgDesktop";
+                    $class = " carousel_img_desktop";
                     if (!isset($tmpOptionsDesktop['class'])) {
                         $tmpOptionsDesktop['class'] = $class;
                     } else {
@@ -74,7 +75,7 @@ class DbCarousel extends Carousel
 
 
                     $tmpOptionsMobile = $this->imgOptions;
-                    $class = " carouselImgMobile";
+                    $class = " carousel_img_mobile";
                     if (!isset($tmpOptionsMobile['class'])) {
                         $tmpOptionsMobile['class'] = $class;
                     } else {
@@ -118,6 +119,7 @@ class DbCarousel extends Carousel
             $this->showIndicators = false;
             $this->controls = false;
         }
+        AssetBundle::register($this->getView());
         return parent::run();
     }
 }

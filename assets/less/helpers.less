@@ -5,3 +5,17 @@
 .margin-right-5{
   margin-right: 5px;
 }
+
+#main-carousel{
+  .carousel_img_mobile{
+    display: none;
+  }
+  @media (max-width: 767px){
+    .carousel_img_mobile{
+      display: block;
+    }
+    .carousel_img_desktop{
+      display: none;
+    }
+  }
+}
