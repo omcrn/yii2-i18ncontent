@@ -102,6 +102,8 @@ use yii\bootstrap\ActiveForm;
         ]
     ) ?>
 
+    <?php echo $form->field($model,'show_published_at')->checkbox() ?>
+
     <div class="form-group pull-left margin-right-5">
         <?php echo Html::submitButton(
             $model->isNewRecord ? Yii::t('i18ncontent', 'Create') : Yii::t('i18ncontent', 'Update'),

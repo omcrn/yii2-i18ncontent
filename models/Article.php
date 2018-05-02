@@ -26,6 +26,7 @@ use yii\helpers\ArrayHelper;
  * @property integer $updater_id
  * @property integer $status
  * @property integer $published_at
+ * @property integer $show_published_at
  * @property integer $position
  * @property integer $created_at
  * @property integer $updated_at
@@ -145,6 +146,7 @@ class Article extends TranslatableModel
             [['view'], 'string', 'max' => 255],
             [['attachments', 'thumbnail', 'published_at'], 'safe'],
             ['category_ids', 'each', 'rule' => ['integer']],
+            ['show_published_at', 'boolean'],
         ];
     }
 
@@ -165,6 +167,7 @@ class Article extends TranslatableModel
             'updater_id' => Yii::t('i18ncontent', 'Updater'),
             'status' => Yii::t('i18ncontent', 'Published'),
             'published_at' => Yii::t('i18ncontent', 'Published At'),
+            'show_published_at' => Yii::t('i18ncontent', 'Show published at'),
             'created_at' => Yii::t('i18ncontent', 'Created At'),
             'updated_at' => Yii::t('i18ncontent', 'Updated At')
         ];
