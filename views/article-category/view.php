@@ -31,6 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'title',
             'parent.title',
             'status',
+            'published_at:datetime',
         ],
     ]) ?>
 
