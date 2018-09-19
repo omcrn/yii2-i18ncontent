@@ -20,7 +20,7 @@ class ArticleCategorySearch extends ArticleCategory
     public function rules()
     {
         return [
-            [['id', 'status'], 'integer'],
+            [['id', 'status','published_at'], 'integer'],
             [['slug', 'title', 'parentCategory'], 'safe'],
         ];
     }
@@ -79,6 +79,7 @@ class ArticleCategorySearch extends ArticleCategory
         $query->andFilterWhere([
             'ac.id' => $this->id,
             'ac.status' => $this->status,
+            'ac.published_at' => $this->published_at
         ]);
 
         if ($this->parentCategory){

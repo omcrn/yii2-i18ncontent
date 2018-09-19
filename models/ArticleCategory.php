@@ -2,6 +2,7 @@
 
 namespace centigen\i18ncontent\models;
 
+use centigen\base\helpers\DateHelper;
 use centigen\i18ncontent\models\query\ArticleCategoryQuery;
 use Yii;
 use yii\behaviors\SluggableBehavior;
@@ -14,6 +15,7 @@ use yii\behaviors\TimestampBehavior;
  * @property string $slug
  * @property string $view
  * @property integer $status
+ * @property integer $published_at
  *
  * @property ArticleCategoryArticle[] $articleCategoryArticles
  * @property ArticleCategory $parent
@@ -45,6 +47,19 @@ class ArticleCategory extends TranslatableModel
         return '{{%article_category}}';
     }
 
+    public function beforeValidate()
+    {
+        try{
+            if ($this->published_at) {
+                $this->published_at = DateHelper::fromFormatIntoMysql(Yii::$app->formatter->getPhpDatetimeFormat(), $this->published_at);
+            }
+        }catch(\InvalidArgumentException $e){
+
+        }
+
+        return parent::beforeValidate();
+    }
+
     /**
      * @return ArticleCategoryQuery
      */
@@ -74,7 +89,12 @@ class ArticleCategory extends TranslatableModel
             [['slug'], 'unique'],
             [['slug', 'view'], 'string', 'max' => 1024],
             ['status', 'integer'],
-            ['parent_id', 'exist', 'targetClass' => ArticleCategory::className(), 'targetAttribute' => 'id']
+            ['parent_id', 'exist', 'targetClass' => ArticleCategory::className(), 'targetAttribute' => 'id'],
+            [['published_at'], 'default', 'value' => time()],
+            [['published_at'], 'filter', 'filter' => 'strtotime', 'when' => function ($model) {
+                return is_string($model->published_at);
+            }],
+            [['published_at'], 'safe'],
         ];
     }
 
@@ -88,7 +108,8 @@ class ArticleCategory extends TranslatableModel
             'slug' => Yii::t('i18ncontent', 'Slug'),
             'view' => Yii::t('i18ncontent', 'View'),
             'parent_id' => Yii::t('i18ncontent', 'Parent Category'),
-            'status' => Yii::t('i18ncontent', 'Status')
+            'status' => Yii::t('i18ncontent', 'Status'),
+            'published_at' => Yii::t('i18ncontent', 'Published At'),
         ];
     }
 
