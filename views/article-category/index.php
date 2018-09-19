@@ -71,6 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => Yii::t('i18ncontent', 'Parent category'),
                 'filter' => $categories
             ],
+            'published_at:datetime',
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{update} {delete}',
@@ -80,7 +81,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'contentOptions' => [
                     'class' => 'actions-column'
                 ]
-            ]
+            ],
         ],
     ]); ?>
 

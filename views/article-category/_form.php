@@ -72,6 +72,13 @@ use yii\bootstrap\ActiveForm;
         'template' => '<div class="om-checkbox"><label style="padding-left: 0;">'.$model->getAttributeLabel('status').' {input}<span class="om-checkbox-material"><span class="check"></span></span></label></div>{hint}{error}'
     ]) ?>
 
+    <?php echo $form->field($model, 'published_at')->widget(
+        'trntv\yii\datetime\DateTimeWidget',
+        [
+            'momentDatetimeFormat' => \centigen\base\helpers\DateHelper::getMomentDatetimeFormat() ?: 'yyyy-MM-dd\'T\'HH:mm:ssZZZZZ',
+        ]
+    ) ?>
+
     <div class="form-group pull-left margin-right-5">
         <?php echo Html::submitButton($model->isNewRecord ? Yii::t('i18ncontent', 'Create') : Yii::t('i18ncontent', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
